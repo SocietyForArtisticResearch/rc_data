@@ -1,4 +1,4 @@
-# Purpouse
+# Purpose
 
 This is a command line tool to merge some JSON metadata together, so we don't have to do that on the client side.
 Specifically we match any keywords that can be found in the abstract so we can render it later as hyperlinks.
