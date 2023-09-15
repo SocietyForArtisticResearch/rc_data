@@ -1,0 +1,2279 @@
+[
+    {
+        "id": 1673421,
+        "type": "exposition",
+        "title": "RAPP Lab Outcomes",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/ae/56/4a/ac/ae564aac789d313bad3dbf6b8453fc9a.svg?t=494cefcc571c9965f7c02cab74eb392b&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/1673421/2210917",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1673421",
+        "keywords": [],
+        "created": "02/06/2022",
+        "last-modified": "02/06/2022",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/rc.1673421",
+            "url": "https://doi.org/10.22501/rc.1673421"
+        },
+        "published": "14/09/2023",
+        "published_in": [
+            {
+                "id": 1,
+                "name": "Research Catalogue",
+                "name_short": "RC"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": null,
+        "author": {
+            "id": 350573,
+            "name": "Johannes Kretz"
+        },
+        "coauthors": [
+            {
+                "id": 593788,
+                "name": "Evelyn Buyken"
+            },
+            {
+                "id": 1201399,
+                "name": "Sybille Fraquelli"
+            },
+            {
+                "id": 25313,
+                "name": "Ivar Grydeland"
+            },
+            {
+                "id": 1168070,
+                "name": "Stella Louise Goeke"
+            },
+            {
+                "id": 1199809,
+                "name": "Theodore Parker"
+            },
+            {
+                "id": 662713,
+                "name": "Carla Conti"
+            }
+        ],
+        "abstract": "RAPP Lab was a three-year EU-funded research project supported by the ERASMUS+ programme \"Strategic Partnerships\". RAPP stands for \"Reflection based Artistic Professional Practice\". The project took forward through a series of multi-national encounters described as Labs. \r\n\r\nRAPP Lab explored how the reflective methodologies of Artistic Research empower musicians to creatively respond to the economic-cultural environment with which they are confronted. The project brought together the Artistic Research expertise of seven partner institutions in six different European states:\r\n\r\nAssociation Europ\u00e9enne des Conservatoires \u2013 AEC  Bruxelles, Belgium\r\nConservatorio di Musica Santa Cecilia  Rome, Italy\r\nEesti Muusika- ja Teatriakadeemia  Tallinn, Estonia\r\nHochschule f\u00fcr Musik und Tanz K\u00f6ln, Cologne, Germany (as Coordinator)\r\nmdw \u2013 Universit\u00e4t f\u00fcr Musik und darstellende Kunst  Wien, Vienna, Austria\r\nNorges musikh\u00f8gskole, NMH  Oslo, Norway\r\nOrpheus Instituut  Ghent, Belgium"
+    },
+    {
+        "id": 558606,
+        "type": "exposition",
+        "title": "Home page JSS",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/6d/e8/e4/00/6de8e4004c886066c58fcdb4e787045c.png?t=39cfba19e833330787c293948b0fe4cd&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/558606/558607",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=558606",
+        "keywords": [],
+        "created": "23/01/2019",
+        "last-modified": "23/01/2019",
+        "status": "published",
+        "doi": {
+            "id": null,
+            "url": null
+        },
+        "published": "11/09/2023",
+        "published_in": [
+            {
+                "id": 13,
+                "name": "Journal of Sonic Studies",
+                "name_short": "JSS"
+            }
+        ],
+        "license": "all-rights-reserved",
+        "issue": {
+            "id": 487187,
+            "number": "0",
+            "title": null
+        },
+        "author": {
+            "id": 3273,
+            "name": "Journal of Sonic Studies"
+        },
+        "coauthors": [],
+        "abstract": "Home page of the Journal of Sonic Studies"
+    },
+    {
+        "id": 558982,
+        "type": "exposition",
+        "title": "JSS Book reviews",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/6d/e8/e4/00/6de8e4004c886066c58fcdb4e787045c.png?t=39cfba19e833330787c293948b0fe4cd&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/558982/558983",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=558982",
+        "keywords": [],
+        "created": "24/01/2019",
+        "last-modified": "24/01/2019",
+        "status": "published",
+        "doi": {
+            "id": null,
+            "url": null
+        },
+        "published": "11/09/2023",
+        "published_in": [
+            {
+                "id": 13,
+                "name": "Journal of Sonic Studies",
+                "name_short": "JSS"
+            }
+        ],
+        "license": "all-rights-reserved",
+        "issue": {
+            "id": 487187,
+            "number": "0",
+            "title": null
+        },
+        "author": {
+            "id": 3273,
+            "name": "Journal of Sonic Studies"
+        },
+        "coauthors": [],
+        "abstract": "JSS Book reviews"
+    },
+    {
+        "id": 2277639,
+        "type": "exposition",
+        "title": "Urgent Affairs, Strange Empathy",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/7e/0e/67/4c/7e0e674cadd4dc90f05431e6de9480a8.png?t=3864289755677a96a6324de38d318404&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/2277639/2277640",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=2277639",
+        "keywords": [
+            "KMD",
+            "Institutional Crtique",
+            "art education",
+            "neoliberalism",
+            "self-organization",
+            "autonomy",
+            "architecture",
+            "intervention"
+        ],
+        "created": "07/09/2023",
+        "last-modified": "07/09/2023",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/kmd-ar.2277639",
+            "url": "https://doi.org/10.22501/kmd-ar.2277639"
+        },
+        "published": "11/09/2023",
+        "published_in": [
+            {
+                "id": 17,
+                "name": "Faculty of Fine Art, Music and Design, University of Bergen",
+                "name_short": "KMD"
+            }
+        ],
+        "license": "all-rights-reserved",
+        "issue": {
+            "id": 2156830,
+            "number": "7",
+            "title": "PhD 2023"
+        },
+        "author": {
+            "id": 515759,
+            "name": "Sveinung Rudjord Unneland"
+        },
+        "coauthors": [],
+        "abstract": "In 2018, Kunst- og designh\u00f8gskolen i Bergen (KHiB) moved into brand new premises in M\u00f8llendalsveien, and at the same time changed its name and organizational affiliation to Kunstakademiet \u2013 Institutt for samtidskunst, Fakultet for kunst musikk og design, Universitetet i Bergen. At the same time, Sveinung Unneland began his work on the doctoral project Urgent Affairs, Strange Empathy. In the project, Unneland examines these structural and architectural changes, in parallel with that he explores how we can establish different autonomous spaces and practices within the institutional context as such.\r\n\r\nOnly by insisting on a radical openness about what art is or can be, is it possible, in my opinion, to maintain a meaningful relationship with the concept of art. An important question then becomes how we (as artists, researchers, and teachers) best cultivate and safeguard this openness, in our own practice and within the institutional framework many of us find ourselves in. \r\n\r\nUrgent Affairs, Strange Empathy places itself in an institutional tradition that in Bergen goes back to the self-organized Vestlandets Kunstakademi (1973). Through practical collaborative projects, Unneland explores how this legacy can be continued within today's institutional framework. Parallel to this, he has worked with painting as an integral part of the research project; a personal practice where he can set up models for possible relationships between the fictional and the real, the personal and the common, the inside and the outside.\r\n\r\nBio\r\nSveinung Rudjord Unneland (1981, Farsund) is a visual artist and Ph.D. research fellow at the Art Academy \u2013 Institute of contemporary art, at the faculty of art, music and design, University of Bergen. He received his education at the Kunsth\u00f8gskolen i Bergen and Kunsthochschule Berlin-Weissensee (2007). Sveinung Rudjord Unneland has worked with Urgent Affairs, Strange Empathy since 2018 under the guidance of Eamon O'Kane and Ane Hjort Guttu."
+    },
+    {
+        "id": 2264183,
+        "type": "exposition",
+        "title": "voice under",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/44/42/40/dc/444240dc46b36972be81860cf958800b.png?t=e65510eba65e6a40565aaa116be50129&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/2264183/2264184",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=2264183",
+        "keywords": [
+            "Film",
+            "queer",
+            "trans",
+            "gender studies",
+            "transgender studies",
+            "cinema",
+            "cinema queer",
+            "voice under",
+            "queer and trans cinema",
+            "traumaturgy",
+            "promiscuous narration",
+            "desire",
+            "narration without a spine",
+            "voice over narration",
+            "non-binary",
+            "the dildo gaze",
+            "something must break",
+            "She male snails",
+            "fruitcake",
+            "instinct",
+            "tramaturgy",
+            "film",
+            "intinct"
+        ],
+        "created": "24/08/2023",
+        "last-modified": "24/08/2023",
+        "status": "published",
+        "doi": {
+            "id": null,
+            "url": null
+        },
+        "published": "06/09/2023",
+        "published_in": [
+            {
+                "id": 21,
+                "name": "Stockholm University of the Arts (SKH)",
+                "name_short": "SKH"
+            }
+        ],
+        "license": "all-rights-reserved",
+        "issue": {
+            "id": 560979,
+            "number": "0",
+            "title": "X-position"
+        },
+        "author": {
+            "id": 966600,
+            "name": "Ester Martin Bergsmark"
+        },
+        "coauthors": [],
+        "abstract": "If voice over is the superior voice that dictates truth, I examine voice under, the other truths that take place simultaneously. In my doctoral thesis voice under, I explore all the parallel voices beyond the dominating all-knowing voice over. The intention of the project and concept voice under is to open up a wider sensory register in both the creation and the experience of film. By looking closely at, challenging, and playing with different cinematic conventions, I explore how we can recreate seemingly dominant expressions and find spaces for resistance, although temporary.\r\n\r\nThis document outlines the different modes of publication of the doctoral thesis voice under. voice under consists of two branches: film and text. The Documented Artistic Research Project (Doctoral Thesis) voice under will be made public and archived on September 1, 2023, through the following three materials:\r\n\r\n1.\tWelcome to voice under folder\r\n2.\tPerformative contemplative film screening \r\n3.\tThe book voice under, consisting of a collection of texts"
+    },
+    {
+        "id": 995063,
+        "type": "exposition",
+        "title": "'What may have happened\u2026'",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/ff/d5/c9/f8/ffd5c9f8b0fbcdb73cc305659ce43e2d.png?t=10ace17edb047f0ee50b522e55b9c9ae&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/995063/1127855",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=995063",
+        "keywords": [
+            "improvisation",
+            "software",
+            "mobile devices",
+            "remote",
+            "online engagement.",
+            "Online",
+            "KonCon Lectorate"
+        ],
+        "created": "16/09/2020",
+        "last-modified": "16/09/2020",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/rc.995063",
+            "url": "https://doi.org/10.22501/rc.995063"
+        },
+        "published": "01/09/2023",
+        "published_in": [
+            {
+                "id": 1,
+                "name": "Research Catalogue",
+                "name_short": "RC"
+            },
+            {
+                "id": 6,
+                "name": "KC Research Portal",
+                "name_short": "KC Research Portal"
+            }
+        ],
+        "license": "all-rights-reserved",
+        "issue": null,
+        "author": {
+            "id": 54122,
+            "name": "Johan van Kreij"
+        },
+        "coauthors": [],
+        "abstract": "\u201cWhat may have happened\u2026\" is a research driven by the desire to augment the sense of sharing in a decentralized improvisation-a creative musical situation in which the participants are in different locations. It focusses on extending the amount of communication channels in a decentralized improvisation setting\u2014beyond the audible and visible. The aim will be not just adding extra layers of data exchange, but introducing various modes of interaction. This will be realized through the use of software and mobile devices."
+    },
+    {
+        "id": 2269610,
+        "type": "exposition",
+        "title": "Collaborative Dramaturgies in Filmmaking",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/99/5d/48/22/995d48220d6785c2a3177e4c67a5499b.png?t=39c3cab7c4db37d262810da05bc5db71&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/2269610/2269611",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=2269610",
+        "keywords": [
+            "collaborative filmmaking",
+            "collaboration",
+            "screenwriting",
+            "dramaturgy",
+            "marginalized voices",
+            "minority narratives",
+            "coloniality",
+            "decolonial",
+            "settler colonial",
+            "power hierarchies",
+            "artistic hierarchies",
+            "character representation",
+            "representation",
+            "auteurship",
+            "auteur-director",
+            "safer working environments",
+            "tokenism",
+            "racialized",
+            "anti-racist",
+            "indigenous",
+            "nonbinary",
+            "trans",
+            "cis-gender",
+            "non-disabled",
+            "disability",
+            "actors with learning disabilities",
+            "people of colour",
+            "POC",
+            "whiteness",
+            "structural whiteness",
+            "privilege",
+            "identity",
+            "autobiography",
+            "fiction films"
+        ],
+        "created": "29/08/2023",
+        "last-modified": "29/08/2023",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/rc.2269610",
+            "url": "https://doi.org/10.22501/rc.2269610"
+        },
+        "published": "01/09/2023",
+        "published_in": [
+            {
+                "id": 1,
+                "name": "Research Catalogue",
+                "name_short": "RC"
+            }
+        ],
+        "license": "all-rights-reserved",
+        "issue": null,
+        "author": {
+            "id": 1839585,
+            "name": "Hannaleena Hauru"
+        },
+        "coauthors": [],
+        "abstract": "In this thesis, I make a personal reflection on how the dramaturgical concept of the feature film \u201cParvet\u201d was created. The aim of the project is to build dramaturgical tools that would benefit voices that are currently marginalized in Finnish film and television. The \u201cParvet\u201d film focuses on experiences as a racialized or indigenous person, and as a non-binary trans person in Finland in 2023 and deals also with the representation of people with learning disabilities, while most crew members in the production, including me, are white, non-disabled and cis-gendered. The central questions in the thesis are:\r\n\r\n\u2022\tHow did using feminist decolonial theories and my previous experiences in collaborative filmmaking inspire the methodological framework for the concept of \"Parvet\"?\r\n\r\n\u2022\tHow can autobiographical minority experiences be adapted to fiction film by providing agency to the performers by rearranging artistic decision-making power between the auteur-director, the performers, and the designers in the crew?\r\n\r\n\u2022\tHow does \"Parvet\" navigate the complex interplay of collaborative filmmaking within a project centered on minority topics while operating in an environment and industry dominated by structural whiteness?\r\n\r\nCreating \u201cParvet\u201d took place in 2022\u20132023. The film is directed by Hannaleena Hauru and Katja Gauriloff and produced by Emilia Haukka. The production is a collaboration between Aamu Film Company and Uniarts Helsinki's Theatre Academy. \u201cParvet\u201d will premiere in 2024. The thesis was written in the Summer\u2013Autumn of 2023, while \u201cParvet\u201d has still been in post-production."
+    },
+    {
+        "id": 2237566,
+        "type": "exposition",
+        "title": "Amazing Patterns \u2593\u2593\u2588\u258b\u258b\u25e3\u25e2\u258b",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/22/7c/3d/d0/227c3dd05d84c9a30f1cb0f5ef8ef063.png?t=e067170808acbd2ce727544907bca14d&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/2237566/2253273",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=2237566",
+        "keywords": [
+            "ASCII",
+            "Unicode",
+            "16-Bit",
+            "code art",
+            "black-and-white",
+            "digital art",
+            "computer art",
+            "fine art",
+            "graphic design",
+            "html art",
+            "text",
+            "amazing patterns",
+            "rozita fogelman",
+            "digital patterns",
+            "simple text patterns",
+            "Graphics Interchange",
+            "www",
+            "textile design",
+            "architecture",
+            "design"
+        ],
+        "created": "24/07/2023",
+        "last-modified": "24/07/2023",
+        "status": "republish",
+        "doi": {
+            "id": "10.22501/rc.2237566",
+            "url": "https://doi.org/10.22501/rc.2237566"
+        },
+        "published": "31/08/2023",
+        "published_in": [
+            {
+                "id": 1,
+                "name": "Research Catalogue",
+                "name_short": "RC"
+            }
+        ],
+        "license": "all-rights-reserved",
+        "issue": null,
+        "author": {
+            "id": 113748,
+            "name": "Rozita Sophia Fogelman"
+        },
+        "coauthors": [],
+        "abstract": "Using ASCII and Unicode 8 and 16-Bit systems, I create patterns in real-time online on my ASCII Digital Design Museum page: https://www.facebook.com/Museum/  \u2593\u2593\u2588\u258b\u258b\u25e3\u25e2\u258b\u2593\u2593\u2588\u258b\u258b\u25e3\u25e2\u258b\u2593\u2593\u2588\u258b\u258b\u25e3\u25e2\u258b\u2593\u2593\u2588\u258b\u258b\u25e3\u25e2\u258b\u2593\u2593\u2588\u258b\u258b\u25e3\u25e2\u258b\u2593\u2593\u2588\u258b\u2593\u2593\u2588\u258b\u258b\u25e3\u25e2\u258b\u2593\u2593\u2588\u258b\u258b\u25e3\u25e2\u258b\u2593\u2593\u2588\u258b\u258b\u25e3\u25e2\u258b\u2593\u2593\u2588\u258b\u258b\u25e3\u25e2\u258b\u2593\u2593\u2588\u258b\u258b\u25e3\u25e2\u258b\u2593\u2593\u2588\u258b\u2593\u2593\u2588\u258b\u258b\u25e3\u25e2\u258b\u2593\u2593\u2588\u258b\u258b\u25e3\u25e2\u258b\u2593\u2593\u2588\u258b\u258b\u25e3\u25e2\u258b\u2593\u2593\u2588\u258b\u258b\u25e3\u25e2\u258b\u2593\u2593\u2588\u258b\u258b\u25e3\u25e2\u258b\u2593\u2593\u2588\u258b"
+    },
+    {
+        "id": 2010875,
+        "type": "exposition",
+        "title": "SALT - choreography and critical humor",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/29/f7/4b/07/29f74b07cac411b324c56f245f3ba466.png?t=ce6fb697b077872f9d1cf3b683df2291&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/2010875/2010876",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=2010875",
+        "keywords": [
+            "choreography",
+            "performance",
+            "humor",
+            "Dadaism",
+            "Standup Comedy",
+            "Grotesque",
+            "critical humor",
+            "crisis",
+            "apocalypse"
+        ],
+        "created": "04/03/2023",
+        "last-modified": "04/03/2023",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/rc.2010875",
+            "url": "https://doi.org/10.22501/rc.2010875"
+        },
+        "published": "28/08/2023",
+        "published_in": [
+            {
+                "id": 1,
+                "name": "Research Catalogue",
+                "name_short": "RC"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": null,
+        "author": {
+            "id": 814424,
+            "name": "Elisabeth Lambeck"
+        },
+        "coauthors": [],
+        "abstract": "SALT is an exploration of choreography and critical humor,  \r\n- through the study of the Avant Garde art movement Dadaism;\r\n- a consideration on humor studies; \r\n- and freedom of speech. \r\n\r\nDiving into subversive comedy, the purpose of this research was to be able to come to better contextualization and search for ways to become more bold, more playful, and knowledgeable exploring the critical thoughts that I wish to tackle in my work, through laughter.  \r\n\r\nSALT, in the simplest explanation of this journey, was my search to become both funnier and more critical at the same time.  \r\n\r\nFor the creation of my final performance, the dramaturgical playfield that I considered had comical and critical potential were Stress, Zebras, and lecture performance.  \r\n\r\nSearching for ways to deconstruct the figure of a zebra humanoid that I had decided as the main character of the piece, I connected to standup comedy, slapstick, lecture performance and visual arts, to artists such as Ricky Gervais, Charlie Chaplin, Sergiu Matis, J\u00e9rome Bel, and Alessandro Gallo, and could appreciate and nurture myself with different approaches to my craft, critique, and humor; questioning, reconfirming, studying, and pushing this research at service of my final performance, a one woman show. \r\n\r\nIn this journey I also used guided improvisation, inspired by Gaga and Authentic Movement Technique, critical dialogues, DasArts feedback methods, reflective writing, mind mapping, mood boards, and open rehearsals to push for critical thinking.  \r\n\r\nThrough Research Catalogue, I designed a universe in which all the different layers of this process could be experienced textually and visually. Research Catalogue allowed me to take some of the playfulness and boldness that I had nurtured into my artistic practice, onto the screen, and be able to invite my guests to a more immersive, hopefully joyful journey of the tragicomic, absurd universe that eventually became known as SALT. \r\n\r\nThrough this journey, I reconfirmed the power of humor, that can be used as a powerful \u201cweapon,\u201d to address and revolt against critical issues of our time. Comedy can be an empowering way into heavier material, using any extent of hilarity as a tool for breaking through the audience's emotional boundaries, celebrating and pushing forward creative and critical thinking while visiting awkward, uncomfortable corners of the human truth. Searching for a joke that is not just a joke but can travel beyond laughter and engage with a deeper layer of critical thinking is a very challenging but honorable craft to practice."
+    },
+    {
+        "id": 1610541,
+        "type": "exposition",
+        "title": "Making Histories: Pluriverse Perspectives on Fashion &amp; Textile Design Studies. Contributions from Year One students (AY 2021/22)",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/23/c4/ae/09/23c4ae0900ac4db8ee48d0602d8ab9b0.png?t=c82c03b3eb20c57026317fab2802ee7c&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/1610541/1610542",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1610541",
+        "keywords": [
+            "fashion practice research",
+            "fashion design",
+            "Digital Fashion",
+            "co-creation",
+            "NFT",
+            "Fashion History",
+            "textile practice",
+            "Critical Fashion Practice",
+            "Fashion Theory",
+            "Design Studies"
+        ],
+        "created": "26/04/2022",
+        "last-modified": "26/04/2022",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/rc.1610541",
+            "url": "https://doi.org/10.22501/rc.1610541"
+        },
+        "published": "22/08/2023",
+        "published_in": [
+            {
+                "id": 1,
+                "name": "Research Catalogue",
+                "name_short": "RC"
+            }
+        ],
+        "license": "all-rights-reserved",
+        "issue": null,
+        "author": {
+            "id": 1395549,
+            "name": "Shanna Soh"
+        },
+        "coauthors": [
+            {
+                "id": 1510771,
+                "name": "Marijn Brinksma"
+            },
+            {
+                "id": 1510772,
+                "name": "Ren\u00e9e Buitendijk"
+            },
+            {
+                "id": 1510774,
+                "name": "Laura Garnier"
+            },
+            {
+                "id": 1510779,
+                "name": "Kim Gemmink"
+            },
+            {
+                "id": 1510780,
+                "name": "Carina Georgescu"
+            },
+            {
+                "id": 1510781,
+                "name": "June Gibbs"
+            },
+            {
+                "id": 1510783,
+                "name": "Jungyun Jang"
+            },
+            {
+                "id": 1510784,
+                "name": "Emma Lobina"
+            },
+            {
+                "id": 1510786,
+                "name": "Riet Pedro"
+            },
+            {
+                "id": 1510789,
+                "name": "Bas Pol"
+            },
+            {
+                "id": 1510793,
+                "name": "Hiromu Takeshita"
+            },
+            {
+                "id": 1510796,
+                "name": "Marie Eve Vedrines"
+            },
+            {
+                "id": 1510797,
+                "name": "Simon Veldkamp"
+            },
+            {
+                "id": 1510799,
+                "name": "Nora Vervat"
+            },
+            {
+                "id": 1510803,
+                "name": "Noah Warmer"
+            },
+            {
+                "id": 1510807,
+                "name": "Zhenyi Zhou"
+            }
+        ],
+        "abstract": "This exhibition is co-created by Year One students (2021/22) from the department of Fashion and Textile in The Royal Academy of Art, The Hague (KABK) after attending a series of lectures examining the historical study of Fashion & Textile design from constructivistic perspectives. \r\n\r\nThis exhibition showcases a spectrum of practice-based research, ranging from imagined narratives from the past; to observations on the global cultural impact of (digital) fashion and music; to attempts in addressing gaps of knowledge and imbalances in the eco-system of fashion & textile in the past, present & future.\r\n\r\nIn order to preserve the ephemeral nature of students' explorations in art & design education setting and in the spirit of Arturo Escobar's vision on the Pluriverse, students are given the freedom to propose their topic of choice and to deepen their knowledge as independently as possible. Guidance was given only when sought. In line with retaining the integrity of students' works, no interventions were made to student' contributions in this exhibition.\r\n\r\nAuthor / Curator Shanna Soh; Co-creators Riet Pedro, Emma Lobina, Carina Georgescu, Jungyun Jang, Noah Warmer, Renee Buitendlijk, Simon Veldkamp, Hiromu Takeshita, Zhenyi Zhou, Laura Garnier, Marie-Eve Verdrines, Bas Pol, Marijn Brinksma, Kim Gemmink, June Gibbs."
+    },
+    {
+        "id": 1601910,
+        "type": "exposition",
+        "title": "Making Histories: Pluriverse Perspectives on Fashion &amp; Textile Design Studies, Contributions from Year Two students (AY 2021/22)",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/f7/3d/d9/86/f73dd986f67c7350eaf70438b8fb750e.png?t=073a9f8d7614cb9156926f8f6500a7b7&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/1601910/1601911",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1601910",
+        "keywords": [
+            "fashion and textile art",
+            "Fashion History",
+            "fashion design",
+            "co-creation",
+            "Critical Fashion Practice",
+            "Design Studies",
+            "Fashion Theory"
+        ],
+        "created": "18/04/2022",
+        "last-modified": "18/04/2022",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/rc.1601910",
+            "url": "https://doi.org/10.22501/rc.1601910"
+        },
+        "published": "22/08/2023",
+        "published_in": [
+            {
+                "id": 1,
+                "name": "Research Catalogue",
+                "name_short": "RC"
+            }
+        ],
+        "license": "all-rights-reserved",
+        "issue": null,
+        "author": {
+            "id": 1395549,
+            "name": "Shanna Soh"
+        },
+        "coauthors": [
+            {
+                "id": 1510810,
+                "name": "Bessel Bijtelaar"
+            },
+            {
+                "id": 1510815,
+                "name": "Sophia Bogstedt"
+            },
+            {
+                "id": 1510816,
+                "name": "Elke Cloin"
+            },
+            {
+                "id": 1510819,
+                "name": "Julia Groven"
+            },
+            {
+                "id": 1510822,
+                "name": "Wassim Hodayebi"
+            },
+            {
+                "id": 1510827,
+                "name": "Peter Wertmann"
+            },
+            {
+                "id": 1510828,
+                "name": "Asira Wiegers"
+            },
+            {
+                "id": 1510831,
+                "name": "Ziah Siyu Zhang"
+            },
+            {
+                "id": 1510835,
+                "name": "Leva Drobenkait\u0117"
+            },
+            {
+                "id": 1510838,
+                "name": "Azul Espirito Santo"
+            },
+            {
+                "id": 1510844,
+                "name": "Lotte Roelandse"
+            },
+            {
+                "id": 1510845,
+                "name": "Neele Verhees"
+            },
+            {
+                "id": 1510849,
+                "name": "Emma Verrijt"
+            }
+        ],
+        "abstract": "Co-created with Year 2 students from the department of Fashion & Textile of the Royal Academy of Art, The Hague (KABK) as part of the end of year assignment for the subject of Fashion & Textile History, this exposition combines academic and practice-based research as a contribution to existing discourse on Fashion and Textile design studies.\r\n\r\nThis exhibition showcases a spectrum of research from constructivistic perspectives. Contributions range from those which highlighted the politics of identity in the design canon of fashion and textiles; to attempts to resurrect lost crafts; to addressing the importance of designers being able to move beyond the role of being a maker operating on figuratively isolated islands, towards that which operates more as a hub of human connections in socially-engaged and socially-responsible ways.\r\n\r\nIn order to preserve the ephemeral nature of students' explorations in art & design education setting and in the spirit of Arturo Escobar's vision on the Pluriverse, students are given the freedom to propose their topic of choice and to deepen their knowledge as independently as possible. Guidance was given only when sought. In line with retaining the integrity of students' works, no interventions were made to student' contributions in this exhibition.\r\n\r\nAuthor / Curator Shanna Soh ; Co-creators Ieva Drobenkait\u0117, Azul Espirito Santo, Lotte Roelandse, Neele Verhees, Emma Verrijt, Bessel Bijtelaar, Sophia Bogstedt, Elke Cloin, Julia Groven, Wassim el Hodayebi, Patryk Ochmanski, Timour Bonin, Peter Wertmann, Asira Zai, Ziah Siyu Zhang"
+    },
+    {
+        "id": 2086033,
+        "type": "exposition",
+        "title": "Point Of Return",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/3f/b9/ae/13/3fb9ae1369340a67f306543994619861.png?t=55aea06f531de096e756c472f6d646d8&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/2086033/2086034",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=2086033",
+        "keywords": [],
+        "created": "17/04/2023",
+        "last-modified": "17/04/2023",
+        "status": "published",
+        "doi": {
+            "id": null,
+            "url": null
+        },
+        "published": "17/08/2023",
+        "published_in": [
+            {
+                "id": 7,
+                "name": "Norwegian Artistic Research Programme",
+                "name_short": "Norwegian Artistic Research Programme"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": {
+            "id": 2256697,
+            "number": "2023",
+            "title": "2023"
+        },
+        "author": {
+            "id": 305158,
+            "name": "Kristoffer Berre Alberts"
+        },
+        "coauthors": [],
+        "abstract": "Den akustiske og improviserte musikken er fundamentert p\u00e5 modeller som tar utgangspunkt i kollektivitet og samspill. Utgivelser av denne musikken baserer seg p\u00e5 \u00e5 spille inn og dokumentere former for samspill, og alts\u00e5 lydfeste situasjoner som har foreg\u00e5tt samtidig og i samme rom. \u2018Stilarten\u2019 vi karakteriserer som st\u00f8ymusikk er i h\u00f8yeste grad ogs\u00e5 basert p\u00e5 samspill, men hvor innspillings- og utgivelsesprosessen er tuftet p\u00e5 andre kreative og skapende modeller. Her er prosessene rundt tid og rom ofte konstruert og manipulert via digitale eller analoge teknologier. Point of Return (improvisatoriske referansepunkt i tid og rom) er et prosjekt som g\u00e5r ut p\u00e5 \u00e5 finne overf\u00f8ringsverdi mellom modellene, prosessene, rommene og bruken av tid. \r\n\r\nSt\u00f8rste del av platesamlinga mi best\u00e5r av innspillinger fra 1960-tallet, for det meste jazzutgivelser fra USA, litt mindre av den s\u00e5kalte europeiske improviserte musikken. Flesteparten er live-innspillinger tror jeg. Det er i hvert fall de jeg oftest setter p\u00e5 n\u00e5r jeg er alene hjemme \u2013 alts\u00e5 live platene. Etter hvert har vi blitt flere i husholdningen som jeg gledelig deler platesamlinga mi med, men ettersom min eldste datter p\u00e5 snart 8 \u00e5r ikke har det samme romantiske (og analytiske) forholdet til den improviserte, akustiske og instrumentale musikken som meg, og ettersom jeg ikke har det samme romantiske forholdet til hennes Spotify-liste, har vi funnet ut at Beatles er noe vi begge kan sette p\u00e5, noe begge kan nyte og synge med p\u00e5. Vi har funnet fram til musikk innspilt lenge f\u00f8r vi begge ble f\u00f8dt, men som begge har en emosjonell referanse til. \r\n\r\nEt lite segment av samlinga mi best\u00e5r av utgivelser fra den s\u00e5kalte st\u00f8ymusikken. Disse platene h\u00f8rer jeg sjelden p\u00e5 (m\u00e5 jeg innr\u00f8mme). Innkj\u00f8pene er som regel utf\u00f8rt p\u00e5 grunnlag av (tidvis ikke helt edru) shopping p\u00e5 utenlandsreiser, og ofte p\u00e5 grunnlag av de kule omslagene. Likevel setter jeg stor pris p\u00e5 \u00e5 v\u00e6re publikum p\u00e5 konserter med annonsert st\u00f8ymusikk. Det er noe magisk med disse konsertene, og jeg setter stor pris p\u00e5 at jeg ikke kan \u2018sette fingeren\u2019 p\u00e5 hva det er jeg liker med dem. Det handler kanskje om et frav\u00e6r av analytiske egenskaper n\u00e5r det gjelder denne stilarten, jeg er litt \u2018novise\u2019, den er ikke min. Konsertene transporterer meg bort fra et analytisk st\u00e5sted og jeg setter stor pris p\u00e5 det oppstykkede lydlandskapet og de uvanlige elektroniske og soniske strukturene i musikken.\r\n\r\nIngen av st\u00f8ymusikkplatene i samlinga mi er spilt inn live, og nesten alle er spilt inn av to ut\u00f8vere, og p\u00e5 baksiden av omslagene oppgis det ofte at de har spilt inn musikken i hvert sitt studio, p\u00e5 ulik tid, men at utgivelsen likevel er produsert av begge to \u2013 som to adskilte og likeverdige improviserende komponister.\r\n\r\nProsessen i mitt doktorgradsarbeid har i utgangspunktet g\u00e5tt ut p\u00e5 \u00e5 spille inn musikk fra \u00e9n og \u00e9n ut\u00f8ver i isolasjon, for s\u00e5 \u00e5 flytte dette innspilte materiale inn i en annen tid, i et annet sonisk rom, hvor musikken treffer (settes sammen med) annet innspilt improvisert materiale fra andre musikere. Arbeidet har i stor grad best\u00e5tt i \u00e5 eksperimentere med sammensetninger; versjoner av helheter, hvordan solistiske komponenter passer/ikke passer sammen, og hvilke felles og forskjelligartede referanser som er hensiktsmessig \u00e5 benytte seg av i prosessen mot de offentliggjorte kunstneriske resultat."
+    },
+    {
+        "id": 2255144,
+        "type": "exposition",
+        "title": "\"ART THOU PAYING ATTENTION?\" - PRESENCE AND SUSTAINABILITY IN THE PERFORMING ARTS",
+        "thumb": null,
+        "default-page": "https://www.researchcatalogue.net/view/2255144/2255143",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=2255144",
+        "keywords": [
+            "performing arts",
+            "presence",
+            "attention",
+            "yoga",
+            "Meditation"
+        ],
+        "created": "16/08/2023",
+        "last-modified": "16/08/2023",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/rc.2255144",
+            "url": "https://doi.org/10.22501/rc.2255144"
+        },
+        "published": "16/08/2023",
+        "published_in": [
+            {
+                "id": 1,
+                "name": "Research Catalogue",
+                "name_short": "RC"
+            },
+            {
+                "id": 21,
+                "name": "Stockholm University of the Arts (SKH)",
+                "name_short": "SKH"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": null,
+        "author": {
+            "id": 87320,
+            "name": "Camilla Damkjaer"
+        },
+        "coauthors": [],
+        "abstract": "This essay is reflection on the research project \u201c Presence and sustainability in the Performing arts\u201d conducted by Camilla Damkjaer and Johanna Garpe at Stockholm University of the Arts 2021-2023. \r\n     The project started from the idea that the premise of the performing arts is to capture people\u2019s attention. At the same time our attention is under pressure through experience economy, digitalisation and work-life conditions. We wanted to explore ways of creating sustainable relations to attention within this field. The purpose was of the project was therefore to develop a more sustainable relation to attention within the performing arts, in the meeting with meditative practices."
+    },
+    {
+        "id": 1928815,
+        "type": "exposition",
+        "title": "How do I grow and develop as a musician in the Western musical environment?",
+        "thumb": null,
+        "default-page": "https://www.researchcatalogue.net/view/1928815/1929098",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1928815",
+        "keywords": [
+            "Pipa",
+            "improvisation",
+            "traditional music",
+            "cross-genre",
+            "identity",
+            "Intercultural",
+            "Graphic map"
+        ],
+        "created": "31/01/2023",
+        "last-modified": "31/01/2023",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/rc.1928815",
+            "url": "https://doi.org/10.22501/rc.1928815"
+        },
+        "published": "16/08/2023",
+        "published_in": [
+            {
+                "id": 1,
+                "name": "Research Catalogue",
+                "name_short": "RC"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": null,
+        "author": {
+            "id": 1579846,
+            "name": "Fan-Qi Wu"
+        },
+        "coauthors": [],
+        "abstract": "This research mainly analyses and discusses the process of cultural adaptation and cross-genre/culture integration- how the pipa was fused and adapted into Western ensemble settings through different projects as case studies. Besides, this study uses Maslow\u2019s Hierarchy of Needs to analyze the changes in the author's mindset as a traditional musician and to explore the challenges and self-identity of being a minority in the larger community. \r\nFurthermore, this study also discusses how the author consciously and unconsciously blends her cultural heritage with Western musical influences, which later helps her to develop her own musical language and voice."
+    },
+    {
+        "id": 1920291,
+        "type": "exposition",
+        "title": "Embodied Bits",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/ac/a0/66/db/aca066db186c8e541b74991acd1a6325.png?t=3e28e8fa6b717bf3de6889ae4c2cd346&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/1920291/1920292",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1920291",
+        "keywords": [
+            "queer",
+            "post-digital",
+            "electronic music",
+            "identity",
+            "online",
+            "Internet"
+        ],
+        "created": "26/01/2023",
+        "last-modified": "26/01/2023",
+        "status": "published",
+        "doi": {
+            "id": null,
+            "url": null
+        },
+        "published": "14/08/2023",
+        "published_in": [
+            {
+                "id": 6,
+                "name": "KC Research Portal",
+                "name_short": "KC Research Portal"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": {
+            "id": 479587,
+            "number": "1",
+            "title": "Master Research Projects"
+        },
+        "author": {
+            "id": 1373502,
+            "name": "Pedro Latas"
+        },
+        "coauthors": [],
+        "abstract": "The Master research \u201cEmbodied Bits\u201d concerns how trans-human, post-digital and post-internet ideas relate to my Queer experience. It is, in a nutshell, an ongoing research on how the technological world has spilled over into the biological world and how Queer folks are front and centre when it comes to taking advantage of technological developments in order to realise their identities.\r\n\r\nThe research question is \u201cHow do we perform ourselves in the digital realm?\u201d. Though it started as a research on the practicalities and aesthetics of internet/networked-based performances it quickly opened a Pandora\u2019s Box of social inquiry and analysis. Performing ourselves means performing ethnicity, gender, sexuality, cultural identity... There is an inevitability in drawing a direct connection between these topics and how do we, as singular and, paradoxically, plural human beings within ourselves engage with modern day technology. Through technology we are able to build ourselves, to draft new identities, to build again if they no longer suit our needs.\r\n\r\nAs an artistic research, \u201cEmbodied Bits\u201d looks into how digital media has influenced human experience and focuses on the experiences of non-normative bodies and identities, in which I include my own. These topics are interlaced with my own compositional and performative work, always informed and inspired by the previously mentioned ideas and historical context."
+    },
+    {
+        "id": 2244570,
+        "type": "exposition",
+        "title": "Personal and Academic Blurred Spaces Hinged on Synchronous Gravities in Nature: Conceptual Musings from Events of (Re-)configurations during COVID-19 Pandemic",
+        "thumb": null,
+        "default-page": "https://www.researchcatalogue.net/view/2244570/2244569",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=2244570",
+        "keywords": [
+            "pandemic",
+            "blurred spaces",
+            "nature",
+            "niching",
+            "threshold pedagogic insights",
+            "TABR"
+        ],
+        "created": "04/08/2023",
+        "last-modified": "04/08/2023",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/rc.2244570",
+            "url": "https://doi.org/10.22501/rc.2244570"
+        },
+        "published": "04/08/2023",
+        "published_in": [
+            {
+                "id": 1,
+                "name": "Research Catalogue",
+                "name_short": "RC"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": null,
+        "author": {
+            "id": 1791216,
+            "name": "Haris Adhikari"
+        },
+        "coauthors": [],
+        "abstract": "This paper inquires into a two-fold issue: (i) blurred personal and academic spaces during the pandemic and their impact, and (ii) nature\u2019s role in them. As a transformative arts-based research (TABR) within an experimental framework deploying concepts of liminality, Derrida\u2019s \u2018teleiopoiesis\u2019, and an adapted outlook of experiential interconnectedness or consciousness of Advaita Vedanta, the paper forwards pedagogically useful findings and implications as these: (i) blurred spaces as bizarre or third space entities that were both stressful and productive, (ii) increased exposures to nature and eco-spirituality, followed by heightened realizations of nature\u2019s place in life, learning and being during the pandemic, (iii) heterotopic university as a space or place that effectuated a surge in self-internalization of learning via intense involvement, (iv) compassionate/ empathic living as a door to self-improvement and joy, (v) formations of new habits and routines as coping strategies in the difficult times, and (v) newly formed wholesome habits and synchronous gravities in nature as great contributors to increased reflective or creative productivity during the pandemic. Additionally, yet more importantly, it highlights the instrumentality of human senses as lower rungs in realizing the interconnectedness or consciousness that experiential Advaita proffers, and this it does by communicating the need for individually unique, radically nonlinear, and adventurously inter-/ trans-disciplinary celebrations of the phenomenon. Besides, it celebrates interrelated questions and curiosities throughout."
+    },
+    {
+        "id": 1806807,
+        "type": "exposition",
+        "title": "Music Education Through Autobiographical Digital Storytelling (METADS) at the 14th SAR International Conference on Artistic Research",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/88/e8/2e/00/88e82e000f5146a2fe4bd690844a11d2.png?t=1f244cd967a94e5711caa2700d554496&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/1806807/1806733",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1806807",
+        "keywords": [
+            "autobiography",
+            "coloring book",
+            "Decision Making",
+            "guided listening",
+            "Music Education",
+            "problem solving",
+            "visual guide",
+            "visual thinking",
+            "Digital Storytelling",
+            "ethics",
+            "morality",
+            "interpersonality"
+        ],
+        "created": "16/07/2022",
+        "last-modified": "16/07/2022",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/rc.1806807",
+            "url": "https://doi.org/10.22501/rc.1806807"
+        },
+        "published": "01/08/2023",
+        "published_in": [
+            {
+                "id": 1,
+                "name": "Research Catalogue",
+                "name_short": "RC"
+            }
+        ],
+        "license": "all-rights-reserved",
+        "issue": null,
+        "author": {
+            "id": 555453,
+            "name": "Jeffrey Cobbold"
+        },
+        "coauthors": [],
+        "abstract": "METADS stands for \u201cMusic Education Through Autobiographical Digital Storytelling\u201d. It\u2019s a special initiative for furthering interdisciplinary arts thinking and production that is inspired by music. METADS\u2019 history started in 2017 with Jeffrey Cobbold\u2019s musically rich digital audio sermon album focused on his autobiographical story as a music educator. Included in the sermon are observational digital stories of various music students, which offer approaches to confronting fear through various modes of truth-telling.\r\n\r\nIn 2020 METADS was mastered by audio engineer Johnny O, who also sang on the song \"JOURNAL PROMPT\" on the METADS album. The album\u2019s cover art was created by graphic designer Lauren Meyer. In 2021 METADS expanded into a visual art project through Cobbold\u2019s invitation to Meyer to create visualizations for the digital audio sermon album into a comprehensive visual guide/coloring book. Meyer\u2019s involvement in METADS has furthered its progression toward interdisciplinary arts thinking and production inspired by music and storytelling.\r\n\r\nFor the 14th SAR International Conference on Artistic Research, METADS makes an urgent appeal for music educators and musicians to tend to the stewardship of their relationships in music through the creation of their own autobiographical digital stories, offering them as artistic research in this sensitive area of our musical lives. This is an effort to improve professional practice through investigation of relational fears and the expression of rare relational truths that are often concealed or neglected. METADS also seeks to appeal to the non-musician at the conference who engages in personal storytelling inspired by music or other mediums with a concern for the moral fabric of their creative relationships."
+    },
+    {
+        "id": 1957912,
+        "type": "exposition",
+        "title": "The Usage of recordings from other musicians as a source of information by students of Classical Music",
+        "thumb": null,
+        "default-page": "https://www.researchcatalogue.net/view/1957912/1957913",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1957912",
+        "keywords": [
+            "Recordings",
+            "Artistic process",
+            "students"
+        ],
+        "created": "18/02/2023",
+        "last-modified": "18/02/2023",
+        "status": "published",
+        "doi": {
+            "id": null,
+            "url": null
+        },
+        "published": "19/07/2023",
+        "published_in": [
+            {
+                "id": 6,
+                "name": "KC Research Portal",
+                "name_short": "KC Research Portal"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": null,
+        "author": {
+            "id": 1373505,
+            "name": "Pedro Dom\u00ednguez Conde"
+        },
+        "coauthors": [],
+        "abstract": "The main purpouse of this research is to find out how do students of classical department use recordings as a source of information for their daily practice and what kind of information they seek in those recordings that is helpfull for them. To get this a survey of ten question was disigned and shared through many methods on the students of the Koninklijik  Conservatorium in The Hague. 24 students from varied specialities and courses answered the survey, and the collected data will be analysed"
+    },
+    {
+        "id": 1817601,
+        "type": "exposition",
+        "title": "HOW TO IMPROVE CELLO ORCHESTRAL EXCERPTS",
+        "thumb": null,
+        "default-page": "https://www.researchcatalogue.net/view/1817601/1817602",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1817601",
+        "keywords": [
+            "Audition",
+            "Orchestra",
+            "excerpts"
+        ],
+        "created": "17/11/2022",
+        "last-modified": "17/11/2022",
+        "status": "published",
+        "doi": {
+            "id": null,
+            "url": null
+        },
+        "published": "19/07/2023",
+        "published_in": [
+            {
+                "id": 6,
+                "name": "KC Research Portal",
+                "name_short": "KC Research Portal"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": {
+            "id": 534751,
+            "number": "3",
+            "title": "Internal publication"
+        },
+        "author": {
+            "id": 1395759,
+            "name": "Carmen Ram\u00edrez Campos"
+        },
+        "coauthors": [],
+        "abstract": "Orchestral auditions have become the main way to get into an orchestra. That is why preparing orchestral excerpts for auditions is a mandatory path to go through. In order to perfect my preparation of a selection of the most requested orchestra excerpts, I selected relevant etudes to support my practice. Together with my private teachers and youtube tutorials given by orchestral cellists around the world, I created a guide to help my practice. My goal was to find an approach that would not only support the technical demands of performing these excepts, but also create a better understanding of the difficulties while maintaining my own musicality. \r\nHow can the preparation of orchestral excerpts improve and develop my artistic and musical skills? What role do etudes play in this process?"
+    },
+    {
+        "id": 1835869,
+        "type": "exposition",
+        "title": "Camilo Arias - Master Research Last Sand",
+        "thumb": null,
+        "default-page": "https://www.researchcatalogue.net/view/1835869/1835701",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1835869",
+        "keywords": [
+            "postcolonialism",
+            "Fandango",
+            "18th century",
+            "historically informed performance",
+            "Folk",
+            "Crossover"
+        ],
+        "created": "01/05/2022",
+        "last-modified": "01/05/2022",
+        "status": "published",
+        "doi": {
+            "id": null,
+            "url": null
+        },
+        "published": "19/07/2023",
+        "published_in": [
+            {
+                "id": 6,
+                "name": "KC Research Portal",
+                "name_short": "KC Research Portal"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": {
+            "id": 479587,
+            "number": "1",
+            "title": "Master Research Projects"
+        },
+        "author": {
+            "id": 1025904,
+            "name": "Camilo Arias"
+        },
+        "coauthors": [],
+        "abstract": "While the commercial musical stream of \"Latin American Baroque\" has been associated with musical cross-breeding, the study of the colonial repertoire that composes it documents quite the opposite: the absence of non-European musical features. By accepting the impossibility to find the written \"Mestizo Baroque\", this research chooses to \"re-imagine it\" from orality. Taking the Fandango musical family as a framework, this research enters into playful dialogues between the XVIII century European fandango and its surviving folklore counterparts: the Mexican Son Huasteco and the Colombo-Venezuelan Joropo. Through analysis and transcription of oral sources, style comparison, arrangement, and improvisation this research aims to create a musical product that reclaims the mixed-raced identities, erased from colonial archives, in today\u00b4s Early Music industry."
+    },
+    {
+        "id": 1947638,
+        "type": "exposition",
+        "title": "An Embouchure Aid for Wind Musicians",
+        "thumb": null,
+        "default-page": "https://www.researchcatalogue.net/view/1947638/1947639",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1947638",
+        "keywords": [
+            "Clarinet",
+            "Embouchure",
+            "Dental Problems",
+            "Pain",
+            "Embouchure Pain",
+            "Dental Support",
+            "Saxophone",
+            "Oboe",
+            "Embouchure Aid",
+            "Dental Mobility",
+            "Clarinet Embouchure",
+            "wind player",
+            "wind",
+            "Embouchure Problems",
+            "Problems",
+            "Teeth",
+            "Lips"
+        ],
+        "created": "12/02/2023",
+        "last-modified": "12/02/2023",
+        "status": "published",
+        "doi": {
+            "id": null,
+            "url": null
+        },
+        "published": "19/07/2023",
+        "published_in": [
+            {
+                "id": 6,
+                "name": "KC Research Portal",
+                "name_short": "KC Research Portal"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": null,
+        "author": {
+            "id": 1374005,
+            "name": "Giuseppe Sapienza"
+        },
+        "coauthors": [],
+        "abstract": "Name: Giuseppe Sapienza\r\nMain Subject: Classical Clarinet\r\nResearch Supervisor: Wouter Verschuren\r\n\r\nTitle of the Research: An Embouchure Aid for Wind Musicians\r\n\r\nResearch Question: Assessing whether playing a wind instrument can change tooth position and investigate the effectiveness of an embouchure support device to provide dental support.\r\n\r\n\r\nThis study was inspired by the author's personal experience of discomfort and pain while playing the clarinet and aims to investigate the potential relationship between dental health and clarinet playing, specifically the impact of the mouthpiece on tooth position and stability.\r\n\r\nA literature review of previous studies on the connection between wind instruments and tooth movement was conducted. The author collaborated with two professional dentists to develop an embouchure support device called PlayAid. The device was prototyped and tested by the author with a positive outcome.\r\n\r\nThe study found a correlation between playing the clarinet and an increased risk of dental problems, including tooth mobility, erosion, and discomfort. The upper incisors were the most commonly affected teeth. The literature review showed that playing wind instruments can cause changes in tooth position, specifically an increase in overjet.\r\n\r\nBased on the results of this study, it can be concluded that an embouchure support device, like PlayAid, can effectively provide dental support for players with dental problems but also for those who exclusively seek better embouchure comfort and sound quality.\r\n\r\nThe chosen format of a presentation will be a public exposition of the results of the research with a live demonstration of PlayAid."
+    },
+    {
+        "id": 1950989,
+        "type": "exposition",
+        "title": "APPROACHING IMAGES: A Journey from Imagery to the Concrete",
+        "thumb": null,
+        "default-page": "https://www.researchcatalogue.net/view/1950989/1973924",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1950989",
+        "keywords": [
+            "Imagery",
+            "Musical imagery",
+            "Arranging",
+            "Debussy",
+            "piano",
+            "percussion",
+            "analysis"
+        ],
+        "created": "14/02/2023",
+        "last-modified": "14/02/2023",
+        "status": "published",
+        "doi": {
+            "id": null,
+            "url": null
+        },
+        "published": "19/07/2023",
+        "published_in": [
+            {
+                "id": 6,
+                "name": "KC Research Portal",
+                "name_short": "KC Research Portal"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": null,
+        "author": {
+            "id": 1393595,
+            "name": "Rui Braga Sim\u00f5es"
+        },
+        "coauthors": [],
+        "abstract": "The piano is an instrument filled with endless possibilities, and an absurd amount of marvellous repertoire, but also has its downsides, namely its extremely complex mechanism: fingers activate a key, that moves a hammer, that hits a string. It\u2019s a lot of steps from the moment you imagine a note and the moment you hear it, and the resulting sound isn\u2019t always what we hope for. This instrument can be  limited for the things that are asked from pianists, such as playing singing and legato lines. However, there are ways of getting over this limitation, and one of them is the use of Imagery, I.e., having a strong imagination of something else in order to do things that, in many occasions on a piano, are technically impossible. \r\nIn this artistic research I approach the concept of Musical Imagery and present an arrangement I made of Debussy\u2019s Et la lune descend sur le temple qui fut (from the second book of Images) for piano and percussion quartet, exploring the imagery elements I use in my practice and explaining how I turned them into something concrete, through the use of new layers added by the chosen instruments."
+    },
+    {
+        "id": 393773,
+        "type": "exposition",
+        "title": "Interpretation of Schumann's 'Humoreske' in B flat major, op. 20, within the context of Jean Paul Richter's romantic concept of 'humor'",
+        "thumb": null,
+        "default-page": "https://www.researchcatalogue.net/view/393773/580862",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=393773",
+        "keywords": [],
+        "created": "28/09/2017",
+        "last-modified": "28/09/2017",
+        "status": "published",
+        "doi": {
+            "id": null,
+            "url": null
+        },
+        "published": "13/07/2023",
+        "published_in": [
+            {
+                "id": 6,
+                "name": "KC Research Portal",
+                "name_short": "KC Research Portal"
+            }
+        ],
+        "license": "all-rights-reserved",
+        "issue": {
+            "id": 479587,
+            "number": "1",
+            "title": "Master Research Projects"
+        },
+        "author": {
+            "id": 393539,
+            "name": "Elisha Kravits"
+        },
+        "coauthors": [],
+        "abstract": "This research began with the realization that Schumann's idea of \"humor\" (which the title of his work implies) might be very different from our own, and  should be understood within the cultural and philosophical context of his time.\r\nTo this end, I decided to base my research on the writings of celebrated author Jean Paul Richter, whom Schumann idolized, and who devoted a large section of his \"Introduction to Aesthetics\" to the subject of humor; the profound psychological connections between Schumann and Jean Paul, which I point out, are also very revealing.\r\nI went on to summarize some concepts within Jean Paul's definition of humor which seemed the most naturally analogous with the act of musical interpretation, such as romantic irony, \"the Absurd\" and \"humorous sensuousness\". In the final part of the research I put these ideas to use by experimenting with the interpretation of different sections of the \"Humoreske\"; in the written exposition I provided recordings to demonstrate the different possibilities which arise from this analogy, as well as a written explanation of the thought process behind each one. For the presentation I will demonstrate this at the piano.\r\nThese recordings are the \"final\" result of my research in the sense that they represent a clear answer to the research question. However, while the process of conscious experimentation was illuminating- and can be repeated with any other work by the composer!- I believe that the most important result of this research would be impossible to document or present here: that is, the more subtle, subconscious way in which understanding Schumann's connection with the spirit of his time will continue to influence my playing."
+    },
+    {
+        "id": 2161575,
+        "type": "exposition",
+        "title": "\u201cHow to motivate students in classroom mandatory music lessons?\u201d",
+        "thumb": null,
+        "default-page": "https://www.researchcatalogue.net/view/2161575/2161801",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=2161575",
+        "keywords": [
+            "self-determination theory",
+            "mandatory music lessons",
+            "Self regulation",
+            "autonomy",
+            "violin lessons"
+        ],
+        "created": "25/05/2023",
+        "last-modified": "25/05/2023",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/rc.2161575",
+            "url": "https://doi.org/10.22501/rc.2161575"
+        },
+        "published": "13/07/2023",
+        "published_in": [
+            {
+                "id": 6,
+                "name": "KC Research Portal",
+                "name_short": "KC Research Portal"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": {
+            "id": 479587,
+            "number": "1",
+            "title": "Master Research Projects"
+        },
+        "author": {
+            "id": 1038016,
+            "name": "B\u00e1rbara de Souza"
+        },
+        "coauthors": [],
+        "abstract": "My experience teaching mandatory violin lessons during school time could have been more positive. Misbehavior, no engagement, no routine of practicing, and a deficient level of playing were some of the factors causing frustration in my teaching practice. Luckily, this frustration became an urge to change this situation and search for approaches to motivate the students in the context of mandatory music lessons. Action research and case study approaches were used for an intervention of three weeks in three different classrooms, with kids from 8-9 years old, from grade 5 at the Dutch Primary School system. Lesson plans were designed based on the principles of the Self-Determination Theory by Deci and Ryan (1985), with activities and strategies addressing the three innate psychological needs: competence, autonomy, and relatedness. Logbooks were also used as a way of stimulating the self-regulation of the students. The intervention showed that encouraging the students' autonomy was the best way to motivate them, and that can be done through simple activities that can be easily implemented in the lessons. Increasing their autonomy in several activities also added to their feeling of competence and relatedness. Using the logbook to track their practice was also a powerful tool to help them practice and boost their motivation."
+    },
+    {
+        "id": 1969002,
+        "type": "exposition",
+        "title": "Historical Clarinet Mouthpieces: An Analysis and Re-creation studyHistorical Clarinet Mouthpieces: An Analysis and 3D Re-creation study",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/58/19/86/f4/581986f45b924b554a08507f079f7e34.png?t=368819f92751e9ef25743676ea1f680f&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/1969002/1969003",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1969002",
+        "keywords": [
+            "mouthpiece",
+            "tuning",
+            "Instruments and Techniques",
+            "Clarinet",
+            "3D printing"
+        ],
+        "created": "21/02/2023",
+        "last-modified": "21/02/2023",
+        "status": "published",
+        "doi": {
+            "id": null,
+            "url": null
+        },
+        "published": "13/07/2023",
+        "published_in": [
+            {
+                "id": 6,
+                "name": "KC Research Portal",
+                "name_short": "KC Research Portal"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": {
+            "id": 479587,
+            "number": "1",
+            "title": "Master Research Projects"
+        },
+        "author": {
+            "id": 1372232,
+            "name": "Sergio S\u00e1nchez Mart\u00edn"
+        },
+        "coauthors": [],
+        "abstract": "The mouthpiece of a clarinet plays a crucial role in sound formation and tuning, and there is still great potential for research within the field of historical clarinet mouthpieces.\r\n\r\nThis study explores the relationship between mouthpiece shape and performance practice in the first half of the 19th century when significant changes occurred in clarinet history. The author examines historical mouthpieces from various collections and creates 3D-printed replicas for experimentation. The research investigates how mouthpiece shape relates to changes in reed positioning and national styles, and how 3D printing technology can aid in understanding historical mouthpiece design. \r\n\r\nThe study finds evidence of a causal relationship between changes in reed positioning and mouthpiece geometry, especially reflected in the dimension of the mouthpiece window. The creation of a functional 3D-printed historical mouthpiece and experimentation with variations in shape shed light on how different parameters of the mouthpiece geometry affect the sound response. The research offers a useful tool for historical clarinet players to choose mouthpieces in a more historically informed way."
+    },
+    {
+        "id": 2081778,
+        "type": "exposition",
+        "title": "The Ecology of Artistic Research",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/70/aa/bb/a3/70aabba38a294253242ed2ccc290f3a8.png?t=8e8d9e8121f4d35ae6f55f613250f83f&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/2081778/2081726",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=2081778",
+        "keywords": [
+            "Artistic research",
+            "Sustainability",
+            "Media and culture",
+            "Creative process",
+            "Performing arts",
+            "Film and media",
+            "insights",
+            "embodiment of knowledge",
+            "collaborations",
+            "Nordic region",
+            "Interdisciplinary expressions",
+            "ecology of artistic research",
+            "sustainability",
+            "artistic research",
+            "Media",
+            "knowledge systems",
+            "performing arts",
+            "Film studies",
+            "Embodied knowledge",
+            "collaboration",
+            "nordic region",
+            "interdisciplinarity",
+            "ecology of practices",
+            "ecology of creativity"
+        ],
+        "created": "15/04/2023",
+        "last-modified": "15/04/2023",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/rc.2081778",
+            "url": "https://doi.org/10.22501/rc.2081778"
+        },
+        "published": "10/07/2023",
+        "published_in": [
+            {
+                "id": 1,
+                "name": "Research Catalogue",
+                "name_short": "RC"
+            }
+        ],
+        "license": "all-rights-reserved",
+        "issue": null,
+        "author": {
+            "id": 2079022,
+            "name": "Elizabeth Torres"
+        },
+        "coauthors": [],
+        "abstract": "In the past decade, artistic research has emerged as a prominent means of generating new knowledge while addressing pressing issues such as sustainability and environmental concerns. However, due to its relative newness, the field lacks a clear mainstream understanding regarding its potential, meaning, structures, and limitations. The Ecology of Artistic Research is an interdisciplinary investigation that aims to explore the multifaceted dimensions of the field, with a particular focus on the significance of artistic research to researchers and practitioners themselves, and how they perceive, process, and embody knowledge through their practice. This project seeks to identify sustainable approaches to artistic research, demystify and clarify the language of artistic research for lay audiences, visualize the mechanisms of the field, and visibilize structures and networks that pay closer attention to the narratives of our world in transformation.\r\n\r\nThe investigation is conducted through a cycle of conversations and artistic responses, with a particular focus on the Nordic countries of Finland, Sweden, Norway, and Denmark. Through engaging contemporary artistic practitioners, academic institutions and researchers in conversations, the project seeks to gain insight into their work, concerns, and personal experiences. The output of this research takes various interdisciplinary forms, including audiovisual interviews, articles, and a multimedia exposition."
+    },
+    {
+        "id": 1741618,
+        "type": "exposition",
+        "title": "Tipping Points (Reflection Component)",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/45/2a/fb/a6/452afba637728ee349cea82d70c88edf.png?t=ed1560c44ad44389f2c98d17e3b0ede9&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/1741618/1741633",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1741618",
+        "keywords": [
+            "Chaotic instruments",
+            "Live-electronics",
+            "artistic research",
+            "wonder",
+            "Chaos",
+            "composer as performer",
+            "instrument design",
+            "KMD_PhD",
+            "KMD_Grieg"
+        ],
+        "created": "23/09/2022",
+        "last-modified": "23/09/2022",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/kmd-ar.1741618",
+            "url": "https://doi.org/10.22501/kmd-ar.1741618"
+        },
+        "published": "07/07/2023",
+        "published_in": [
+            {
+                "id": 17,
+                "name": "Faculty of Fine Art, Music and Design, University of Bergen",
+                "name_short": "KMD"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": {
+            "id": 2156830,
+            "number": "7",
+            "title": "PhD 2023"
+        },
+        "author": {
+            "id": 455255,
+            "name": "Tijs Ham"
+        },
+        "coauthors": [],
+        "abstract": "The Ph.D. project in Artistic Research, Tipping Points, conducted by Tijs Ham ('81), is situated in the field of live electronics and focuses on the exploration of chaotic processes within instrument design, compositional strategies, and performance. The unpredictable nature of chaos impacts many aspects of musicking. Artistic works emerge from the interferences between processes that are set in motion. Instruments are influenced and in turn influence the performer in return. The reflections turn to the notion of wondering as the performer and audiences alike encounter unforeseen sonic behaviors that are strangely musical despite their volatile and fragile chaotic origins."
+    },
+    {
+        "id": 1411699,
+        "type": "exposition",
+        "title": "Divertimento Sextet",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/1e/b3/7a/23/1eb37a2326476ceaa106078377ef478d.png?t=b0be45309b0959b23ad2b0fd6f5b0ebb&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/1411699/2127710",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1411699",
+        "keywords": [
+            "Wolfgang Amadeus Mozart",
+            "divertimento",
+            "Viennese double bass"
+        ],
+        "created": "08/11/2021",
+        "last-modified": "08/11/2021",
+        "status": "published",
+        "doi": {
+            "id": null,
+            "url": null
+        },
+        "published": "06/07/2023",
+        "published_in": [
+            {
+                "id": 6,
+                "name": "KC Research Portal",
+                "name_short": "KC Research Portal"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": {
+            "id": 479587,
+            "number": "1",
+            "title": "Master Research Projects"
+        },
+        "author": {
+            "id": 989110,
+            "name": "Robert Franenberg"
+        },
+        "coauthors": [],
+        "abstract": "In 2000, I took part in a project performing all of W.A. Mozart\u2019s (1756-1791) Salzburg divertimentos for strings and winds in the quaint town of Delft in the Netherlands. In attempting to keep true to authentic performance practices we played on period instruments with one player to a part and most significantly the bass line was to be performed solely on the double bass; thus, no cello and no cello/double bass doubling of the bass line.1 Some of my colleagues involved in this project found this to be quite a \u2018radical\u2019 idea, for in chamber music settings many musicians are accustomed to the cello as the bass instrument of choice, and depending on the repertoire, a double bass might double the line, but double bass alone\u2026impossible! Indeed most recordings I have heard of these pieces have been performed by a chamber orchestra or as chamber music with the bass line performed by a cello and double bass."
+    },
+    {
+        "id": 2064153,
+        "type": "exposition",
+        "title": "With trumpets?",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/db/ef/51/af/dbef51afce1ec79dfa5b797a0b5d2486.png?t=4a0c1fa849ae6160ae56e19372ea5e40&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/2064153/2064144",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=2064153",
+        "keywords": [
+            "Corelli",
+            "trumpet",
+            "instrumentation",
+            "Concerti Grossi",
+            "Roman Sinfonie"
+        ],
+        "created": "05/04/2023",
+        "last-modified": "05/04/2023",
+        "status": "published",
+        "doi": {
+            "id": null,
+            "url": null
+        },
+        "published": "06/07/2023",
+        "published_in": [
+            {
+                "id": 6,
+                "name": "KC Research Portal",
+                "name_short": "KC Research Portal"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": {
+            "id": 479587,
+            "number": "1",
+            "title": "Master Research Projects"
+        },
+        "author": {
+            "id": 342813,
+            "name": "Fabio Bonizzoni"
+        },
+        "coauthors": [
+            {
+                "id": 158034,
+                "name": "Casper Schipper"
+            }
+        ],
+        "abstract": "A good deal of mystery still surrounds some aspects of Arcangelo Corelli's work. Firstly, although he was recognised as the main composer of Sinfonie in Rome around 1700, all of his repertoire of this genre, with the exception of one, seems to have disappeared; secondly, none of his survived orchestral scores contains evidence of the well documented practice of using winds, trumpets in particular, in conjunction with strings. To fill these gaps, speculations have tried to identify, amongst Corelli's works, not only the ones that might have originated as Sinfonie, but also those that might have included trumpets in their original form. This research moves along the same path but sets a slightly different goal: on the one hand it considers that it is virtually impossible to determine if any of Corelli\u2019s survived compositions were originally conceived as Sinfonie with trumpets. On the other hand, it argues that through a study of Lulier's Santa Beatrice d'Este oratorio - a work that preserves the only genuine Corelli's Sinfonia that has survived - and through a comparative analysis of the two Handel's Roman oratorios, it is possible to approach closely the soundscape of Corelli's Sinfonie con trombe. To achieve that goal, in accordance with contemporary Roman examples, newly composed trumpet parts have been integrated into some movements of three concertos from Opus 6. The outcome can be listened in the audio-video material part of this paper. Whether the addition of trumpets on top of a string-only movement could have been improvised, and not planned beforehand with written parts, is open to further speculation."
+    },
+    {
+        "id": 2223717,
+        "type": "exposition",
+        "title": "How art made me (in)sane",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/21/09/89/65/210989651d4aef45f96443c8a6bc3d6d.png?t=2e99cdfc1f05d6bd0fc1491cfd0364b7&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/2223717/2223716",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=2223717",
+        "keywords": [
+            "emotions",
+            "insanity",
+            "Edvard Munch",
+            "bipolar disorder",
+            "borderline personality disorder",
+            "mental illness"
+        ],
+        "created": "01/07/2023",
+        "last-modified": "01/07/2023",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/rc.2223717",
+            "url": "https://doi.org/10.22501/rc.2223717"
+        },
+        "published": "06/07/2023",
+        "published_in": [
+            {
+                "id": 1,
+                "name": "Research Catalogue",
+                "name_short": "RC"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": null,
+        "author": {
+            "id": 2078012,
+            "name": "Nabila Ayu Aviani"
+        },
+        "coauthors": [],
+        "abstract": "From the moment I was born, my grandmother said the following words to my mother about me:\r\n\r\n\u201cBe careful with this one, this child will be tough as a rock.\u201d\r\n\r\nMy grandmother was not wrong. I was a tough child \u2013 I am a tough child. It was not until later during my teenage years that I was diagnosed with the disorders that would completely shift my world. I spiralled down deeper into agony and self-destructive behaviours. My mental health consistently deteriorated, my disorders consuming every bit of me, and I felt insane.\r\n\r\nIn art, I found my escape. Through Edvard Munch, a mastermind who was able to decipher and express his troubles in art, I felt less alone. Unable to cope with my intense emotions, I have always been convinced that I am, in one way or another, insane.\r\n\r\nAnd for the first time, through art, I felt somewhat sane."
+    },
+    {
+        "id": 1902048,
+        "type": "exposition",
+        "title": "Territ\u00f3rios Expansivos / Expansive Territories",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/7e/c6/26/dc/7ec626dcb888525e68e3a4bdbbe9dfeb.gif?t=23b64b09ef0f83c185ac5e4a2ee78780&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/1902048/1902049/6752/2719",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1902048",
+        "keywords": [],
+        "created": "12/01/2023",
+        "last-modified": "12/01/2023",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/rc.1902048",
+            "url": "https://doi.org/10.22501/rc.1902048"
+        },
+        "published": "04/07/2023",
+        "published_in": [
+            {
+                "id": 1,
+                "name": "Research Catalogue",
+                "name_short": "RC"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": null,
+        "author": {
+            "id": 309037,
+            "name": "Diogo Alvim"
+        },
+        "coauthors": [
+            {
+                "id": 309054,
+                "name": "Matilde Meireles"
+            },
+            {
+                "id": 1173885,
+                "name": "teresa luzio"
+            },
+            {
+                "id": 10953,
+                "name": "Michael Schwab"
+            },
+            {
+                "id": 1282273,
+                "name": "Sara Morais"
+            },
+            {
+                "id": 1282267,
+                "name": "Joana Braga"
+            }
+        ],
+        "abstract": "Territ\u00f3rios Expansivos \u00e9 o tema subjacente a um programa de atividades de investiga\u00e7\u00e3o art\u00edstica desenvolvido pela OSSO \u2013 Associa\u00e7\u00e3o Cultural, e coordenado por Diogo Alvim e Matilde Meireles desde janeiro de 2020. O programa culmina nesta publica\u00e7\u00e3o, um pequeno projecto editorial que procura estabelecer rela\u00e7\u00f5es entre diferentes perspectivas e modos de opera\u00e7\u00e3o em investiga\u00e7\u00e3o art\u00edstica, bem como entre diferentes institui\u00e7\u00f5es. Nela participam quatro artistas que foram convidados para desenvolver ensaios \u00e0 volta deste tema. A publica\u00e7\u00e3o foi acolhida em parceria editorial pela C\u00e1tedra UNESCO em Gest\u00e3o das Artes e da Cultura, Cidades e Criatividade do Instituto Polit\u00e9cnico de Leiria.\r\n\r\nExpansive Territories is the theme underlying  a program of artistic research activities developed by OSSO \u2013 Associa\u00e7\u00e3o Cultural, and coordinated by Diogo Alvim and Matilde Meireles since January 2020. The program culminates in this publication, a small editorial project that seeks to establish relationships between different perspectives and modes of operation in artistic research, as well as between different institutions. Four artists were invited to develop essays around this theme. The publication was hosted as an editorial partnership by the UNESCO Chair in Arts and Culture Management, Cities and Creativity, Polytechnic Institute of Leiria."
+    },
+    {
+        "id": 779596,
+        "type": "exposition",
+        "title": "Waldorf music education meets Kod\u00e1ly methodology.",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/71/f9/31/cf/71f931cf01407854986af73e9b6aa71e.png?t=4ff16bedcd1a6e4279d561847d0c1d99&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/779596/1903271",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=779596",
+        "keywords": [
+            "musicology",
+            "Kod\u00e1ly-method",
+            "Waldorf music education"
+        ],
+        "created": "19/01/2020",
+        "last-modified": "19/01/2020",
+        "status": "published",
+        "doi": {
+            "id": null,
+            "url": null
+        },
+        "published": "04/07/2023",
+        "published_in": [
+            {
+                "id": 6,
+                "name": "KC Research Portal",
+                "name_short": "KC Research Portal"
+            }
+        ],
+        "license": "all-rights-reserved",
+        "issue": {
+            "id": 479587,
+            "number": "1",
+            "title": "Master Research Projects"
+        },
+        "author": {
+            "id": 708527,
+            "name": "Raoul Boesten"
+        },
+        "coauthors": [],
+        "abstract": "How can Kod\u00e1ly music methodology contribute to the already existing Waldorf music education in giving the children ownership in music."
+    },
+    {
+        "id": 1098889,
+        "type": "exposition",
+        "title": "DRAWING WITH THE ARCHITECTUAL BODY",
+        "thumb": null,
+        "default-page": "https://www.researchcatalogue.net/view/1098889/1124204",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1098889",
+        "keywords": [],
+        "created": "26/12/2020",
+        "last-modified": "26/12/2020",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/rc.1098889",
+            "url": "https://doi.org/10.22501/rc.1098889"
+        },
+        "published": "02/07/2023",
+        "published_in": [
+            {
+                "id": 1,
+                "name": "Research Catalogue",
+                "name_short": "RC"
+            }
+        ],
+        "license": "all-rights-reserved",
+        "issue": null,
+        "author": {
+            "id": 797461,
+            "name": "Renee Charron"
+        },
+        "coauthors": [],
+        "abstract": "Presentation of work to date"
+    },
+    {
+        "id": 2214781,
+        "type": "exposition",
+        "title": "Exploring the Gap in Research",
+        "thumb": null,
+        "default-page": "https://www.researchcatalogue.net/view/2214781/2214782",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=2214781",
+        "keywords": [],
+        "created": "22/06/2023",
+        "last-modified": "22/06/2023",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/rc.2214781",
+            "url": "https://doi.org/10.22501/rc.2214781"
+        },
+        "published": "01/07/2023",
+        "published_in": [
+            {
+                "id": 1,
+                "name": "Research Catalogue",
+                "name_short": "RC"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": null,
+        "author": {
+            "id": 2212311,
+            "name": "Jennifer Harman"
+        },
+        "coauthors": [],
+        "abstract": "Practice as/is Research project"
+    },
+    {
+        "id": 1935282,
+        "type": "exposition",
+        "title": "Singing and Playing - A Kod\u00e1ly Approach to Cello Playing",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/d5/5c/31/d6/d55c31d6cf7eefcbb037b9c43b49694f.png?t=4aad709b654cebbc2cd1f067d0bba530&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/1935282/1935283",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1935282",
+        "keywords": [
+            "singing and playing",
+            "Kod\u00e1ly",
+            "coordination",
+            "inner hearing",
+            "musicianship skills",
+            "Cello method"
+        ],
+        "created": "05/02/2023",
+        "last-modified": "05/02/2023",
+        "status": "published",
+        "doi": {
+            "id": null,
+            "url": null
+        },
+        "published": "30/06/2023",
+        "published_in": [
+            {
+                "id": 6,
+                "name": "KC Research Portal",
+                "name_short": "KC Research Portal"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": {
+            "id": 479587,
+            "number": "1",
+            "title": "Master Research Projects"
+        },
+        "author": {
+            "id": 1380410,
+            "name": "Alice Andreani"
+        },
+        "coauthors": [],
+        "abstract": "Alice Andreani - Classical Cello\r\n\r\nResearch Supervisor: Daniel Salbert\r\n\r\nResearch Title: \"Singing and Playing - A Kod\u00e1ly Approach to Cello Playing\". \r\n\r\nResearch Question: \u201cWhat are the effects that the practicing of exercises involving singing and playing has on cello playing?\r\n\r\nThe objective of my research is to draw attention to the importance of developing and training musicianship skills; in this paper I will argue on why musicianship training should receive as much importance as studying the technique of an instrument. \r\nI will specifically focus on the effects that practicing exercises involving singing and playing on the cello, has on the development of a good inner hearing and musicianship skills over time, as well as how singing is proven to be an helpful tool in combination with playing, when approaching a piece from the cello chamber or orchestral repertoire. \r\nThis research is based on literature research and practice based research. It includes a series of 40 exercises for cello and voice written by me as well as guidelines on how to practice singing and playing.\r\n\r\nBiography:\r\nAlice Andreani is a cellist, now pursuing her master degree at the Royal Conservatory of The Hague, in the class of Michel Strauss and Jan-Ype Nota. \u2028In 2021 she was awarded the Andrea Elkenbracht prize. In the season 2021/2022 she was an intern in the Noord Nederlands Orkest. Alice has been playing with the Kamerorkest van het Noorden and has taken part in different chamber music festivals. Her interest for music goes beyond playing as she is very passionate about teaching; she is enrolled in the year 2022-2023 in the teaching training course Muziek als Vak."
+    },
+    {
+        "id": 2206406,
+        "type": "exposition",
+        "title": "Jazz Bass development",
+        "thumb": null,
+        "default-page": "https://www.researchcatalogue.net/view/2206406/2206407",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=2206406",
+        "keywords": [],
+        "created": "15/06/2023",
+        "last-modified": "15/06/2023",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/rc.2206406",
+            "url": "https://doi.org/10.22501/rc.2206406"
+        },
+        "published": "28/06/2023",
+        "published_in": [
+            {
+                "id": 1,
+                "name": "Research Catalogue",
+                "name_short": "RC"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": null,
+        "author": {
+            "id": 1767110,
+            "name": "Basso Chan"
+        },
+        "coauthors": [],
+        "abstract": "This overview traces the evolution of the bass in jazz music, highlighting its changing role from early jazz to modern jazz. It explores the importance of the bass in different setting, the virtuosic and improvisational style of bebop bassists, the atmospheric qualities of bass in modal jazz, the melodic contributions in cool jazz, and the exploration of abstract and groove-based music in modern jazz. By examining key figures and musical periods, we gain insights into the diverse and influential role of the bass in shaping jazz music."
+    },
+    {
+        "id": 2217962,
+        "type": "exposition",
+        "title": "Editorial ART RESEARCH ENVELOPE #5",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/44/49/70/83/4449708346e2b15b2b817bef8de58386.png?t=fdcaa4442e9ee40a0a178365c4825fc0&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/2217962/2217963",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=2217962",
+        "keywords": [
+            "University of Applied Arts Vienna",
+            "PhD Artistic Research",
+            "artistic research"
+        ],
+        "created": "26/06/2023",
+        "last-modified": "26/06/2023",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/envelo.2217962",
+            "url": "https://doi.org/10.22501/envelo.2217962"
+        },
+        "published": "27/06/2023",
+        "published_in": [
+            {
+                "id": 11,
+                "name": "University of Applied Arts Vienna",
+                "name_short": "University of Applied Arts Vienna"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": {
+            "id": 2189182,
+            "number": "5",
+            "title": "Art Research Envelope"
+        },
+        "author": {
+            "id": 47396,
+            "name": "Alexander Damianisch"
+        },
+        "coauthors": [
+            {
+                "id": 730492,
+                "name": "Ruth Anderwald"
+            },
+            {
+                "id": 730489,
+                "name": "Leonhard Grond"
+            }
+        ],
+        "abstract": "The publication Envelope offers insights into ongoing PhD projects by candidates in the PhD programme PhD in Art at the University of Applied Arts Vienna in an innovative format. The major thrust of \u201cEnvelope\u201d presents content supplied by doctoral researchers based on their individual artistic research and provides insights into ongoing work processes. These visual and textual traces reveal the state of the Art within its ongoing research processes. This open format seeks to reflect on experiences through exchange, as well as document relevant developments in the field of art and research.\r\n\r\nParticipating projects:\r\n\r\nMargit Busch: A garden for a fish (Supervisor: Virgil Widrich)\r\n\r\nAndrew Champlin: Technique Concerns: Ballet Practice Against the Western Archive (Supervisors: Ruth Anderwald + Leonhard Grond)\r\n\r\nGeorge Demir: Ancestral Junctures: on the expansion of ancestral mythologies (Supervisor: Hans Schabus)\r\n\r\nCristiana de Marchi: Casting a shadow. On disappearance, emptiness and the haunting power of absence (Supervisor: Judith Eisler)\r\n\r\nJo\u0161t Franko: The Migrating Image (Supervisor: Gerhild Steinbuch)\r\n\r\nBarbara Graf: Stitches and Sutures (Supervisor: Barbara Putz-Plecko)\r\n\r\nJoseph Leung: Post-digital Angst \u2013 An Arts-Based Research on the Manifestations of Angst in the Digital Milieu (Supervisor: Gabriele Rothemann)\r\n\r\nConny Zenk: RAD Performance \u2013 Driving Voices of Resistance (Supervisor: Ruth Schnell)\r\n\r\nFeel free to zoom in on each poster for ensured readability."
+    },
+    {
+        "id": 1785090,
+        "type": "exposition",
+        "title": "Hindemith\u2019s Musical Enigmas Through the Eyes of Bach",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/5c/dc/a9/b3/5cdca9b3ac6092a3604fd033bbc5e84c.png?t=476722cdc93011a1dee3209ff9106f4b&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/1785090/1785091",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1785090",
+        "keywords": [
+            "Art of Interpretation",
+            "audience",
+            "Bach"
+        ],
+        "created": "04/11/2022",
+        "last-modified": "04/11/2022",
+        "status": "published",
+        "doi": {
+            "id": null,
+            "url": null
+        },
+        "published": "26/06/2023",
+        "published_in": [
+            {
+                "id": 6,
+                "name": "KC Research Portal",
+                "name_short": "KC Research Portal"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": {
+            "id": 479587,
+            "number": "1",
+            "title": "Master Research Projects"
+        },
+        "author": {
+            "id": 1400600,
+            "name": "Kaat Schraepen"
+        },
+        "coauthors": [],
+        "abstract": "Taking the audience on a journey is always an important goal of mine while performing. My research was created not only to add to my knowledge but more importantly to my performance and my connection to the audience. Throughout my research I uncover the enigma of Bach as an inspiration for Hindemith. What connects these two composers living 200 years apart? How do we connect the \u2018new and modern\u2019 to the \u2018old and familiar\u2019? Is Hindemith in fact 'Bach with a modern twist'? By discovering the similarities and differences between Bach\u2019s 6th Cello Suite and Hindemith\u2019s Solo Sonata Op.25 No.1, through background research and putting their structure and harmony in relation to each other, a new world of interpreting both composers opened up to me. The research makes my performance more involved but also allows me to take the listener by the hand, guiding them through this more \u2018modern\u2019 music by Hindemith and his contemporaries such as Max Reger, by accompanying his music with Bach, and accompanying the music with short metaphorical stories highlighting the composers' similarities as well as different approaches. Engaging the audience, allowing them to open their ears and view the music in a new light."
+    },
+    {
+        "id": 2079976,
+        "type": "exposition",
+        "title": "Journal for Artistic Research: Urgencies",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/c1/f3/f7/43/c1f3f743a3f0db42474b986672d99c05.png?t=6b624d8b9b69ec93553c051a9b19d951&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/2079976/2079977",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=2079976",
+        "keywords": [
+            "artistic research",
+            "publishing",
+            "expositionality",
+            "urgency",
+            "peer-review",
+            "AI"
+        ],
+        "created": "14/04/2023",
+        "last-modified": "14/04/2023",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/rc.2079976",
+            "url": "https://doi.org/10.22501/rc.2079976"
+        },
+        "published": "26/06/2023",
+        "published_in": [
+            {
+                "id": 1,
+                "name": "Research Catalogue",
+                "name_short": "RC"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": null,
+        "author": {
+            "id": 131205,
+            "name": "Journal for Artistic Research"
+        },
+        "coauthors": [],
+        "abstract": "For the 14th SAR conference 2023 in Trondheim, a number of JAR editors prepared contributions and presentations discussing some of the current developments and urgencies that we have been facing. The contribution was live streamed. The following panel discussion can found at the end of the exposition."
+    },
+    {
+        "id": 1699516,
+        "type": "exposition",
+        "title": "Ten Years with the Journal for Artistic Research. Impact and Challenges",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/2f/ee/1b/7c/2fee1b7c0ea27e3692b82c76b739b7ae.png?t=9c579215d2a53e62b65ac7459257394f&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/1699516/1699517",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1699516",
+        "keywords": [
+            "artistic research",
+            "Journal for Artistic Research",
+            "publishing",
+            "expositionality",
+            "editing",
+            "languages"
+        ],
+        "created": "29/06/2022",
+        "last-modified": "29/06/2022",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/rc.1699516",
+            "url": "https://doi.org/10.22501/rc.1699516"
+        },
+        "published": "26/06/2023",
+        "published_in": [
+            {
+                "id": 1,
+                "name": "Research Catalogue",
+                "name_short": "RC"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": null,
+        "author": {
+            "id": 131205,
+            "name": "Journal for Artistic Research"
+        },
+        "coauthors": [
+            {
+                "id": 408377,
+                "name": "Mariela Yeregui"
+            }
+        ],
+        "abstract": "For a presentation during the 13th SAR conference 2022 in  Weimar various editors of JAR prepared statements and contributions to reflect on the first ten years of the journal and to introduce some of the current developments. The session was introduced by Henk Borgdorff. \r\n\r\nThis exposition was played during the presentation, which included live elements and discussions. Unfortunately, there is no recording of the session itself."
+    },
+    {
+        "id": 826938,
+        "type": "exposition",
+        "title": "Object theatre exercises unfolding human-object relations in participatory design processes",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/d1/9c/d6/c5/d19cd6c5df886e1e4f18cc01656bce1c.png?t=351f9512db821d58079be74b88cdb028&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/826938/954477",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=826938",
+        "keywords": [
+            "Object theatre",
+            "participatory design",
+            "practice-based research",
+            "human-object",
+            "sensitising",
+            "object-body relationship",
+            "Readymade objects"
+        ],
+        "created": "24/03/2020",
+        "last-modified": "24/03/2020",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/jar.826938",
+            "url": "https://doi.org/10.22501/jar.826938"
+        },
+        "published": "26/06/2023",
+        "published_in": [
+            {
+                "id": 2,
+                "name": "Journal for Artistic Research",
+                "name_short": "JAR"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": {
+            "id": 2217683,
+            "number": "29",
+            "title": null
+        },
+        "author": {
+            "id": 525293,
+            "name": "Merja Ry\u00f6ppy"
+        },
+        "coauthors": [],
+        "abstract": "This research exposition presents practical object theatre exercises and investigates how these exercises may enhance the designer\u2019s practice to work with objects in participatory design projects. The study was set up in a theatre-design laboratory in collaboration with researcher and lecturer Sean Myatt from Nottingham Trent University and an international cohort of three design graduates with multidisciplinary backgrounds in design, communication, and social work. The exposition showcases three object theatre exercises \u2013 The Object Family Tree, Satelliting Objects, and Dance the Object \u2013 which were originally developed for exploring the performativity of readymade objects in theatre workshops. I demonstrate and discuss how these exercises can help designers within participatory design to engage with readymade objects and develop their practice further. I suggest that object theatre research methodology can contribute to participatory design processes by opening new potentials of physical object interaction, inviting unexpected perspectives on human-object relations, and exposing experienced object qualities. The designers in the study were able to consider object materiality, human-object relations, and reflective experiences with objects when designing interactions with non-designer participants in early phases of their participatory design research projects."
+    },
+    {
+        "id": 1712696,
+        "type": "exposition",
+        "title": "Documenting Sounds in Urban Places: Belfast During Covid-19 Lockdowns 1 and 2",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/47/5f/9d/60/475f9d60955494828301b4c2ecf2cdf8.png?t=035ae3b953073f10a8597fa276040361&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/1712696/1712697",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1712696",
+        "keywords": [
+            "Soundwalking",
+            "Soundscapes",
+            "Urban Space",
+            "Covid-19",
+            "Auto-Methodologies",
+            "Soundmaps"
+        ],
+        "created": "31/07/2022",
+        "last-modified": "31/07/2022",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/jar.1712696",
+            "url": "https://doi.org/10.22501/jar.1712696"
+        },
+        "published": "26/06/2023",
+        "published_in": [
+            {
+                "id": 2,
+                "name": "Journal for Artistic Research",
+                "name_short": "JAR"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": {
+            "id": 2217683,
+            "number": "29",
+            "title": null
+        },
+        "author": {
+            "id": 735537,
+            "name": "Georgios Varoutsos"
+        },
+        "coauthors": [],
+        "abstract": "Government-regulated business closures, social distancing from people, and stay-at-home orders emptied the urban environment of the presence of people. This effectively created new sonic relationships between natural and urbanised sounds within our built society. As Covid-19 instilled a state of abandonment from our urban spaces with each variation of lockdowns, there was an opportunity to document these changes through a sonic-journalistic approach. The research is developed through artistic practice-based creative projects that capture the transitional events of Lockdown 1 and Lockdown 2 between March and October 2020 in Belfast, Northern Ireland. Fifteen locations and forty-one audio-photographic files were captured during this period, focusing on perceptions and observations of Covid-19 and the sonic effect on urban spaces. This collection of material acts as a documentation of place through sensory information and has been distributed onto online platforms such as soundmaps (soundwalk apps or browser maps), which allow for revising our understanding and reflecting on changes instilled by the pandemic. The creative projects provide a timeframe of how each lockdown changed our relationship with urban spaces during a global pandemic due to the regulations and distancing from others to combat the virus. This exposition discusses the immediate planning and procedures for capturing material during the events of Covid-19, with a review of certain soundscape compositions based on the sonic relationships of urban spaces."
+    },
+    {
+        "id": 1154089,
+        "type": "exposition",
+        "title": "Building upon Ruins \u2013 Interweaving Metaphors",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/e0/54/f0/77/e054f077e56cd949d9898b93953c9e01.png?t=4bbacec1305ae0e4b20c06056ec903aa&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/1154089/2148164",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1154089",
+        "keywords": [
+            "dramaturgy",
+            "installations",
+            "interweaving",
+            "participatory strategies",
+            "Contemporary art",
+            "Performance art",
+            "metaphor of ruins",
+            "collective story"
+        ],
+        "created": "09/02/2021",
+        "last-modified": "09/02/2021",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/jar.1154089",
+            "url": "https://doi.org/10.22501/jar.1154089"
+        },
+        "published": "26/06/2023",
+        "published_in": [
+            {
+                "id": 2,
+                "name": "Journal for Artistic Research",
+                "name_short": "JAR"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": {
+            "id": 2217683,
+            "number": "29",
+            "title": null
+        },
+        "author": {
+            "id": 728018,
+            "name": "Joanna Magierecka"
+        },
+        "coauthors": [],
+        "abstract": "Does the complexity of a work of art, composed of diverging narratives, present a possibility to connect to what we do not grasp? In this exposition I present interweaving as a compositional technique and dramaturgical strategy, through aspects of the creative process connected to and elements of three installations \u2013 part of a series called Ruins. The installations combine different aspects of storytelling, participatory strategies, media, and forms of expression. I believe that interweaving different and diverging fragments, allowing audience members to create their own performance dramaturgy and experience, can create an understanding of others and their experience. In that lies the possibility for a shared story \u2013 a collective story. Interweaving as a method is also present in the dramaturgy of the text itself \u2013 building up to an audio-visual representation of those elements and the written text. In this way, I hope the exposition lets the reader and me both investigate interweaving as a technique and experience it."
+    },
+    {
+        "id": 1816714,
+        "type": "exposition",
+        "title": "Fractured Photography",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/ef/3c/2c/9a/ef3c2c9a33dc48d21912a026fbdfd2c4.png?t=4d6aa1fe29cfa329ba7991e4fb85d4f9&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/1816714/1816715",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1816714",
+        "keywords": [
+            "Photography",
+            "Distress",
+            "Representation",
+            "Sociology",
+            "Manipulation",
+            "refugee",
+            "sports"
+        ],
+        "created": "17/11/2022",
+        "last-modified": "17/11/2022",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/jar.1816714",
+            "url": "https://doi.org/10.22501/jar.1816714"
+        },
+        "published": "26/06/2023",
+        "published_in": [
+            {
+                "id": 2,
+                "name": "Journal for Artistic Research",
+                "name_short": "JAR"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": {
+            "id": 2217683,
+            "number": "29",
+            "title": null
+        },
+        "author": {
+            "id": 1267043,
+            "name": "Jon Hovland Honerud"
+        },
+        "coauthors": [
+            {
+                "id": 1293204,
+                "name": "Hilde Hovland Honerud"
+            }
+        ],
+        "abstract": "Is it possible to communicate through photography about people in distress? Through this exposition we approach such issues as media imagery and image fatigue, photography of \u2018the other\u2019, the privileged position, significant encounters, and reciprocity. We also show how commitment to social issues may relate to such an artistic process as both starting point and outcome. Finally, as this process was a collaboration between art and social science, we explore the roles and processes of such a collaboration, and exhibit the outcomes of the artistic process both as art and as a form of data for academic inquiry."
+    },
+    {
+        "id": 1159573,
+        "type": "exposition",
+        "title": "On the Indeterminate Training Technologies of a Reconstructed Bauhaus Choreographer. A Research Practice Between Speculative Historiography, Architectural Invention, and Performative Co-enactment",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/c0/33/36/7d/c033367d33809901e08fcd7d940e324e.png?t=e1c92fe4f3e6bb2b134b13525f54e714&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/1159573/1267051",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1159573",
+        "keywords": [
+            "Reconstruction",
+            "Speculation",
+            "Performance",
+            "Architecture",
+            "Choreography",
+            "Dance",
+            "Technology",
+            "Bauhaus",
+            "Indeterminacy",
+            "Body Politics",
+            "Fiction",
+            "Historiography",
+            "Re-enactment",
+            "Video projection",
+            "Animation",
+            "Digital fabrication",
+            "3D scanning"
+        ],
+        "created": "15/02/2021",
+        "last-modified": "15/02/2021",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/jar.1159573",
+            "url": "https://doi.org/10.22501/jar.1159573"
+        },
+        "published": "26/06/2023",
+        "published_in": [
+            {
+                "id": 2,
+                "name": "Journal for Artistic Research",
+                "name_short": "JAR"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": {
+            "id": 2217683,
+            "number": "29",
+            "title": null
+        },
+        "author": {
+            "id": 839350,
+            "name": "Thomas Pearce"
+        },
+        "coauthors": [],
+        "abstract": "This exposition proposes a method of artistic research that uses (and disobediently misuses) techniques of reconstruction as a mode of performative, artistic, and architectural invention. Our speculative notion of reconstruction challenges inherited disciplinary notions of historiography and simultaneously functions as a propositional and generative tool. The exposition revolves around the discussion of a research and performance project entitled Jakob K., which reconstructs the works of fictional Bauhaus choreographer and gymnastics teacher Jakob Klenke (1874\u20131941). This reconstruction was the product of a collaboration between performance artists and architectural researchers, involving field work, site-specific re-enactment, 3D scanning, animation, and digital fabrication, and culminated in a series of live performances at Kampnagel (Hamburg) and during the 2019 Bauhaus 100 centennial. \r\nThe exposition is structured around a series of multimedia sections, each of which departs from an element of the performance\u2019s architectural and medial framing, describes aspects of the artistic research process, and uses these as a lens for theoretical reflection. In analogy to our working method, which created the project as an ongoing layering of spatial and choreographical \u2018evidence\u2019, this method of discussing the project consecutively adds layers and connections to the project-assemblage that is Jakob K. Throughout the exposition, a practice emerges that challenges notions of solely human-authored and human-centred design and performance; proposes a set of techno-speculative training practices while challenging historical discourses on body optimisation; and subverts disciplinary uses of technology, prescriptive logics of representation, and techniques of reconstruction, misusing them instead in disobedient ways and reinventing them as creative affordances that can challenge dominant techniques of power."
+    },
+    {
+        "id": 1311963,
+        "type": "exposition",
+        "title": "Story in motion: creative collaborations on T\u0142\u0131\u0328ch\u01eb lands",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/bd/a2/89/f8/bda289f820e9f97abe4caf1a2e9ca2df.png?t=67a73e46fc08ca66a3f59b18aa19860b&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/1311963/1311976",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=1311963",
+        "keywords": [
+            "Animation",
+            "oral history",
+            "Indigenous",
+            "participatory design",
+            "collaboration",
+            "animation"
+        ],
+        "created": "20/07/2021",
+        "last-modified": "20/07/2021",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/jar.1311963",
+            "url": "https://doi.org/10.22501/jar.1311963"
+        },
+        "published": "26/06/2023",
+        "published_in": [
+            {
+                "id": 2,
+                "name": "Journal for Artistic Research",
+                "name_short": "JAR"
+            }
+        ],
+        "license": "cc-by-nc-nd",
+        "issue": {
+            "id": 2217683,
+            "number": "29",
+            "title": null
+        },
+        "author": {
+            "id": 1311574,
+            "name": "Adolfo Ruiz"
+        },
+        "coauthors": [
+            {
+                "id": 1848669,
+                "name": "Tony Rabesca"
+            }
+        ],
+        "abstract": "This exposition describes a creative collaboration in the self-governed T\u0142\u0131\u0328ch\u01eb region of Canada\u2019s Northwest Territories. As part of this collaboration, Indigenous research methods and participatory experiences facilitated a process by which regional oral history was visualised and translated into animation. As a long-term project, this research was based on relationships through which a non-Indigenous researcher was able to learn and exchange knowledge with elders and youth from the region. Community workshops facilitated image-making, storytelling sessions, and interaction between generations. The animated film that emerged through this research is an embodiment of cultural knowledge and cultural continuity."
+    },
+    {
+        "id": 2105216,
+        "type": "exposition",
+        "title": "The Migrating Image",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/5b/12/09/ab/5b1209ab964f2cea5e236cc5b263a875.png?t=e4fbc573d7334b42f4c6d57eb24be0c0&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/2105216/2105211",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=2105216",
+        "keywords": [],
+        "created": "27/04/2023",
+        "last-modified": "27/04/2023",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/envelo.2105216",
+            "url": "https://doi.org/10.22501/envelo.2105216"
+        },
+        "published": "26/06/2023",
+        "published_in": [
+            {
+                "id": 11,
+                "name": "University of Applied Arts Vienna",
+                "name_short": "University of Applied Arts Vienna"
+            }
+        ],
+        "license": "all-rights-reserved",
+        "issue": {
+            "id": 2189182,
+            "number": "5",
+            "title": "Art Research Envelope"
+        },
+        "author": {
+            "id": 2118306,
+            "name": "Jo\u0161t Franko"
+        },
+        "coauthors": [],
+        "abstract": "PhD project: The Migrating Image, Supervisor: Gerhild Steinbuch\r\n\r\nEnvelope is a publication of the PhD in Art programme at the University of Applied Arts Vienna"
+    },
+    {
+        "id": 2105091,
+        "type": "exposition",
+        "title": "Absence is a Space of Confinement",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/1f/91/86/cb/1f9186cb998b3e0e528be69e05ab7cf9.png?t=70c65a85f2ceddc0d2865abf87521862&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/2105091/2105075",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=2105091",
+        "keywords": [],
+        "created": "27/04/2023",
+        "last-modified": "27/04/2023",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/envelo.2105091",
+            "url": "https://doi.org/10.22501/envelo.2105091"
+        },
+        "published": "26/06/2023",
+        "published_in": [
+            {
+                "id": 11,
+                "name": "University of Applied Arts Vienna",
+                "name_short": "University of Applied Arts Vienna"
+            }
+        ],
+        "license": "all-rights-reserved",
+        "issue": {
+            "id": 2189182,
+            "number": "5",
+            "title": "Art Research Envelope"
+        },
+        "author": {
+            "id": 1380781,
+            "name": "Cristiana de Marchi"
+        },
+        "coauthors": [],
+        "abstract": "PhD project: Casting a shadow. On disappearance, emptiness and the haunting power of absence, Supervisor: Judith Eisler\r\n\r\nEnvelope is a publication of the PhD in Art programme at the University of Applied Arts Vienna"
+    },
+    {
+        "id": 2105152,
+        "type": "exposition",
+        "title": "Queer Ancestral Mythologies",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/21/a9/cc/3e/21a9cc3eab389a73f1a60c39b119f1db.png?t=39f55669290d3d6bce0f1ddc369b6b27&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/2105152/2105142",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=2105152",
+        "keywords": [],
+        "created": "27/04/2023",
+        "last-modified": "27/04/2023",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/envelo.2105152",
+            "url": "https://doi.org/10.22501/envelo.2105152"
+        },
+        "published": "26/06/2023",
+        "published_in": [
+            {
+                "id": 11,
+                "name": "University of Applied Arts Vienna",
+                "name_short": "University of Applied Arts Vienna"
+            }
+        ],
+        "license": "all-rights-reserved",
+        "issue": {
+            "id": 2189182,
+            "number": "5",
+            "title": "Art Research Envelope"
+        },
+        "author": {
+            "id": 2106422,
+            "name": "Cor\u00e7 George Demir"
+        },
+        "coauthors": [],
+        "abstract": "PhD project: Ancestral Junctures: on the expansion of ancestral mythologies, Supervisor: Hans  Schabus\r\n\r\nEnvelope is a publication of the PhD in Art programme at the University of Applied Arts Vienna"
+    },
+    {
+        "id": 2105246,
+        "type": "exposition",
+        "title": "about fish, gardens, gardening and a gardener",
+        "thumb": "https://media.researchcatalogue.net/rc/cache/4e/5a/86/12/4e5a86126afc8c7cb0fe2db2813117c2.png?t=930cd8884f66ef551d08ac5c4ada7b3b&e=1694789700",
+        "default-page": "https://www.researchcatalogue.net/view/2105246/2105244",
+        "meta-data-page": "https://www.researchcatalogue.net/profile/show-exposition?exposition=2105246",
+        "keywords": [],
+        "created": "27/04/2023",
+        "last-modified": "27/04/2023",
+        "status": "published",
+        "doi": {
+            "id": "10.22501/envelo.2105246",
+            "url": "https://doi.org/10.22501/envelo.2105246"
+        },
+        "published": "26/06/2023",
+        "published_in": [
+            {
+                "id": 11,
+                "name": "University of Applied Arts Vienna",
+                "name_short": "University of Applied Arts Vienna"
+            }
+        ],
+        "license": "all-rights-reserved",
+        "issue": {
+            "id": 2189182,
+            "number": "5",
+            "title": "Art Research Envelope"
+        },
+        "author": {
+            "id": 1408731,
+            "name": "Margit Busch"
+        },
+        "coauthors": [],
+        "abstract": "PhD project: A garden for a fish, Supervisor: Virgil Widrich\r\n\r\nEnvelope is a publication of the PhD in Art programme at the University of Applied Arts Vienna"
+    }
+]
