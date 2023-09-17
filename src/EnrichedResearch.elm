@@ -8,7 +8,8 @@ import Json.Decode
 import Json.Encode
 import KeywordString exposing (KeywordString)
 import Regex
-import Research exposing (Author, ExpositionID, Portal, PublicationStatus, Research)
+import Research exposing (Author, ExpositionID, Portal, PublicationStatus, Research, publicationstatus)
+import WorkerTypes
 
 
 type alias ResearchWithKeywords =
@@ -24,17 +25,121 @@ type alias ResearchWithKeywords =
     , abstract : Maybe String
     , defaultPage : String
     , portals : List Portal
-    , rich_abstract : String
+    , abstractWithKeywords : AbstractWithKeywords
     }
 
 
-type alias Abstract =
+researchWithKeywords : Research -> AbstractWithKeywords -> ResearchWithKeywords
+researchWithKeywords expo kwAbstract =
+    { id = expo.id
+    , title = expo.title
+    , keywords = expo.keywords
+    , created = expo.created
+    , author = expo.author
+    , issueId = expo.issueId
+    , publicationStatus = expo.publicationStatus
+    , publication = expo.publication
+    , thumbnail = expo.thumbnail
+    , abstract = expo.abstract
+    , defaultPage = expo.defaultPage
+    , portals = expo.portals
+    , abstractWithKeywords = kwAbstract
+    }
+
+
+enrich : List Research -> List ResearchWithKeywords
+enrich lst =
+    let
+        kwSet =
+            Research.keywordSet lst
+
+        kwList =
+            kwSet |> Research.toList |> List.map (Research.kwName >> KeywordString.fromString)
+
+        toResearchWithKw exp =
+            fancyAbstract kwList exp |> researchWithKeywords exp
+    in
+    lst |> List.map toResearchWithKw
+
+
+encodeResearchWithKeywords : ResearchWithKeywords -> Json.Encode.Value
+encodeResearchWithKeywords exp =
+    let
+        int =
+            Json.Encode.int
+
+        string =
+            Json.Encode.string
+
+        list =
+            Json.Encode.list
+
+        maybeAppend x xs =
+            case x of
+                Just v ->
+                    v :: xs
+
+                Nothing ->
+                    xs
+
+        issueId =
+            exp.issueId
+                |> Maybe.map
+                    (\id ->
+                        ( "id", int id )
+                    )
+
+        publication =
+            exp.publication
+                |> Maybe.map
+                    (\p ->
+                        ( "publication", int (Date.toRataDie p) )
+                    )
+
+        thumbnail =
+            exp.thumbnail
+                |> Maybe.map
+                    (\t ->
+                        ( "thumbnail", string t )
+                    )
+
+        abstract =
+            exp.abstract
+                |> Maybe.map
+                    (\a ->
+                        ( "abstract", string a )
+                    )
+    in
+    Json.Encode.object
+        ([ ( "type", string "exposition" )
+         , ( "id", int exp.id )
+         , ( "created", string exp.created )
+         , ( "title", string exp.title )
+         , ( "keywords", list string (List.map KeywordString.toString exp.keywords) )
+         , ( "author", Research.encodeAuthor exp.author )
+         , ( "publicationStatus", Research.publicationstatus exp.publicationStatus )
+         , ( "defaultPage", string exp.defaultPage )
+         , ( "portals", list WorkerTypes.encodePortal exp.portals )
+         , ( "abstractWithKeywords", encodeAbstract exp.abstractWithKeywords )
+         ]
+            |> maybeAppend issueId
+            |> maybeAppend publication
+            |> maybeAppend thumbnail
+            |> maybeAppend abstract
+        )
+
+
+
+-- Abstract with parsed keywords
+
+
+type alias AbstractWithKeywords =
     List AbstractSpan
 
 
 type AbstractSpan
-    = AbsKw String
-    | AbsText String
+    = AbsKw String -- A keyword
+    | AbsText String -- Normal text
 
 
 encodeAbstractSpan : AbstractSpan -> Json.Encode.Value
@@ -68,13 +173,13 @@ decodeAbstractSpan =
                             (Json.Decode.field "string" Json.Decode.string)
 
                     _ ->
-                        Json.Decode.fail "expected a AbsKw or AbsText"
+                        Json.Decode.fail "abstract decoder expected a AbsKw or AbsText"
             )
 
 
-encodeAbstract : Abstract -> Json.Encode.Value
+encodeAbstract : AbstractWithKeywords -> Json.Encode.Value
 encodeAbstract abstract =
-    Json.Encode.list encodeAbstractSpan abstract    
+    Json.Encode.list encodeAbstractSpan abstract
 
 
 isKwInAbstract : String -> KeywordString -> Bool
@@ -189,7 +294,7 @@ isSubkeyword keywords index =
     List.member True list
 
 
-fancyAbstract : List KeywordString -> Research -> Abstract
+fancyAbstract : List KeywordString -> Research -> AbstractWithKeywords
 fancyAbstract allKeywords research =
     let
         abstractMax =
@@ -225,7 +330,7 @@ fancyAbstract allKeywords research =
     abstract
 
 
-parsedAbstract : List Int -> List Bool -> List String -> String -> Int -> Abstract
+parsedAbstract : List Int -> List Bool -> List String -> String -> Int -> AbstractWithKeywords
 parsedAbstract indexes subkeywords keywords abstract which =
     let
         kwsLength =
@@ -342,108 +447,83 @@ stringToKeyword str =
         }
 
 
-makeSnippet : List Int -> List Bool -> List String -> String -> Int -> List (Element msg)
-makeSnippet indexes subkeywords keywords abstract which =
-    let
-        kwsLength =
-            List.length keywords
 
-        idx =
-            Array.fromList indexes
-
-        kws =
-            Array.fromList keywords
-
-        subs =
-            Array.fromList subkeywords
-
-        isSub =
-            Maybe.withDefault False (Array.get which subs)
-
-        firstk =
-            Maybe.withDefault "-1" (Array.get 0 kws)
-    in
-    if which == 0 then
-        -- first kw
-        let
-            k =
-                Maybe.withDefault -1 (Array.get which idx)
-
-            -- I think this happens when the abstact is a white space
-            -- this matches somehow the "?" keyword, which is then dropped creating an empty list
-            keyw =
-                Maybe.withDefault "!!! This is an empty list !!!" (Array.get which kws)
-
-            kwlength =
-                String.length keyw
-
-            prevk =
-                Maybe.withDefault 0 (Array.get (which - 1) idx)
-
-            prevkeyw =
-                Maybe.withDefault "" (Array.get (which - 1) kws)
-
-            prevkwlength =
-                String.length prevkeyw
-
-            sliceLeft =
-                String.slice (prevk + prevkwlength) (k + 1) abstract
-
-            strToKw =
-                stringToKeyword keyw
-        in
-        if isSub == True then
-            [ text sliceLeft ]
-
-        else
-            [ text sliceLeft, strToKw ]
-
-    else if which == kwsLength then
-        -- append abstract end
-        let
-            k =
-                Maybe.withDefault -1 (Array.get (which - 1) idx)
-
-            keyw =
-                Maybe.withDefault "-1" (Array.get (which - 1) kws)
-
-            kwlength =
-                String.length keyw
-
-            sliceRight =
-                String.dropLeft (k + kwlength + 1) abstract
-        in
-        [ text sliceRight ]
-
-    else
-        -- slice abstract snippet + insert kw link
-        let
-            k =
-                Maybe.withDefault -1 (Array.get which idx)
-
-            keyw =
-                Maybe.withDefault ">>>>>>>>" (Array.get which kws)
-
-            kwlength =
-                String.length keyw
-
-            prevk =
-                Maybe.withDefault 0 (Array.get (which - 1) idx)
-
-            prevkeyw =
-                Maybe.withDefault "" (Array.get (which - 1) kws)
-
-            prevkwlength =
-                String.length prevkeyw
-
-            sliceLeft =
-                String.slice (prevk + prevkwlength + 1) (k + 1) abstract
-
-            strToKw =
-                stringToKeyword keyw
-        in
-        if isSub == True then
-            [ text sliceLeft ]
-
-        else
-            [ text sliceLeft, strToKw ]
+-- makeSnippet : List Int -> List Bool -> List String -> String -> Int -> List (Element msg)
+-- makeSnippet indexes subkeywords keywords abstract which =
+--     let
+--         kwsLength =
+--             List.length keywords
+--         idx =
+--             Array.fromList indexes
+--         kws =
+--             Array.fromList keywords
+--         subs =
+--             Array.fromList subkeywords
+--         isSub =
+--             Maybe.withDefault False (Array.get which subs)
+--         firstk =
+--             Maybe.withDefault "-1" (Array.get 0 kws)
+--     in
+--     if which == 0 then
+--         -- first kw
+--         let
+--             k =
+--                 Maybe.withDefault -1 (Array.get which idx)
+--             -- I think this happens when the abstact is a white space
+--             -- this matches somehow the "?" keyword, which is then dropped creating an empty list
+--             keyw =
+--                 Maybe.withDefault "!!! This is an empty list !!!" (Array.get which kws)
+--             kwlength =
+--                 String.length keyw
+--             prevk =
+--                 Maybe.withDefault 0 (Array.get (which - 1) idx)
+--             prevkeyw =
+--                 Maybe.withDefault "" (Array.get (which - 1) kws)
+--             prevkwlength =
+--                 String.length prevkeyw
+--             sliceLeft =
+--                 String.slice (prevk + prevkwlength) (k + 1) abstract
+--             strToKw =
+--                 stringToKeyword keyw
+--         in
+--         if isSub == True then
+--             [ text sliceLeft ]
+--         else
+--             [ text sliceLeft, strToKw ]
+--     else if which == kwsLength then
+--         -- append abstract end
+--         let
+--             k =
+--                 Maybe.withDefault -1 (Array.get (which - 1) idx)
+--             keyw =
+--                 Maybe.withDefault "-1" (Array.get (which - 1) kws)
+--             kwlength =
+--                 String.length keyw
+--             sliceRight =
+--                 String.dropLeft (k + kwlength + 1) abstract
+--         in
+--         [ text sliceRight ]
+--     else
+--         -- slice abstract snippet + insert kw link
+--         let
+--             k =
+--                 Maybe.withDefault -1 (Array.get which idx)
+--             keyw =
+--                 Maybe.withDefault ">>>>>>>>" (Array.get which kws)
+--             kwlength =
+--                 String.length keyw
+--             prevk =
+--                 Maybe.withDefault 0 (Array.get (which - 1) idx)
+--             prevkeyw =
+--                 Maybe.withDefault "" (Array.get (which - 1) kws)
+--             prevkwlength =
+--                 String.length prevkeyw
+--             sliceLeft =
+--                 String.slice (prevk + prevkwlength + 1) (k + 1) abstract
+--             strToKw =
+--                 stringToKeyword keyw
+--         in
+--         if isSub == True then
+--             [ text sliceLeft ]
+--         else
+--             [ text sliceLeft, strToKw ]

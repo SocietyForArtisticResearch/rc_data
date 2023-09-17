@@ -15,6 +15,7 @@ module Research exposing
     , authorAsString
     , authorUrl
     , calcStatus
+    , encodeSet
     , decodeKeyword
     , decodePublicationStatus
     , decoder
@@ -228,6 +229,12 @@ type KeywordSet
         , list : List Keyword
         }
 
+
+
+
+encodeSet : KeywordSet -> Json.Encode.Value 
+encodeSet (KeywordSet d) =
+    d.dict |> Dict.values |> Json.Encode.list encodeKeyword
 
 type KeywordSorting
     = ByUse
