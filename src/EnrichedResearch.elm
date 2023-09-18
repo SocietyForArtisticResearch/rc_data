@@ -144,30 +144,30 @@ encodeAbstractSpan span =
     case span of
         AbsKw s ->
             Json.Encode.object
-                [ ( "type", Json.Encode.string "AbsKw" )
-                , ( "string", Json.Encode.string s )
+                [ ( "t", Json.Encode.string "AbsKw" )
+                , ( "s", Json.Encode.string s )
                 ]
 
         AbsText s ->
             Json.Encode.object
-                [ ( "type", Json.Encode.string "AbsText" )
-                , ( "string", Json.Encode.string s )
+                [ ( "t", Json.Encode.string "AbsText" )
+                , ( "s", Json.Encode.string s )
                 ]
 
 
 decodeAbstractSpan : Json.Decode.Decoder AbstractSpan
 decodeAbstractSpan =
-    Json.Decode.field "type" Json.Decode.string
+    Json.Decode.field "t" Json.Decode.string
         |> Json.Decode.andThen
             (\t ->
                 case t of
                     "AbsKw" ->
                         Json.Decode.map AbsKw
-                            (Json.Decode.field "string" Json.Decode.string)
+                            (Json.Decode.field "s" Json.Decode.string)
 
                     "AbsText" ->
                         Json.Decode.map AbsText
-                            (Json.Decode.field "string" Json.Decode.string)
+                            (Json.Decode.field "s" Json.Decode.string)
 
                     _ ->
                         Json.Decode.fail "abstract decoder expected a AbsKw or AbsText"
