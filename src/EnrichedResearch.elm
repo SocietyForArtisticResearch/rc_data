@@ -47,12 +47,9 @@ researchWithKeywords expo kwAbstract =
     }
 
 
-enrich : List Research -> List ResearchWithKeywords
-enrich lst =
+enrich : List Research -> Research.KeywordSet -> List ResearchWithKeywords
+enrich lst kwSet =
     let
-        kwSet =
-            Research.keywordSet lst
-
         kwList =
             kwSet |> Research.toList |> List.map (Research.kwName >> KeywordString.fromString)
 

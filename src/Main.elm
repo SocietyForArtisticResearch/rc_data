@@ -2,11 +2,12 @@ module Main exposing (program)
 
 import Dict exposing (Dict)
 import Json.Decode
+import Json.Encode
 import Posix.IO as IO exposing (IO, Process)
 import Posix.IO.File as File
 import Posix.IO.Process as Proc
 import Research exposing (Research)
-import Json.Encode
+import EnrichedResearch 
 
 
 {-| This is the entry point, you can think of it as `main` in normal Elm applications.
@@ -29,17 +30,31 @@ handleJson contents =
         |> writeKeywordFile
 
 
+
 writeKeywordFile : Result error (List Research) -> IO ()
-writeKeywordFile result = 
+writeKeywordFile result =
     case result of
         Ok lst ->
-            let value = lst |> Research.keywordSet |> Research.encodeSet |> Json.Encode.encode 0
+            let
+                kwSet = lst |> Research.keywordSet 
+
+                kwsJson =
+                    kwSet |> Research.encodeSet |> Json.Encode.encode 0
+
+                enriched = 
+                    EnrichedResearch.enrich lst kwSet 
+
+                enrichedJson =
+                    Json.Encode.encode 0 (Json.Encode.list EnrichedResearch.encodeResearchWithKeywords enriched)
             in
-                 File.writeContentsTo "keywords.json" value
+            IO.combine
+                [ File.writeContentsTo "keywords.json" kwsJson
+                , File.writeContentsTo "enriched.json" enrichedJson
+                ]
+                |> IO.map (always ())
 
         Err _ ->
             Proc.print "sorry there was an error"
-            
 
 
 printResult : Result error value -> IO ()
@@ -56,6 +71,7 @@ program : Process -> IO ()
 program process =
     File.contentsOf "internal_research.json"
         |> IO.andThen handleJson
+
 
 
 -- abstract_with_keywords : List Keyword -> Research -> Research
