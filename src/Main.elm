@@ -12,12 +12,12 @@ import EnrichedResearch
 
 {-| This is the entry point, you can think of it as `main` in normal Elm applications.
 -}
-onlyId : Research -> String
+onlyId : Research r -> String
 onlyId research =
     research.id |> String.fromInt
 
 
-decode : Json.Decode.Decoder (List Research)
+decode : Json.Decode.Decoder (List Research.Res)
 decode =
     Json.Decode.list Research.decoder
 
@@ -31,7 +31,7 @@ handleJson contents =
 
 
 
-writeKeywordFile : Result error (List Research) -> IO ()
+writeKeywordFile : Result error (List (Research r)) -> IO ()
 writeKeywordFile result =
     case result of
         Ok lst ->

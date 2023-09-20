@@ -1,15 +1,15 @@
 module EnrichedResearch exposing (..)
 
-import Array exposing (Array)
+import Array
 import Date exposing (Date)
 import Element exposing (Element, text)
 import Element.Font as Font
-import Json.Decode
+import Json.Decode exposing (Decoder, field, int, maybe, string)
+import Json.Decode.Extra as JDE
 import Json.Encode
 import KeywordString exposing (KeywordString)
 import Regex
-import Research exposing (Author, ExpositionID, Portal, PublicationStatus, Research, publicationstatus)
-import WorkerTypes
+import Research exposing (Author, ExpositionID, Portal, PublicationStatus, Research, kwName, publicationstatus)
 
 
 type alias ResearchWithKeywords =
@@ -29,7 +29,7 @@ type alias ResearchWithKeywords =
     }
 
 
-researchWithKeywords : Research -> AbstractWithKeywords -> ResearchWithKeywords
+researchWithKeywords : Research r -> AbstractWithKeywords -> ResearchWithKeywords
 researchWithKeywords expo kwAbstract =
     { id = expo.id
     , title = expo.title
@@ -47,7 +47,49 @@ researchWithKeywords expo kwAbstract =
     }
 
 
-enrich : List Research -> Research.KeywordSet -> List ResearchWithKeywords
+mkResearchWithKeywords :
+    ExpositionID
+    -> String
+    -> List KeywordString
+    -> String
+    -> Author
+    -> Maybe Int
+    -> PublicationStatus
+    -> Maybe Date
+    -> Maybe String
+    -> Maybe String
+    -> String
+    -> List Portal
+    -> AbstractWithKeywords
+    -> ResearchWithKeywords
+mkResearchWithKeywords id title keywords created authr issueId publicationStatus publication thumbnail abstract defaultPage portals abstractWithKw =
+    { id = id
+    , title = title
+    , keywords = keywords
+    , created = created
+    , author = authr
+    , issueId = issueId
+    , publicationStatus = publicationStatus -- should be string?
+    , publication = publication
+    , thumbnail = thumbnail
+    , abstract = abstract
+    , defaultPage = defaultPage
+    , portals = portals
+    , abstractWithKeywords = abstractWithKw
+    }
+
+
+keywordSet : List (Research r) -> Research.KeywordSet
+keywordSet researchlist =
+    List.foldr
+        (\research set ->
+            List.foldr Research.insert set research.keywords
+        )
+        Research.emptyKeywordSet
+        researchlist
+
+
+enrich : List (Research r) -> Research.KeywordSet -> List ResearchWithKeywords
 enrich lst kwSet =
     let
         kwList =
@@ -57,7 +99,6 @@ enrich lst kwSet =
             fancyAbstract kwList exp |> researchWithKeywords exp
     in
     lst |> List.map toResearchWithKw
-
 
 encodeResearchWithKeywords : ResearchWithKeywords -> Json.Encode.Value
 encodeResearchWithKeywords exp =
@@ -114,15 +155,54 @@ encodeResearchWithKeywords exp =
          , ( "title", string exp.title )
          , ( "keywords", list string (List.map KeywordString.toString exp.keywords) )
          , ( "author", Research.encodeAuthor exp.author )
-         , ( "publicationStatus", Research.publicationstatus exp.publicationStatus )
+         , ( "status", Research.publicationstatus exp.publicationStatus )
          , ( "defaultPage", string exp.defaultPage )
-         , ( "portals", list WorkerTypes.encodePortal exp.portals )
+         , ( "portals", list Research.encodePortal exp.portals )
          , ( "abstractWithKeywords", encodeAbstract exp.abstractWithKeywords )
          ]
             |> maybeAppend issueId
             |> maybeAppend publication
             |> maybeAppend thumbnail
             |> maybeAppend abstract
+        )
+
+
+
+decoder : Decoder ResearchWithKeywords
+decoder =
+    let
+        researchPublicationStatus : ResearchWithKeywords -> ResearchWithKeywords
+        researchPublicationStatus research =
+            { research | publicationStatus = Research.calcStatus research }
+
+        statusFromString : String -> PublicationStatus
+        statusFromString statusString =
+            case statusString of
+                "published" ->
+                    Research.Published
+
+                "progress" ->
+                    Research.InProgress
+
+                _ ->
+                    Research.Undecided
+    in
+    Json.Decode.map researchPublicationStatus <|
+        (Json.Decode.succeed
+            mkResearchWithKeywords
+            |> JDE.andMap (field "id" int)
+            |> JDE.andMap (field "title" string)
+            |> JDE.andMap (field "keywords" (Json.Decode.list string) |> Json.Decode.map (List.map KeywordString.fromString))
+            |> JDE.andMap (field "created" string |> Json.Decode.map Research.dmyToYmd)
+            |> JDE.andMap (field "author" Research.author)
+            |> JDE.andMap (maybe (field "issue" <| field "id" int))
+            |> JDE.andMap (Json.Decode.map statusFromString (field "status" string))
+            |> JDE.andMap (maybe (field "published" string) |> Json.Decode.map (Maybe.andThen Research.dateFromRCString))
+            |> JDE.andMap (maybe (field "thumb" string))
+            |> JDE.andMap (maybe (field "abstract" string))
+            |> JDE.andMap (field "defaultPage" string)
+            |> JDE.andMap (field "portals" (Json.Decode.list Research.rcPortalDecoder))
+            |> JDE.andMap (field "abstractWithKeywords" decodeAbstractWithKeywords)
         )
 
 
@@ -177,6 +257,11 @@ decodeAbstractSpan =
 encodeAbstract : AbstractWithKeywords -> Json.Encode.Value
 encodeAbstract abstract =
     Json.Encode.list encodeAbstractSpan abstract
+
+
+decodeAbstractWithKeywords : Json.Decode.Decoder AbstractWithKeywords
+decodeAbstractWithKeywords =
+    Json.Decode.list decodeAbstractSpan
 
 
 isKwInAbstract : String -> KeywordString -> Bool
@@ -291,7 +376,7 @@ isSubkeyword keywords index =
     List.member True list
 
 
-fancyAbstract : List KeywordString -> Research -> AbstractWithKeywords
+fancyAbstract : List KeywordString -> Research r -> AbstractWithKeywords
 fancyAbstract allKeywords research =
     let
         abstractMax =
@@ -436,12 +521,33 @@ gray =
     Element.rgb 0.5 0.5 0.5
 
 
+abstractStyle : List (Element.Attr () msg)
+abstractStyle =
+    [ Font.size 12 ]
+
+
 stringToKeyword : String -> Element msg
 stringToKeyword str =
-    Element.link [ Font.size 12, Font.color gray, Font.underline ] <|
+    Element.link (abstractStyle ++ [ Font.underline, Font.color gray ]) <|
         { label = Element.text str
         , url = "/#/research/search/list?author&keyword=" ++ str ++ " "
         }
+
+
+renderAbstract : AbstractWithKeywords -> Element msg
+renderAbstract abstract =
+    Element.paragraph (Element.padding 5 ::Element.width Element.fill :: abstractStyle)
+        (abstract
+            |> List.map
+                (\elem ->
+                    case elem of
+                        AbsKw kw ->
+                            stringToKeyword kw
+
+                        AbsText txt ->
+                            text txt
+                )
+        )
 
 
 

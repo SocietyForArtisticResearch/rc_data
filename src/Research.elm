@@ -8,6 +8,7 @@ module Research exposing
     , Portal
     , PortalType(..)
     , PublicationStatus(..)
+    , Res
     , Research
     , ReverseKeywordDict
     , TitleSorting(..)
@@ -15,14 +16,17 @@ module Research exposing
     , authorAsString
     , authorUrl
     , calcStatus
-    , encodeSet
+    , dateFromRCString
     , decodeKeyword
+    , decodePortal
     , decodePublicationStatus
     , decoder
     , dmyToYmd
     , emptyKeywordSet
     , encodeAuthor
     , encodeKeyword
+    , encodePortal
+    , encodeSet
     , findResearchAfter
     , findResearchBefore
     , findResearchWithAuthor
@@ -57,18 +61,19 @@ module Research exposing
 
 import Date exposing (Date)
 import Dict exposing (Dict)
+import Html.Attributes exposing (id)
 import Iso8601
 import Json.Decode exposing (Decoder, field, int, maybe, string)
 import Json.Decode.Extra as JDE
 import Json.Encode
 import KeywordString exposing (KeywordString)
 import List.Extra exposing (uniqueBy)
-import Random 
+import Random
 import Random.List
 import Set exposing (Set)
 import Time
-  
- 
+
+
 type alias ExpositionID =
     Int
 
@@ -80,15 +85,28 @@ type alias Portal =
     }
 
 
+encodePortal : Portal -> Json.Encode.Value
+encodePortal portal =
+    Json.Encode.object
+        [ ( "id", Json.Encode.int portal.id )
+        , ( "name", Json.Encode.string portal.name )
+        , ( "type_", Json.Encode.string (portal.type_ |> portalTypeToString) )
+        ]
+
+
+decodePortal : Decoder Portal
+decodePortal =
+    Json.Decode.map3 Portal
+        (Json.Decode.field "id" Json.Decode.int)
+        (Json.Decode.field "name" Json.Decode.string)
+        (Json.Decode.field "type_" Json.Decode.string |> Json.Decode.map portalTypeFromString)
+
+
 type PortalType
     = Institutional
     | Journal
     | Project
     | MainPortal
-
-
-
--- Worker
 
 
 portalTypeToString : PortalType -> String
@@ -230,11 +248,26 @@ type KeywordSet
         }
 
 
-
-
-encodeSet : KeywordSet -> Json.Encode.Value 
+encodeSet : KeywordSet -> Json.Encode.Value
 encodeSet (KeywordSet d) =
     d.dict |> Dict.values |> Json.Encode.list encodeKeyword
+
+
+decodeSet : Json.Decode.Decoder KeywordSet
+decodeSet =
+    Json.Decode.list decodeKeyword
+        |> Json.Decode.map
+            (\kws ->
+                let
+                    dict =
+                        kws |> List.map (\kw -> ( kwName kw, kw )) |> Dict.fromList
+                in
+                KeywordSet
+                    { dict = dict
+                    , list = Dict.values dict
+                    }
+            )
+
 
 type KeywordSorting
     = ByUse
@@ -324,7 +357,7 @@ encodeKeyword (Keyword kw) =
         ]
 
 
-getAllPortals : List Research -> List Portal
+getAllPortals : List (Research r) -> List Portal
 getAllPortals lst =
     lst
         |> List.concatMap .portals
@@ -347,7 +380,7 @@ decodeKeyword =
             )
 
 
-keywordSet : List Research -> KeywordSet
+keywordSet : List (Research r) -> KeywordSet
 keywordSet researchlist =
     List.foldr
         (\research set ->
@@ -462,10 +495,10 @@ encodeAuthor au =
 
 {-| This is the RC API decoder. Data is retrieved by concatting the json output from the advanced search of the RC.
 -}
-decoder : Decoder Research
+decoder : Decoder (Research Res)
 decoder =
     let
-        researchPublicationStatus : Research -> Research
+        researchPublicationStatus : Research Res -> Research Res
         researchPublicationStatus research =
             { research | publicationStatus = calcStatus research }
 
@@ -483,7 +516,7 @@ decoder =
     in
     Json.Decode.map researchPublicationStatus <|
         (Json.Decode.succeed
-            Research
+            mkResearch
             |> JDE.andMap (field "id" int)
             |> JDE.andMap (field "title" string)
             |> JDE.andMap (field "keywords" (Json.Decode.list string) |> Json.Decode.map (List.map KeywordString.fromString))
@@ -492,7 +525,6 @@ decoder =
             |> JDE.andMap (maybe (field "issue" <| field "id" int))
             |> JDE.andMap (Json.Decode.map statusFromString (field "status" string))
             |> JDE.andMap (maybe (field "published" string) |> Json.Decode.map (Maybe.andThen dateFromRCString))
-            -- maybe there is a field published andthen maybe there is a valid published date ( :-P )
             |> JDE.andMap (maybe (field "thumb" string))
             |> JDE.andMap (maybe (field "abstract" string))
             |> JDE.andMap (field "default-page" string)
@@ -523,7 +555,24 @@ dateFromRCString str =
         |> Result.toMaybe
 
 
-type alias Research =
+type alias Research r =
+    { r
+        | id : ExpositionID
+        , title : String
+        , keywords : List KeywordString
+        , created : String
+        , author : Author
+        , issueId : Maybe Int
+        , publicationStatus : PublicationStatus -- should be string?
+        , publication : Maybe Date
+        , thumbnail : Maybe String
+        , abstract : Maybe String
+        , defaultPage : String
+        , portals : List Portal
+    }
+
+
+type alias Res =
     { id : ExpositionID
     , title : String
     , keywords : List KeywordString
@@ -539,7 +588,24 @@ type alias Research =
     }
 
 
-calcStatus : Research -> PublicationStatus
+mkResearch : ExpositionID -> String -> List KeywordString -> String -> Author -> Maybe Int -> PublicationStatus -> Maybe Date -> Maybe String -> Maybe String -> String -> List Portal -> Res
+mkResearch e t kw cr au iss pubstat pub thumb abs def portals =
+    { id = e
+    , title = t
+    , keywords = kw
+    , created = cr
+    , author = au
+    , issueId = iss
+    , publicationStatus = pubstat
+    , publication = pub
+    , thumbnail = thumb
+    , abstract = abs
+    , defaultPage = def
+    , portals = portals
+    }
+
+
+calcStatus : Research r -> PublicationStatus
 calcStatus research =
     case research.publicationStatus of
         InProgress ->
@@ -549,15 +615,14 @@ calcStatus research =
             Published
 
 
-type alias ReverseKeywordDict =
-    Dict String (List Research)
+type alias ReverseKeywordDict a =
+    Dict String (List { a | keywords : List KeywordString })
 
 
-reverseKeywordDict : List Research -> ReverseKeywordDict
+reverseKeywordDict : List { a | keywords : List KeywordString } -> Dict String (List { a | keywords : List KeywordString })
 reverseKeywordDict research =
     -- note this is case insensitive now!
     let
-        addExpToKeyword : Research -> String -> Dict String (List Research) -> Dict String (List Research)
         addExpToKeyword xpo kw currentDict =
             Dict.update (kw |> String.toLower)
                 (\value ->
@@ -570,7 +635,6 @@ reverseKeywordDict research =
                 )
                 currentDict
 
-        addResearchToDict : Research -> Dict String (List Research) -> Dict String (List Research)
         addResearchToDict exp currentDict =
             -- this exposition has keywords k1 k2 k3
             List.foldl (addExpToKeyword exp) currentDict (exp.keywords |> List.map KeywordString.toString)
@@ -578,13 +642,11 @@ reverseKeywordDict research =
     List.foldl addResearchToDict Dict.empty research
 
 
-findResearchWithKeywords : Set String -> ReverseKeywordDict -> List Research -> List Research
 findResearchWithKeywords kw dict research =
     let
         findKw k =
             k |> String.toLower |> (\s -> Dict.get s dict) |> Maybe.withDefault []
 
-        getId : Research -> ExpositionID
         getId exp =
             exp.id
 
@@ -611,7 +673,7 @@ findResearchWithKeywords kw dict research =
             let
                 ids =
                     kws
-                        |> List.map (findKw >> List.map getId >> Set.fromList)
+                        |> List.map (\r -> r |> findKw |> List.map getId |> Set.fromList)
                         |> combineResults
 
                 -- the full set is the mempty of combinatory filters
@@ -619,10 +681,10 @@ findResearchWithKeywords kw dict research =
             research |> List.filter (\exp -> List.member exp.id ids)
 
 
-findResearchWithTitle : String -> List Research -> List Research
+findResearchWithTitle : String -> List (Research r) -> List (Research r)
 findResearchWithTitle q lst =
     let
-        f : Research -> Bool
+        f : Research r -> Bool
         f r =
             r.title |> String.toLower |> String.contains (String.toLower q)
     in
@@ -634,10 +696,10 @@ findResearchWithTitle q lst =
             List.filter f lst
 
 
-findResearchWithAuthor : String -> List Research -> List Research
+findResearchWithAuthor : String -> List (Research r) -> List (Research r)
 findResearchWithAuthor qauthor lst =
     let
-        f : Research -> Bool
+        f : Research r -> Bool
         f r =
             r.author |> getName |> String.toLower |> String.contains (String.toLower qauthor)
     in
@@ -691,7 +753,6 @@ type Compare
 --         Smaller
 
 
-findResearchAfter : Date -> List Research -> List Research
 findResearchAfter date lst =
     let
         test research =
@@ -699,16 +760,16 @@ findResearchAfter date lst =
                 Just researchdate ->
                     List.member (Date.compare researchdate date) [ GT, EQ ]
 
-                Nothing -> -- if there is no date it is not included in results
+                Nothing ->
+                    -- if there is no date it is not included in results
                     False
     in
     List.filter test lst
 
 
-findResearchBefore : Date -> List Research -> List Research
 findResearchBefore date lst =
     let
-        test : Research -> Bool
+        test : Research r -> Bool
         test research =
             case research.publication of
                 Just researchdate ->
@@ -720,7 +781,6 @@ findResearchBefore date lst =
     List.filter test lst
 
 
-findResearchWithPortal : String -> List Research -> List Research
 findResearchWithPortal portalq lst =
     -- let
     --     _ =
@@ -732,7 +792,7 @@ findResearchWithPortal portalq lst =
 
         nonemptyq ->
             let
-                f : Research -> Bool
+                f : Research r -> Bool
                 f research =
                     case research.portals of
                         [] ->
