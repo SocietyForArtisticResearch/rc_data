@@ -13,7 +13,15 @@ elm-cli run src/Main.elm
 ``` 
 
 
-# first step
+# screenshots 
+- increased image size to 1920 x 1440
+- added inferred subpages search in default page (subpages not listed in TOC)
+- download path mirrors rc path
+
+how:
+- if TOC found -> download TOC pages
+- else if inferred subpages found -> download inferred subpages
+- else (no TOC or inferred subpages) -> download two screenshots of default page
 
 # first step
 Have a list of expositions identified by id, and include the toc info:
