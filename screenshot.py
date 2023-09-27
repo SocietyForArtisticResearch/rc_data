@@ -3,7 +3,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 import pandas as pd
 import os
-import time
 
 research = pd.read_json('internal_research.json')
 print(research.to_string())
@@ -14,11 +13,8 @@ print(res)
 
 options = Options()
 options.add_argument("--headless=new")
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--hide-scrollbars");
 options.add_argument("window-size=1920,1609") #change size to 1920 1440 -- height val found empirically because of inconsistet viewport behavior with the --headless flag
-options.add_argument("start-maximised")
 
 RESSIZE = len(res)
 total = 0
