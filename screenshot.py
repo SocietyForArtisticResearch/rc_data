@@ -16,6 +16,14 @@ options.add_argument("--headless=new")
 options.add_argument("--hide-scrollbars");
 options.add_argument("window-size=1920,1609") #change size to 1920 1440 -- height val found empirically because of inconsistet viewport behavior with the --headless flag
 
+RESSIZE = len(res)
+total = 0
+failed = 0
+counterTOC = 0
+counterInferred = 0
+counterSinglePage = 0
+failedUrls = []
+
 def getTitle(atag):
     return atag.get_attribute('innerHTML')
 
@@ -185,6 +193,8 @@ def screenShotPages(fullUrl):
                 print("| " + url)
                 #countElements()
                 takeScreenshot(url, path, i, titles[i], False)
+            global counterTOC
+            counterTOC = counterTOC + 1
         else: # TOC not available or TOC available but single entry
             expositionUrl = getExpositionUrl(fullUrl)
             hrefs = list(set(findHrefsInPage(driver))) #find all links in page
@@ -200,12 +210,20 @@ def screenShotPages(fullUrl):
                     print("| " + url)
                     #countElements()
                     takeScreenshot(url, path, i, "subpage", False)
+                global counterInferred
+                counterInferred = counterInferred + 1
             else: # if no TOC and no subpages found take second screenshot
                 print("no TOC or inferred subpages found")
                 takeScreenshot(fullUrl, path, 0, "default page", False)
                 takeScreenshot(fullUrl, path, 1, "default page", True)
+                global counterSinglePage
+                counterSinglePage = counterSinglePage + 1
     except:
         print("!!! screenshot failed for exposition: " + fullUrl)
+        global failed
+        failed = failed + 1
+        global failedUrls
+        failedUrls.append(fullUrl)
 
 for exposition in res:
     print("")
@@ -214,5 +232,13 @@ for exposition in res:
     driver.get(exposition)
     driver.add_cookie({'name' : 'navigationtooltip', 'value': '1'})
     screenShotPages(exposition)
+    total = total + 1
+    print("")
+    print(str(total) + "/" + str(RESSIZE))
+    print("TOC: " + str(counterTOC))
+    print("Inferred: " + str(counterInferred))
+    print("Single Page: " + str(counterSinglePage))
+    print("Failed: " + str(failed))
+    print(failedUrls)
     print("")
     driver.quit()
