@@ -99,10 +99,9 @@ def smartZoom(driver):
         size = weave.size
         height = size["height"]
         width = size["width"]
-        print("weave size: " + str(size))
+        print("| weave size: " + str(size))
         if width < 1900:
             scale = 100
-            print("DIO")
         elif height < 1440:
             scale = 100
         else:
@@ -110,7 +109,7 @@ def smartZoom(driver):
     except:
         global weaveNotFound
         weaveNotFound = weaveNotFound + 1
-        print("no weave found")
+        print("| no weave found")
         scale = 100
     return scale
 
@@ -125,19 +124,21 @@ def takeScreenshot(url, path, i, title, noTOC):
             if noTOC:
                 scale = scale * 2
                 zoom = str(scale) + "%"
-                print("zoom: " + zoom)
+                print("| zoom: " + zoom)
                 driver.execute_script("document.body.style.zoom='" + zoom + "'")
-                print("scrolled")
             else:
                 zoom = str(scale) + "%"
-                print("zoom: " + zoom)
+                print("| zoom: " + zoom)
                 driver.execute_script("document.body.style.zoom='" + zoom + "'")
             driver.save_screenshot(path)
             print("| ⬇ downloading")
+            print("------------------")s
         except:
             print("| download failed")
+            print("------------------")
     else:
         print("| ✓ already available")
+        print("------------------")
     
 def makeDir(num):
     path = "screenshots/" + num
