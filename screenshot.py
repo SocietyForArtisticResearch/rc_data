@@ -3,6 +3,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 import pandas as pd
 import os
+import time
 
 research = pd.read_json('internal_research.json')
 print(research.to_string())
@@ -13,8 +14,11 @@ print(res)
 
 options = Options()
 options.add_argument("--headless=new")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--hide-scrollbars");
 options.add_argument("window-size=1920,1609") #change size to 1920 1440 -- height val found empirically because of inconsistet viewport behavior with the --headless flag
+options.add_argument("start-maximised")
 
 RESSIZE = len(res)
 total = 0
@@ -23,6 +27,8 @@ counterTOC = 0
 counterInferred = 0
 counterSinglePage = 0
 failedUrls = []
+weaveFound = 0
+weaveNotFound = 0
 
 def getTitle(atag):
     return atag.get_attribute('innerHTML')
@@ -88,6 +94,29 @@ def isDomainView(url):
             return False
     except:
         return False
+    
+def smartZoom(driver):
+    try:
+        weave = driver.find_element(By.ID, "weave")
+        global weaveFound
+        weaveFound = weaveFound + 1
+        size = weave.size
+        height = size["height"]
+        width = size["width"]
+        print("weave size: " + str(size))
+        if width < 1900:
+            scale = 100
+            print("DIO")
+        elif height < 1440:
+            scale = 100
+        else:
+            scale = int(max(100 - ((width * height) / (1920 * 1440)), 50))
+    except:
+        global weaveNotFound
+        weaveNotFound = weaveNotFound + 1
+        print("no weave found")
+        scale = 100
+    return scale
 
 def takeScreenshot(url, path, i, title, noTOC):
     #path = path + "/" + str(i) + " " + title + ".png" #uncomment to name with title
@@ -96,10 +125,17 @@ def takeScreenshot(url, path, i, title, noTOC):
     if not os.path.exists(path):
         try:
             driver.get(url)
-            driver.execute_script("document.body.style.zoom='60%'")
+            scale = smartZoom(driver)
             if noTOC:
-                driver.execute_script("document.body.style.zoom='90%'")
-                driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                scale = scale * 2
+                zoom = str(scale) + "%"
+                print("zoom: " + zoom)
+                driver.execute_script("document.body.style.zoom='" + zoom + "'")
+                print("scrolled")
+            else:
+                zoom = str(scale) + "%"
+                print("zoom: " + zoom)
+                driver.execute_script("document.body.style.zoom='" + zoom + "'")
             driver.save_screenshot(path)
             print("| ⬇ downloading")
         except:
@@ -240,5 +276,7 @@ for exposition in res:
     print("Single Page: " + str(counterSinglePage))
     print("Failed: " + str(failed))
     print(failedUrls)
+    print("Found Weaves: " + str(weaveFound))
+    print("No Weaves: " + str(weaveNotFound))
     print("")
     driver.quit()
