@@ -13,29 +13,17 @@ elm-cli run src/Main.elm
 ``` 
 
 
-[x] # screenshots 
-- increased image size to 1920 x 1440
-- added inferred subpages search in default page (subpages not listed in TOC)
-- download path mirrors rc path
+# screenshots and TOC
+- [x] increased image size to 1920 x 1440
+- [x] added inferred subpages search in default page (subpages not listed in TOC)
+- [x] download path mirrors rc path
+- [x] Have a list of expositions identified by id, and include the toc info:
+- [x] Screenshot folder structure: exposition_id/page_id/index.png
 
 how:
 - if TOC found -> download TOC pages
 - else if inferred subpages found -> download inferred subpages
 - else (no TOC or inferred subpages) -> download two screenshots of default page
-
-[x] # first step
-[x] Have a list of expositions identified by id, and include the toc info:
-
-[
-    {
-        id : exposition_id (int)
-        ,toc : [ { page_id (int) , page_title, url (string), screenshot (string)}]
-    }
-]
-
-[x] Screenshot folder structure:
-
-exposition_id/page_id/index.png
 
 
 ## TODO's
