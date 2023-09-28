@@ -113,7 +113,8 @@ def smartZoom(driver):
         weaveNotFound = weaveNotFound + 1
         print("| no weave found")
         scale = 100
-    return scale
+        size = "weave not found"
+    return [scale, size]
 
 def takeScreenshot(url, path, i, title, noTOC):
     #path = path + "/" + str(i) + " " + title + ".png" #uncomment to name with title
@@ -125,12 +126,12 @@ def takeScreenshot(url, path, i, title, noTOC):
             driver.get(url)
             scale = smartZoom(driver)
             if noTOC:
-                scale = scale * 2
-                zoom = str(scale) + "%"
+                scal = scale[0] * 2
+                zoom = str(scal) + "%"
                 print("| zoom: " + zoom)
                 driver.execute_script("document.body.style.zoom='" + zoom + "'")
             else:
-                zoom = str(scale) + "%"
+                zoom = str(scale[0]) + "%"
                 print("| zoom: " + zoom)
                 driver.execute_script("document.body.style.zoom='" + zoom + "'")
             driver.save_screenshot(path)
@@ -144,7 +145,7 @@ def takeScreenshot(url, path, i, title, noTOC):
     else:
         print("| ✓ already available")
         print("------------------")
-    return {"page": page, "page_title": title, "url": url, "file": str(i) + ".png"}
+    return {"page": page, "page_title": title, "url": url, "file": str(i) + ".png", "weave_size": scale[1]}
     
 def makeDir(num):
     path = "screenshots/" + num

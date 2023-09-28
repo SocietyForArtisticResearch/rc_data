@@ -19,6 +19,7 @@ elm-cli run src/Main.elm
 - [x] download path mirrors rc path
 - [x] Have a list of expositions identified by id, and include the toc info:
 - [x] Screenshot folder structure: exposition_id/page_id/index.png
+- [x] "smart" zoom
 
 how:
 - if TOC found -> download TOC pages
