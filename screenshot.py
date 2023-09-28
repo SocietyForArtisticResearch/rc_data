@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 import pandas as pd
+import json
 import os
 
 research = pd.read_json('internal_research.json')
@@ -25,6 +26,7 @@ counterSinglePage = 0
 failedUrls = []
 weaveFound = 0
 weaveNotFound = 0
+tocs_dict = {}
 
 def getTitle(atag):
     return atag.get_attribute('innerHTML')
@@ -48,7 +50,7 @@ def getDomainView(fullUrl):
     url = "/".join(parts)
     return url
 
-def getExpositionNumber(fullUrl):
+def getExpositionId(fullUrl):
     return fullUrl.split("/")[4]
 
 def getPageNumber(fullUrl):
@@ -115,6 +117,7 @@ def smartZoom(driver):
 
 def takeScreenshot(url, path, i, title, noTOC):
     #path = path + "/" + str(i) + " " + title + ".png" #uncomment to name with title
+    page = getPageNumber(url)
     path = path + "/" + str(i) + ".png"
     print("| " + path)
     if not os.path.exists(path):
@@ -132,13 +135,16 @@ def takeScreenshot(url, path, i, title, noTOC):
                 driver.execute_script("document.body.style.zoom='" + zoom + "'")
             driver.save_screenshot(path)
             print("| ⬇ downloading")
-            print("------------------")s
+            print("------------------")
         except:
+            i = 404
+            title = "failed"
             print("| download failed")
             print("------------------")
     else:
         print("| ✓ already available")
         print("------------------")
+    return {"page": page, "page_title": title, "url": url, "file": str(i) + ".png"}
     
 def makeDir(num):
     path = "screenshots/" + num
@@ -147,7 +153,7 @@ def makeDir(num):
     return path
 
 def makeDirFromURL(url):
-    num = getExpositionNumber(url)
+    num = getExpositionId(url)
     page = getPageNumber(url)
     path = "screenshots/" + num + "/" + page
     if not os.path.exists(path):
@@ -201,7 +207,8 @@ def findHrefsInPage(driver):
 
 def screenShotPages(fullUrl):
     try:
-        num = getExpositionNumber(fullUrl)
+        toc = []
+        num = getExpositionId(fullUrl)
         path = makeDir(num)
         xpath = "/html/body/div[5]/ul/li[1]/ul"
         xpathFonts = "/html/body/div[6]/ul/li[1]/ul" # this is the xpath when fonts not loaded
@@ -225,7 +232,8 @@ def screenShotPages(fullUrl):
                 path = makeDirFromURL(url)
                 print("| " + url)
                 #countElements()
-                takeScreenshot(url, path, i, titles[i], False)
+                j = takeScreenshot(url, path, i, titles[i], False)
+                toc.append(j)
             global counterTOC
             counterTOC = counterTOC + 1
         else: # TOC not available or TOC available but single entry
@@ -242,13 +250,16 @@ def screenShotPages(fullUrl):
                     path = makeDirFromURL(url)
                     print("| " + url)
                     #countElements()
-                    takeScreenshot(url, path, i, "subpage", False)
+                    j = takeScreenshot(url, path, i, "no title", False)
+                    toc.append(j)
                 global counterInferred
                 counterInferred = counterInferred + 1
             else: # if no TOC and no subpages found take second screenshot
                 print("no TOC or inferred subpages found")
-                takeScreenshot(fullUrl, path, 0, "default page", False)
-                takeScreenshot(fullUrl, path, 1, "default page", True)
+                j = takeScreenshot(fullUrl, path, 0, "default page", False)
+                toc.append(j)
+                j = takeScreenshot(fullUrl, path, 1, "default page", True)
+                toc.append(j)
                 global counterSinglePage
                 counterSinglePage = counterSinglePage + 1
     except:
@@ -257,6 +268,8 @@ def screenShotPages(fullUrl):
         failed = failed + 1
         global failedUrls
         failedUrls.append(fullUrl)
+    toc_dict = {"id": num, "toc": toc}
+    return toc_dict
 
 for exposition in res:
     print("")
@@ -264,9 +277,14 @@ for exposition in res:
     driver = webdriver.Chrome(options=options)
     driver.get(exposition)
     driver.add_cookie({'name' : 'navigationtooltip', 'value': '1'})
-    screenShotPages(exposition)
+    toc_dict = screenShotPages(exposition)
+    tocs_dict.update({toc_dict["id"]: toc_dict["toc"]})
+    tocs_json = json.dumps(tocs_dict)
+    with open("toc.json", "w") as outfile:
+        outfile.write(tocs_json)
     total = total + 1
     print("")
+    print(tocs_dict)
     print(str(total) + "/" + str(RESSIZE))
     print("TOC: " + str(counterTOC))
     print("Inferred: " + str(counterInferred))

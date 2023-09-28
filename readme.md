@@ -13,7 +13,7 @@ elm-cli run src/Main.elm
 ``` 
 
 
-# screenshots 
+[x] # screenshots 
 - increased image size to 1920 x 1440
 - added inferred subpages search in default page (subpages not listed in TOC)
 - download path mirrors rc path
@@ -23,8 +23,8 @@ how:
 - else if inferred subpages found -> download inferred subpages
 - else (no TOC or inferred subpages) -> download two screenshots of default page
 
-# first step
-Have a list of expositions identified by id, and include the toc info:
+[x] # first step
+[x] Have a list of expositions identified by id, and include the toc info:
 
 [
     {
@@ -33,11 +33,10 @@ Have a list of expositions identified by id, and include the toc info:
     }
 ]
 
-Screenshot folder structure:
+[x] Screenshot folder structure:
 
-exposition_id/page_id/anchor
+exposition_id/page_id/index.png
 
-exposition_id/page_id/default_position.png
 
 ## TODO's
 
