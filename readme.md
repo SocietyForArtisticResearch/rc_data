@@ -29,7 +29,9 @@ how:
 
 ## TODO's
 
-Are default positions correctly included in internal_research.json?
+[x] Are default positions correctly included in internal_research.json? (casper: yes)
+
+
 
 
 # second step, include tool info:
