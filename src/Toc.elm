@@ -1,5 +1,7 @@
 module Toc exposing (..)
 
+import Dict exposing (Dict)
+import Html.Attributes exposing (id)
 import Json.Decode as Decode
 import Json.Decode.Extra exposing (andMap)
 import Json.Encode
@@ -13,6 +15,41 @@ type alias ExpositionToc =
     { expoId : Id
     , weaves : List Weave
     }
+
+
+expositionToc : Id -> List Weave -> ExpositionToc
+expositionToc id lst =
+    { expoId = id
+    , weaves = lst
+    }
+
+
+encodeToc : ExpositionToc -> Json.Encode.Value
+encodeToc expToc =
+    Json.Encode.object
+        [ ( "expoId", Json.Encode.int expToc.expoId )
+        , ( "weaves", Json.Encode.list encodeWeave expToc.weaves )
+        ]
+
+
+decodeToc : Decode.Decoder ExpositionToc
+decodeToc =
+    Decode.map2 expositionToc
+        (Decode.field "expoId" Decode.int)
+        (Decode.field "weaves" (Decode.list decodeWeave))
+
+
+type alias Filename =
+    String
+
+
+dictOfSimpleTocs : List ExpositionToc -> Dict Int (List Weave)
+dictOfSimpleTocs lst =
+    let
+        dict_lst =
+            lst |> List.map (\w -> ( w.expoId, w.weaves ))
+    in
+    Dict.fromList dict_lst
 
 
 type alias Weave =
@@ -37,8 +74,12 @@ pageWithWeaves ( idStr, weaves ) =
     }
 
 
-decodeEntry : Decode.Decoder (List ExpositionToc)
-decodeEntry =
+
+-- Decoders
+
+
+decode : Decode.Decoder (List ExpositionToc)
+decode =
     let
         obj : Decode.Decoder (List ( String, List Weave ))
         obj =
@@ -64,6 +105,10 @@ decodeDimensions =
     Decode.succeed Dimensions
         |> andMap (Decode.field "height" Decode.int)
         |> andMap (Decode.field "width" Decode.int)
+
+
+
+-- Automatically generated encoders (may be needed later)
 
 
 encodedRoot : List ExpositionToc -> Json.Encode.Value

@@ -2,6 +2,7 @@ module EnrichedResearch exposing (..)
 
 import Array
 import Date exposing (Date)
+import Dict exposing (Dict)
 import Element exposing (Element, text)
 import Element.Font as Font
 import Json.Decode exposing (Decoder, field, int, maybe, string)
@@ -10,6 +11,7 @@ import Json.Encode
 import KeywordString exposing (KeywordString)
 import Regex
 import Research exposing (Author, ExpositionID, Portal, PublicationStatus, Research, kwName, publicationstatus)
+import Toc
 
 
 type alias ResearchWithKeywords =
@@ -26,11 +28,12 @@ type alias ResearchWithKeywords =
     , defaultPage : String
     , portals : List Portal
     , abstractWithKeywords : AbstractWithKeywords
+    , toc : Maybe Toc.ExpositionToc
     }
 
 
-researchWithKeywords : Research r -> AbstractWithKeywords -> ResearchWithKeywords
-researchWithKeywords expo kwAbstract =
+researchWithTocAndKeywords : Maybe Toc.ExpositionToc -> Research r -> AbstractWithKeywords -> ResearchWithKeywords
+researchWithTocAndKeywords toc expo kwAbstract =
     { id = expo.id
     , title = expo.title
     , keywords = expo.keywords
@@ -44,6 +47,7 @@ researchWithKeywords expo kwAbstract =
     , defaultPage = expo.defaultPage
     , portals = expo.portals
     , abstractWithKeywords = kwAbstract
+    , toc = toc
     }
 
 
@@ -61,8 +65,9 @@ mkResearchWithKeywords :
     -> String
     -> List Portal
     -> AbstractWithKeywords
+    -> Maybe Toc.ExpositionToc
     -> ResearchWithKeywords
-mkResearchWithKeywords id title keywords created authr issueId publicationStatus publication thumbnail abstract defaultPage portals abstractWithKw =
+mkResearchWithKeywords id title keywords created authr issueId publicationStatus publication thumbnail abstract defaultPage portals abstractWithKw simpleToc =
     { id = id
     , title = title
     , keywords = keywords
@@ -76,6 +81,7 @@ mkResearchWithKeywords id title keywords created authr issueId publicationStatus
     , defaultPage = defaultPage
     , portals = portals
     , abstractWithKeywords = abstractWithKw
+    , toc = simpleToc
     }
 
 
@@ -89,16 +95,29 @@ keywordSet researchlist =
         researchlist
 
 
-enrich : List (Research r) -> Research.KeywordSet -> List ResearchWithKeywords
-enrich lst kwSet =
+lookupToc : Dict ExpositionID Toc.ExpositionToc -> Research r -> Maybe Toc.ExpositionToc
+lookupToc toc_dict research =
+    Dict.get research.id toc_dict
+
+
+enrich : Dict ExpositionID Toc.ExpositionToc -> List (Research r) -> Research.KeywordSet -> List ResearchWithKeywords
+enrich toc lst kwSet =
     let
         kwList =
             kwSet |> Research.toList |> List.map (Research.kwName >> KeywordString.fromString)
 
+        abstractWithKeywords e =
+            e
+                |> fancyAbstract kwList
+
+        getToc e =
+            lookupToc toc e
+
         toResearchWithKw exp =
-            fancyAbstract kwList exp |> researchWithKeywords exp
+            researchWithTocAndKeywords (getToc exp) exp (abstractWithKeywords exp)
     in
     lst |> List.map toResearchWithKw
+
 
 encodeResearchWithKeywords : ResearchWithKeywords -> Json.Encode.Value
 encodeResearchWithKeywords exp =
@@ -147,6 +166,13 @@ encodeResearchWithKeywords exp =
                     (\a ->
                         ( "abstract", string a )
                     )
+
+        toc =
+            exp.toc
+                |> Maybe.map
+                    (\t ->
+                        ( "toc", Toc.encodeToc t )
+                    )
     in
     Json.Encode.object
         ([ ( "type", string "exposition" )
@@ -164,8 +190,8 @@ encodeResearchWithKeywords exp =
             |> maybeAppend publication
             |> maybeAppend thumbnail
             |> maybeAppend abstract
+            |> maybeAppend toc
         )
-
 
 
 decoder : Decoder ResearchWithKeywords
@@ -203,6 +229,7 @@ decoder =
             |> JDE.andMap (field "defaultPage" string)
             |> JDE.andMap (field "portals" (Json.Decode.list Research.rcPortalDecoder))
             |> JDE.andMap (field "abstractWithKeywords" decodeAbstractWithKeywords)
+            |> JDE.andMap (Json.Decode.field "toc" (Json.Decode.maybe Toc.decodeToc))
         )
 
 
@@ -267,12 +294,15 @@ decodeAbstractWithKeywords =
 isKwInAbstract : String -> KeywordString -> Bool
 isKwInAbstract abstract kws =
     let
+        kw : String
         kw =
             " " ++ KeywordString.toString kws ++ "[!.,? ;:]"
 
+        maybeRegex : Maybe Regex.Regex
         maybeRegex =
             Regex.fromString kw
 
+        regex : Regex.Regex
         regex =
             Maybe.withDefault Regex.never maybeRegex
     in
@@ -536,7 +566,7 @@ stringToKeyword str =
 
 renderAbstract : AbstractWithKeywords -> Element msg
 renderAbstract abstract =
-    Element.paragraph (Element.padding 5 ::Element.width Element.fill :: abstractStyle)
+    Element.paragraph (Element.padding 5 :: Element.width Element.fill :: abstractStyle)
         (abstract
             |> List.map
                 (\elem ->

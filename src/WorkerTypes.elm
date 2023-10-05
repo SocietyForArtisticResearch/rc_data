@@ -7,6 +7,7 @@ import Json.Decode.Extra as JDE
 import Json.Encode exposing (Value)
 import KeywordString exposing (KeywordString)
 import Research as RC exposing (Author, Portal, PublicationStatus(..), Research)
+import Toc
 
 
 
@@ -52,6 +53,7 @@ decodeExposition =
                             |> andMap (field "defaultPage" string)
                             |> andMap (field "portals" (Json.Decode.list RC.decodePortal))
                             |> andMap (field "abstractWithKeywords" EnrichedResearch.decodeAbstractWithKeywords)
+                            |> andMap (Json.Decode.field "toc" (Json.Decode.maybe Toc.decodeToc))
 
                     _ ->
                         Json.Decode.fail "expected an exposition"
