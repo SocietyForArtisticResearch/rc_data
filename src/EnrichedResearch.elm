@@ -103,16 +103,20 @@ lookupToc toc_dict research =
 enrich : Dict ExpositionID Toc.ExpositionToc -> List (Research r) -> Research.KeywordSet -> List ResearchWithKeywords
 enrich toc lst kwSet =
     let
+        kwList : List KeywordString
         kwList =
             kwSet |> Research.toList |> List.map (Research.kwName >> KeywordString.fromString)
 
+        abstractWithKeywords : Research r -> AbstractWithKeywords
         abstractWithKeywords e =
             e
                 |> fancyAbstract kwList
 
+        getToc : { r | id : ExpositionID, title : String, keywords : List KeywordString, created : String, author : Author, issueId : Maybe Int, publicationStatus : PublicationStatus, publication : Maybe Date, thumbnail : Maybe String, abstract : Maybe String, defaultPage : String, portals : List Portal } -> Maybe Toc.ExpositionToc
         getToc e =
             lookupToc toc e
 
+        toResearchWithKw : { r | id : ExpositionID, title : String, keywords : List KeywordString, created : String, author : Author, issueId : Maybe Int, publicationStatus : PublicationStatus, publication : Maybe Date, thumbnail : Maybe String, abstract : Maybe String, defaultPage : String, portals : List Portal } -> ResearchWithKeywords
         toResearchWithKw exp =
             researchWithTocAndKeywords (getToc exp) exp (abstractWithKeywords exp)
     in
