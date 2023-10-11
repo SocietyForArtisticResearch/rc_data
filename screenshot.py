@@ -26,7 +26,12 @@ counterSinglePage = 0
 failedUrls = []
 weaveFound = 0
 weaveNotFound = 0
-tocs_dict = {}
+
+if not os.path.exists('toc.json'):
+    tocs_dict = {}
+else:
+    with open('toc.json') as toc:
+        tocs_dict = json.load(toc)
 
 def getTitle(atag):
     return atag.get_attribute('innerHTML')
@@ -162,6 +167,7 @@ def makeDirFromURL(url):
     return path
 
 def countElements():
+    # produce also copy single json for single exposition (TOC too)
     try:
         weave = driver.find_element(By.ID, "weave")
         print("weave size: " + str(weave.size))
@@ -207,9 +213,10 @@ def findHrefsInPage(driver):
     return list(map(getURL, links))
 
 def screenShotPages(fullUrl):
+    num = getExpositionId(fullUrl)
+    path = "screenshots/" + num
     try:
         toc = []
-        num = getExpositionId(fullUrl)
         path = makeDir(num)
         xpath = "/html/body/div[5]/ul/li[1]/ul"
         xpathFonts = "/html/body/div[6]/ul/li[1]/ul" # this is the xpath when fonts not loaded
@@ -270,29 +277,40 @@ def screenShotPages(fullUrl):
         global failedUrls
         failedUrls.append(fullUrl)
     toc_dict = {"id": num, "toc": toc}
+    toc_json = json.dumps(toc_dict)
+    with open("screenshots/" + num + "/" + "toc.json", "w") as outfile:
+        outfile.write(toc_json)
     return toc_dict
 
 for exposition in res:
     print("")
     print(exposition)
-    driver = webdriver.Chrome(options=options)
-    driver.get(exposition)
-    driver.add_cookie({'name' : 'navigationtooltip', 'value': '1'})
-    toc_dict = screenShotPages(exposition)
-    tocs_dict.update({toc_dict["id"]: toc_dict["toc"]})
-    tocs_json = json.dumps(tocs_dict)
-    with open("toc.json", "w") as outfile:
-        outfile.write(tocs_json)
-    total = total + 1
-    print("")
-    print(tocs_dict)
-    print(str(total) + "/" + str(RESSIZE))
-    print("TOC: " + str(counterTOC))
-    print("Inferred: " + str(counterInferred))
-    print("Single Page: " + str(counterSinglePage))
-    print("Failed: " + str(failed))
-    print(failedUrls)
-    print("Found Weaves: " + str(weaveFound))
-    print("No Weaves: " + str(weaveNotFound))
-    print("")
-    driver.quit()
+    num = getExpositionId(exposition)
+    path = "screenshots/" + num
+    if not os.path.exists(path):
+        driver = webdriver.Chrome(options=options)
+        driver.get(exposition)
+        driver.add_cookie({'name' : 'navigationtooltip', 'value': '1'})
+        toc_dict = screenShotPages(exposition)
+        tocs_dict.update({toc_dict["id"]: toc_dict["toc"]})
+        tocs_json = json.dumps(tocs_dict)
+        with open("toc.json", "w") as outfile:
+            outfile.write(tocs_json)
+        total = total + 1
+        print("")
+        print(tocs_dict)
+        print(str(total) + "/" + str(RESSIZE))
+        print("TOC: " + str(counterTOC))
+        print("Inferred: " + str(counterInferred))
+        print("Single Page: " + str(counterSinglePage))
+        print("Failed: " + str(failed))
+        print(failedUrls)
+        print("Found Weaves: " + str(weaveFound))
+        print("No Weaves: " + str(weaveNotFound))
+        print("")
+        driver.quit()
+    else:
+        print("folder " + str(num) + " already exists.")
+        total = total + 1
+        print(str(total) + "/" + str(RESSIZE))
+        print("")
