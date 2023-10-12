@@ -11,6 +11,7 @@ res = research['default-page']
 print(res)
 
 #res = ["https://www.researchcatalogue.net/view/1756075/1756076"]
+#res = ["https://www.researchcatalogue.net/view/81827/81828"] # here hrefs in page are http and not https
 
 options = Options()
 options.add_argument("--headless=new")
@@ -80,8 +81,9 @@ def notAnchorAtOrigin(fullUrl):
     
 def isSubPage(expositionUrl, url):
     try:
-        base = getExpositionUrl(url)
-        if base == expositionUrl:
+        expID = getExpositionId(expositionUrl)
+        pageID = getExpositionId(url)
+        if expID == pageID:
             return True
         else:
             return False
@@ -247,8 +249,11 @@ def screenShotPages(fullUrl):
         else: # TOC not available or TOC available but single entry
             expositionUrl = getExpositionUrl(fullUrl)
             hrefs = list(set(findHrefsInPage(driver))) #find all links in page
-            subpages = list(filter(lambda href: isSubPage(expositionUrl, href), hrefs)) #filter to get only exposition subpages
+            print(hrefs)
+            subpages = list(filter(lambda href: isSubPage(fullUrl, href), hrefs)) #filter to get only exposition subpages
+            print(subpages)
             subpages = list(filter(notAnchorAtOrigin, subpages)) #filter out urls with anchor at 0/0
+            print(subpages)
             subpages = list(filter(notContainsHash, subpages)) #filter out urls with hash
             print(subpages)
             path = makeDirFromURL(fullUrl) 
