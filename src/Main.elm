@@ -8,11 +8,10 @@ import Posix.IO as IO exposing (IO, Process)
 import Posix.IO.File as File
 import Posix.IO.Process as Proc
 import Research exposing (Research)
+import Screenshots
 import Toc
 
 
-{-| This is the entry point, you can think of it as `main` in normal Elm applications.
--}
 onlyId : Research r -> String
 onlyId research =
     research.id |> String.fromInt
@@ -23,34 +22,45 @@ decode =
     Json.Decode.list Research.decoder
 
 
-handleFile : ( Result String String, Result String String ) -> IO ()
-handleFile ( contents, tocs_res ) =
-    case ( contents, tocs_res ) of
-        ( Ok expJson, Ok tocsJson ) ->
-            handleJson ( Json.Decode.decodeString decode expJson, Json.Decode.decodeString Toc.decode tocsJson )
+handleFile : ( Result String String, Result String String, Result String String ) -> IO ()
+handleFile ( contents, tocs_res, scr_json ) =
+    case ( contents, tocs_res, scr_json ) of
+        ( Ok expJson, Ok tocsJson, Ok scrJson ) ->
+            handleJson ( Json.Decode.decodeString decode expJson, Json.Decode.decodeString Toc.decode tocsJson, Json.Decode.decodeString Screenshots.decodeAll scrJson )
 
-        ( Err e, _ ) ->
+        ( Err e, _, _ ) ->
             Proc.print ("file error with expositions" ++ e)
 
-        ( _, Err e ) ->
+        ( _, Err e, _ ) ->
+            Proc.print ("file error with tocs" ++ e)
+
+        ( _, _, Err e ) ->
             Proc.print ("file error with tocs" ++ e)
 
 
-handleJson : ( Result Json.Decode.Error (List (Research r)), Result Json.Decode.Error (List Toc.ExpositionToc) ) -> IO ()
-handleJson ( expJson, tocsJson ) =
-    case ( expJson, tocsJson ) of
-        ( Ok exps, Ok tocs ) ->
-            writeKeywordAndEnriched exps tocs
+handleJson :
+    ( Result Json.Decode.Error (List (Research r))
+    , Result Json.Decode.Error (List Toc.ExpositionToc)
+    , Result Json.Decode.Error Screenshots.RCScreenshots
+    )
+    -> IO ()
+handleJson ( expJson, tocsJson, screenJson ) =
+    case ( expJson, tocsJson, screenJson ) of
+        ( Ok exps, Ok tocs, Ok screens ) ->
+            writeKeywordAndEnriched exps tocs screens
 
-        ( Err e, _ ) ->
-            Proc.print <| "json error" ++ Json.Decode.errorToString e
+        ( Err e, _, _ ) ->
+            Proc.print <| "exps json error" ++ Json.Decode.errorToString e
 
-        ( _, Err e ) ->
-            Proc.print <| "json error" ++ Json.Decode.errorToString e
+        ( _, Err e, _ ) ->
+            Proc.print <| "tocs json error" ++ Json.Decode.errorToString e
+
+        ( _, _, Err e ) ->
+            Proc.print <| "screenshot json error" ++ Json.Decode.errorToString e
 
 
-writeKeywordAndEnriched : List (Research r) -> List Toc.ExpositionToc -> IO ()
-writeKeywordAndEnriched lst tocs =
+writeKeywordAndEnriched : List (Research r) -> List Toc.ExpositionToc -> Screenshots.RCScreenshots -> IO ()
+writeKeywordAndEnriched lst tocs screens =
     let
         kwSet =
             lst |> Research.keywordSet
@@ -62,7 +72,7 @@ writeKeywordAndEnriched lst tocs =
             tocs |> List.map (\t -> ( t.expoId, t )) |> Dict.fromList
 
         enriched =
-            EnrichedResearch.enrich tocDict lst kwSet
+            EnrichedResearch.enrich tocDict lst kwSet screens
 
         enrichedJson =
             Json.Encode.encode 0 (Json.Encode.list EnrichedResearch.encodeResearchWithKeywords enriched)
@@ -83,6 +93,9 @@ printResult r =
         Err _ ->
             Proc.print "no"
 
+
+{-| This is the entry point, you can think of it as `main` in normal Elm applications.
+-}
 program : Process -> IO ()
 program process =
     File.contentsOf "internal_research.json"
@@ -91,7 +104,11 @@ program process =
                 File.contentsOf "toc.json"
                     |> IO.andThen
                         (\toc_json ->
-                            IO.return ( int_res_json, toc_json )
+                            File.contentsOf "screenshots/screenshots.json"
+                                |> IO.andThen
+                                    (\scr_json ->
+                                        IO.return ( int_res_json, toc_json, scr_json )
+                                    )
                         )
             )
         |> IO.andThen handleFile
