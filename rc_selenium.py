@@ -101,7 +101,9 @@ def getAllPages(expositionUrl, driver):
             if len(subpages) > 1: # pages exist
                 links = subpages
             else: # no TOC or pages found: single page exposition
-                return {expositionUrl}
+                print("111111111111111111111111111111111111111111111111111111111111111")
+                print(expositionUrl)
+                return [expositionUrl]
     except:
         print("Failed to fetch pages for exposition: " + expositionUrl)
     
@@ -110,6 +112,7 @@ def getAllPages(expositionUrl, driver):
     #pages = list(map(getPageNumber, urls))
     #pages.insert(0, getPageNumber(expositionUrl))
     pages = set(urls)
+    pages = list(urls)
     #return [pages, titles]
     return pages
 
@@ -153,3 +156,20 @@ def getTexts(driver):
     texts = list(map(getStyledText, texts))
     texts = list(map(removeStyle, texts))
     return texts
+
+def getSimpleTexts(driver):
+    texts = driver.find_elements(By.CLASS_NAME, "tool-simpletext")
+    texts = list(map(getStyledText, texts))
+    texts = list(map(removeStyle, texts))
+    return texts
+
+def getAudioSrc(audio):
+    audio = audio.find_element(By.TAG_NAME, "video")
+    return audio.get_attribute("src")
+
+def getAudios(driver):
+    audios = driver.find_elements(By.CLASS_NAME, "tool-audio")
+    audios = list(map(getAudioSrc, audios))
+    return audios
+
+#https://selenium-python.readthedocs.io/locating-elements.html
