@@ -100,12 +100,8 @@ def getAllPages(expositionUrl, driver):
             subpages = getPages(expositionUrl, driver)
             if len(subpages) > 1: # pages exist
                 links = subpages
-            else: # no TOC or pages found: single page exposition
-                print("111111111111111111111111111111111111111111111111111111111111111")
-                print(expositionUrl)
-                return [expositionUrl]
-    except:
-        print("Failed to fetch pages for exposition: " + expositionUrl)
+    except:# no TOC or pages found: single page exposition
+        print("No TOC or inferred subpages found for: " + expositionUrl)
     
     #titles = list(map(getTitle, links))
     urls = list(map(getURL, links))
@@ -116,20 +112,43 @@ def getAllPages(expositionUrl, driver):
     #return [pages, titles]
     return pages
 
+def notMissingSrc(src):
+    if src == 404:
+        return False
+    else:
+        return True
+
 def getImageSrc(image):
-    image = image.find_element(By.CSS_SELECTOR, "img")
-    return image.get_attribute("src")
+    try:
+        image = image.find_element(By.CSS_SELECTOR, "img")
+        src = image.get_attribute("src")
+    except:
+        src = 404
+    return src
 
 def getImages(driver):
     images = driver.find_elements(By.CLASS_NAME, "tool-picture")
     images = list(map(getImageSrc, images))
+    images = list(filter(notMissingSrc, images))
     return images
 
 def getVideoSrc(video):
-    return video.get_attribute("data-file")
+    try:
+        #print(video.get_attribute("innerHTML"))
+        src = video.get_attribute("data-file")
+        if src == None:
+            try:
+                video = video.find_element(By.TAG_NAME, "video")
+                src = video.get_attribute("src")
+            except:
+                src = 404
+    except:
+        src = 404
+    return src
 
 def getVideos(driver):
-    videos = driver.find_elements(By.CSS_SELECTOR, "[id^=video]")
+    #videos = driver.find_elements(By.CSS_SELECTOR, "[id^=video]")
+    videos = driver.find_elements(By.CLASS_NAME, "tool-video")
     videos = list(map(getVideoSrc, videos))
     return videos
 
@@ -164,6 +183,7 @@ def getSimpleTexts(driver):
     return texts
 
 def getAudioSrc(audio):
+    #audio = driver.find_elements(By.CSS_SELECTOR, "[id^=audio]")
     audio = audio.find_element(By.TAG_NAME, "video")
     return audio.get_attribute("src")
 
