@@ -5,18 +5,20 @@ import pandas as pd
 import json
 import os
 
-research = pd.read_json('internal_research.json')
+research = pd.read_json("internal_research.json")
 print(research.to_string())
-res = research['default-page']
+res = research["default-page"]
 print(res)
 
-#res = ["https://www.researchcatalogue.net/view/1756075/1756076"]
-#res = ["https://www.researchcatalogue.net/view/81827/81828"] # here hrefs in page are http and not https
+# res = ["https://www.researchcatalogue.net/view/1756075/1756076"]
+# res = ["https://www.researchcatalogue.net/view/81827/81828"] # here hrefs in page are http and not https
 
 options = Options()
 options.add_argument("--headless=new")
-options.add_argument("--hide-scrollbars");
-options.add_argument("window-size=1920,1609") #change size to 1920 1440 -- height val found empirically because of inconsistet viewport behavior with the --headless flag
+options.add_argument("--hide-scrollbars")
+options.add_argument(
+    "window-size=1920,1609"
+)  # change size to 1920 1440 -- height val found empirically because of inconsistet viewport behavior with the --headless flag
 
 RESSIZE = len(res)
 total = 0
@@ -28,39 +30,47 @@ failedUrls = []
 weaveFound = 0
 weaveNotFound = 0
 
-if not os.path.exists('toc.json'):
+if not os.path.exists("toc.json"):
     tocs_dict = {}
 else:
-    with open('toc.json') as toc:
+    with open("toc.json") as toc:
         tocs_dict = json.load(toc)
 
+
 def getTitle(atag):
-    return atag.get_attribute('innerHTML')
+    return atag.get_attribute("innerHTML")
+
 
 def getURL(atag):
-    return atag.get_attribute('href')
+    return atag.get_attribute("href")
+
 
 def notAuthor(atag):
-    if atag.get_attribute('rel') == 'author':
+    if atag.get_attribute("rel") == "author":
         return False
     else:
         return True
+
 
 def getExpositionUrl(fullUrl):
     parts = fullUrl.split("/")[:5]
     url = "/".join(parts)
     return url
 
+
 def getDomainView(fullUrl):
     parts = fullUrl.split("/")[:4]
     url = "/".join(parts)
     return url
 
+
 def getExpositionId(fullUrl):
     return fullUrl.split("/")[4]
 
+
 def getPageNumber(fullUrl):
     return fullUrl.split("/")[5].split("#")[0]
+
 
 def notContainsHash(fullUrl):
     page = fullUrl.split("/")[5]
@@ -68,6 +78,7 @@ def notContainsHash(fullUrl):
         return True
     else:
         return False
+
 
 def notAnchorAtOrigin(fullUrl):
     try:
@@ -78,7 +89,8 @@ def notAnchorAtOrigin(fullUrl):
             return True
     except:
         return True
-    
+
+
 def isSubPage(expositionUrl, url):
     try:
         expID = getExpositionId(expositionUrl)
@@ -89,7 +101,8 @@ def isSubPage(expositionUrl, url):
             return False
     except:
         return False
-    
+
+
 def isDomainView(url):
     try:
         base = getDomainView(url)
@@ -99,7 +112,8 @@ def isDomainView(url):
             return False
     except:
         return False
-    
+
+
 def smartZoom(driver):
     try:
         weave = driver.find_element(By.ID, "weave")
@@ -123,8 +137,9 @@ def smartZoom(driver):
         size = "weave not found"
     return [scale, size]
 
+
 def takeScreenshot(url, path, i, title, noTOC):
-    #path = path + "/" + str(i) + " " + title + ".png" #uncomment to name with title
+    # path = path + "/" + str(i) + " " + title + ".png" #uncomment to name with title
     page = getPageNumber(url)
     path = path + "/" + str(i) + ".png"
     print("| " + path)
@@ -152,13 +167,21 @@ def takeScreenshot(url, path, i, title, noTOC):
     else:
         print("| ✓ already available")
         print("------------------")
-    return {"page": page, "page_title": title, "url": url, "file": str(i) + ".png", "weave_size": scale[1]}
-    
+    return {
+        "page": page,
+        "page_title": title,
+        "url": url,
+        "file": str(i) + ".png",
+        "weave_size": scale[1],
+    }
+
+
 def makeDir(num):
     path = "screenshots/" + num
     if not os.path.exists(path):
         os.makedirs(path)
     return path
+
 
 def makeDirFromURL(url):
     num = getExpositionId(url)
@@ -168,6 +191,7 @@ def makeDirFromURL(url):
         os.makedirs(path)
     return path
 
+
 def countElements():
     # produce also copy single json for single exposition (TOC too)
     try:
@@ -175,33 +199,34 @@ def countElements():
         print("weave size: " + str(weave.size))
     except:
         print("!!! weave not found !!!")
-    
+
     try:
         contents = driver.find_element(By.XPATH, "/html/body/div[5]/ul/li[1]/ul")
         print("GRAPHICAL EXPOSITION")
-    #except NoSuchElementException:
-        #try:
-         #   contents = driver.find_element(By.ID, "content")
-          #  print("BLOCK EXPOSITION")
-        #except:
-         #   print("!!! contents not found !!!")
+    # except NoSuchElementException:
+    # try:
+    #   contents = driver.find_element(By.ID, "content")
+    #  print("BLOCK EXPOSITION")
+    # except:
+    #   print("!!! contents not found !!!")
     except:
         print("!!! contents not found !!!")
-        
+
     print("--------------------")
-    #pages = contents.find_elements(By.TAG_NAME, "a")
-    #print("weaves: " + str(len(pages)))
+    # pages = contents.find_elements(By.TAG_NAME, "a")
+    # print("weaves: " + str(len(pages)))
     pictures = driver.find_elements(By.CLASS_NAME, "tool-picture")
     print("pictures: " + str(len(pictures)))
     texts = driver.find_elements(By.CLASS_NAME, "tool-text")
     simpletexts = driver.find_elements(By.CLASS_NAME, "tool-simpletext")
-    print("texts: " + str(len(texts)+len(simpletexts)))
+    print("texts: " + str(len(texts) + len(simpletexts)))
     shapes = driver.find_elements(By.CLASS_NAME, "tool-shape")
     print("shapes: " + str(len(shapes)))
     videos = driver.find_elements(By.CLASS_NAME, "tool-video")
     print("videos: " + str(len(videos)))
     print("--------------------")
-    
+
+
 def findNav(driver):
     xpath = xpath
     try:
@@ -209,10 +234,12 @@ def findNav(driver):
         return nav
     except NoSuchElementException:
         print("| No nav found at xpath: " + xpath)
-        
+
+
 def findHrefsInPage(driver):
     links = driver.find_elements(By.TAG_NAME, "a")
     return list(map(getURL, links))
+
 
 def screenShotPages(fullUrl):
     num = getExpositionId(fullUrl)
@@ -221,50 +248,60 @@ def screenShotPages(fullUrl):
         toc = []
         path = makeDir(num)
         xpath = "/html/body/div[5]/ul/li[1]/ul"
-        xpathFonts = "/html/body/div[6]/ul/li[1]/ul" # this is the xpath when fonts not loaded
+        xpathFonts = (
+            "/html/body/div[6]/ul/li[1]/ul"  # this is the xpath when fonts not loaded
+        )
         try:
-            nav = driver.find_element(By.XPATH, xpath) # nav > contents
+            nav = driver.find_element(By.XPATH, xpath)  # nav > contents
         except:
             try:
                 nav = driver.find_element(By.XPATH, xpathFonts)
             except:
                 print("| " + fullUrl)
                 print("| No nav found at xpath")
-                
-        navList = nav.find_elements(By.TAG_NAME, "a") # list of content elements
-        filteredList = list(filter(notAuthor, navList)) # remove authors URLS
-        titles = list(map(getTitle, filteredList)) # get contents titles
-        contents = list(map(getURL, filteredList)) # get contents urls
+
+        navList = nav.find_elements(By.TAG_NAME, "a")  # list of content elements
+        filteredList = list(filter(notAuthor, navList))  # remove authors URLS
+        titles = list(map(getTitle, filteredList))  # get contents titles
+        contents = list(map(getURL, filteredList))  # get contents urls
         numEntries = len(contents)
-        if contents and numEntries != 1: # TOC exists. we cycle through TOC to get screenshots
-            for i in range(numEntries) :
+        if (
+            contents and numEntries != 1
+        ):  # TOC exists. we cycle through TOC to get screenshots
+            for i in range(numEntries):
                 url = contents[i]
                 path = makeDirFromURL(url)
                 print("| " + url)
-                #countElements()
+                # countElements()
                 j = takeScreenshot(url, path, i, titles[i], False)
                 toc.append(j)
             global counterTOC
             counterTOC = counterTOC + 1
-        else: # TOC not available or TOC available but single entry
+        else:  # TOC not available or TOC available but single entry
             expositionUrl = getExpositionUrl(fullUrl)
-            hrefs = list(set(findHrefsInPage(driver))) #find all links in page
-            subpages = list(filter(lambda href: isSubPage(fullUrl, href), hrefs)) #filter to get only exposition subpages
-            subpages = list(filter(notAnchorAtOrigin, subpages)) #filter out urls with anchor at 0/0
-            subpages = list(filter(notContainsHash, subpages)) #filter out urls with hash
+            hrefs = list(set(findHrefsInPage(driver)))  # find all links in page
+            subpages = list(
+                filter(lambda href: isSubPage(fullUrl, href), hrefs)
+            )  # filter to get only exposition subpages
+            subpages = list(
+                filter(notAnchorAtOrigin, subpages)
+            )  # filter out urls with anchor at 0/0
+            subpages = list(
+                filter(notContainsHash, subpages)
+            )  # filter out urls with hash
             print(subpages)
-            path = makeDirFromURL(fullUrl) 
-            if len(subpages) > 1: # if subpages found takes screenshot
+            path = makeDirFromURL(fullUrl)
+            if len(subpages) > 1:  # if subpages found takes screenshot
                 for i in range(len(subpages)):
                     url = subpages[i]
                     path = makeDirFromURL(url)
                     print("| " + url)
-                    #countElements()
+                    # countElements()
                     j = takeScreenshot(url, path, i, "no title", False)
                     toc.append(j)
                 global counterInferred
                 counterInferred = counterInferred + 1
-            else: # if no TOC and no subpages found take second screenshot
+            else:  # if no TOC and no subpages found take second screenshot
                 print("no TOC or inferred subpages found")
                 j = takeScreenshot(fullUrl, path, 0, "default page", False)
                 toc.append(j)
@@ -280,9 +317,13 @@ def screenShotPages(fullUrl):
         failedUrls.append(fullUrl)
     toc_dict = {"id": num, "toc": toc}
     toc_json = json.dumps(toc_dict)
-    with open("screenshots/" + num + "/" + "toc.json", "w") as outfile:
-        outfile.write(toc_json)
+    try:
+        with open("screenshots/" + num + "/" + "toc.json", "w") as outfile:
+            outfile.write(toc_json)
+    except:
+        print("could not open file:" + "screenshots/" + num + "/" + "toc.json")
     return toc_dict
+
 
 for exposition in res:
     print("")
@@ -292,7 +333,7 @@ for exposition in res:
     if not os.path.exists(path):
         driver = webdriver.Chrome(options=options)
         driver.get(exposition)
-        driver.add_cookie({'name' : 'navigationtooltip', 'value': '1'})
+        driver.add_cookie({"name": "navigationtooltip", "value": "1"})
         toc_dict = screenShotPages(exposition)
         tocs_dict.update({toc_dict["id"]: toc_dict["toc"]})
         tocs_json = json.dumps(tocs_dict)
