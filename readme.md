@@ -1,3 +1,6 @@
+# IMPORTANT:
+
+This only works if you have RC_API repo in a parallel folder!
 
 # Purpose
 
