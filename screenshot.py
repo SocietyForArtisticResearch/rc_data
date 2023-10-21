@@ -236,6 +236,11 @@ def findNav(driver):
         print("| No nav found at xpath: " + xpath)
 
 
+def getExpositionType(driver):
+    html = driver.find_element(By.TAG_NAME, "html")
+    return html.get_attribute("class")
+
+
 def findHrefsInPage(driver):
     links = driver.find_elements(By.TAG_NAME, "a")
     return list(map(getURL, links))
@@ -244,6 +249,7 @@ def findHrefsInPage(driver):
 def screenShotPages(fullUrl):
     num = getExpositionId(fullUrl)
     path = "screenshots/" + num
+    expositionType = getExpositionType(driver)
     try:
         toc = []
         path = makeDir(num)
@@ -315,7 +321,7 @@ def screenShotPages(fullUrl):
         failed = failed + 1
         global failedUrls
         failedUrls.append(fullUrl)
-    toc_dict = {"id": num, "toc": toc}
+    toc_dict = {"id": num, "type": expositionType, "toc": toc}
     toc_json = json.dumps(toc_dict)
     try:
         with open("screenshots/" + num + "/" + "toc.json", "w") as outfile:
