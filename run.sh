@@ -1,15 +1,20 @@
 #!/bin/sh
 
+echo "fetch a fresh internal_research.json"
+rm internal_research.json
+wget keywords.sarconference2016.net/internal_research.json
 
+echo "run screenshots.py to update new screenshots"
+python3 screenshots.py
 
-# first make the index of the screenshots
+echo "make the index json of the screenshots"
 cd screenshots
 ocaml structure_extract.ml ./ > screenshots.json
 cd ..
 
-# remove stale data and fetch fresh metadata
-rm internal_research.json
+echo "make a new enriched json file"
 rm enriched.json
-wget keywords.sarconference2016.net/internal_research.json
 elm-cli run src/Main.elm
-cp enriched.json ../rckeywords/enriched.json
+
+echo "copy to live app"
+cp enriched.json /var/www/html/enriched.json

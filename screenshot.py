@@ -10,8 +10,9 @@ print(research.to_string())
 res = research['default-page']
 print(res)
 
-force = True #True
+force = False
 
+#res = ["https://www.researchcatalogue.net/view/2346286/2346287"]
 #res = ["https://www.researchcatalogue.net/view/2346286/2346287"]
 #res = ["https://www.researchcatalogue.net/view/2269674/2269673"] #pdf
 #res = ["https://www.researchcatalogue.net/view/81827/81828"] # here hrefs in page are http and not https
@@ -225,13 +226,17 @@ def screenShotPages(fullUrl):
     num = getExpositionId(fullUrl)
     path = "screenshots/" + num
     expositionType = getExpositionType(driver)
+    print("path, before",path)
     try:
         toc = []
+        print("makedir")
         path = makeDir(num)
+        print("path:",path)
         xpath = "/html/body/div[5]/ul/li[1]/ul"
         xpathFonts = "/html/body/div[6]/ul/li[1]/ul" # this is the xpath when fonts not loaded
         try:
             nav = driver.find_element(By.XPATH, xpath) # nav > contents
+            print("nav",nav)
         except:
             try:
                 nav = driver.find_element(By.XPATH, xpathFonts)
