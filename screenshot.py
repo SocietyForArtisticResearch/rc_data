@@ -226,6 +226,12 @@ def screenShotPages(fullUrl):
     num = getExpositionId(fullUrl)
     path = "screenshots/" + num
     expositionType = getExpositionType(driver)
+    if expositionType == 'weave-text': # pdf?
+        print("Found type: " + expositionType + ". Waiting for PDF to load . . . ")
+        driver.implicitly_wait(120) # seconds
+    else:
+        print("Found type: " + expositionType)
+        driver.implicitly_wait(0)
     print("path, before",path)
     try:
         toc = []
