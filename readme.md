@@ -35,8 +35,23 @@ elm-cli run src/Main.elm
 - [x] works for weave-graphical and weave-block
 - [ ] pdf, embed, iframe are untested
 - [ ] extend to weave-text, weave-html
-- [ ] include external hyperlinks in json
+include external hyperlinks in json
 - [ ] detect scrollbars
+
+# RC metadata
+- [ ] number of tools
+- [ ] overlap (%)
+- [ ] number of links to external content
+- [ ] whitespace
+- [ ] surface area of tools
+- [ ] biggest tool 
+- [ ] aspect ratio
+- [ ] density
+- [ ] regularity
+- [ ] tool types
+- [ ] number of rotated tools
+- [ ] number of shapes 
+- [ ] customized style settings (background, padding etc..)
 
 
 ## TODO's
