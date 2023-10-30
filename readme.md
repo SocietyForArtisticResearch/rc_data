@@ -35,7 +35,7 @@ elm-cli run src/Main.elm
 - [x] works for weave-graphical and weave-block
 - [ ] pdf, embed, iframe are untested
 - [ ] extend to weave-text, weave-html
-include external hyperlinks in json
+- [ ]include external hyperlinks in json
 - [ ] detect scrollbars
 
 # RC metadata
