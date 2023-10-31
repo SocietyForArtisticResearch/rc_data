@@ -9,6 +9,22 @@ OPTIONS.add_argument("--headless=new")
 OPTIONS.add_argument("--hide-scrollbars");
 OPTIONS.add_argument("window-size=1920,1609")
 
+TOOLS = [
+    "tool-picture",
+    "tool-audio",
+    "tool-video",
+    "tool-shape",
+    "tool-pdf",
+    "tool-slideshow",
+    "tool-embed",
+    "tool-iframe"
+    ]
+
+TEXTTOOLS = [
+    "tool-text",
+    "tool-simpletext"
+    ]
+
 def getTitle(atag):
     return atag.get_attribute('innerHTML')
 
@@ -112,46 +128,6 @@ def getAllPages(expositionUrl, driver):
     #return [pages, titles]
     return pages
 
-def notMissingSrc(src):
-    if src == 404:
-        return False
-    else:
-        return True
-
-def getImageSrc(image):
-    try:
-        image = image.find_element(By.CSS_SELECTOR, "img")
-        src = image.get_attribute("src")
-    except:
-        src = 404
-    return src
-
-def getImages(driver):
-    images = driver.find_elements(By.CLASS_NAME, "tool-picture")
-    images = list(map(getImageSrc, images))
-    images = list(filter(notMissingSrc, images))
-    return images
-
-def getVideoSrc(video):
-    try:
-        #print(video.get_attribute("innerHTML"))
-        src = video.get_attribute("data-file")
-        if src == None:
-            try:
-                video = video.find_element(By.TAG_NAME, "video")
-                src = video.get_attribute("src")
-            except:
-                src = 404
-    except:
-        src = 404
-    return src
-
-def getVideos(driver):
-    #videos = driver.find_elements(By.CSS_SELECTOR, "[id^=video]")
-    videos = driver.find_elements(By.CLASS_NAME, "tool-video")
-    videos = list(map(getVideoSrc, videos))
-    return videos
-
 def removeStyle(text):
     soup = BeautifulSoup(text, features="html.parser")
     for script in soup(["script", "style"]):
@@ -169,27 +145,143 @@ def getStyledText(driver):
     text = driver.find_element(By.CLASS_NAME, "tool-content")
     text = text.get_attribute('innerHTML')
     return text
+
+def getId(tool):
+    anchor = tool.find_element(By.CSS_SELECTOR, "a")
+    tool_id = anchor.get_attribute("id")
+    return tool_id
+
+def getPosition(tool):
+    left = tool.value_of_css_property("left")
+    top = tool.value_of_css_property("top")
+    return [left, top]
+
+def getSize(tool):
+    width = tool.value_of_css_property("width")
+    height = tool.value_of_css_property("height")
+    return [width, height]
+
+def getRotation(tool):
+    rotate = tool.value_of_css_property("transform")
+    return rotate
+
+def getStyle(tool):
+    style = tool.get_attribute("style")
+    return style
+
+def getToolAttributes(tool):
+    tool_id = getId(tool)
+    tool_style = getStyle(tool)
+    tool_position = getPosition(tool)
+    tool_size = getSize(tool)
+    tool_rotation = getRotation(tool)
+    tool_dict = {
+        "id": tool_id,
+        "style": tool_style,
+        "position": tool_position,
+        "size": tool_size,
+        "rotation": tool_rotation
+        }
+    return tool_dict
+
+def getTextAttributes(tool):
+    tool_id = getId(tool)
+    tool_style = getStyle(tool)
+    tool_position = getPosition(tool)
+    tool_size = getSize(tool)
+    tool_rotation = getRotation(tool)
+    content = getStyledText(tool)
+    content = removeStyle(content)
+    tool_dict = {
+        "id": tool_id,
+        "style": tool_style,
+        "position": tool_position,
+        "size": tool_size,
+        "rotation": tool_rotation,
+        "content": content
+        }
+    return tool_dict
+
+def getTools(driver, which):
+    try:
+        tools = driver.find_elements(By.CLASS_NAME, which)
+        attributes = list(map(getToolAttributes, tools))
+    except:
+        pprint("found 0 " + which)
+        return []
+    print("found " + str(len(attributes)) + " " + which)
+    return attributes
+
+def getTexts(driver, which):
+    try:
+        texts = driver.find_elements(By.CLASS_NAME, which)
+        attributes = list(map(getTextAttributes, texts))
+    except:
+        print("found 0 " + which)
+        return []
+    print("found " + str(len(attributes)) + " " + which)
+    return attributes
+
+#https://selenium-python.readthedocs.io/locating-elements.html
+
+'''
+def getImages(driver):
+    images = driver.find_elements(By.CLASS_NAME, "tool-picture")
+    #images = list(map(getImageSrc, images))
+    #images = list(filter(notMissingSrc, images))
+    images = list(map(getToolAttributes, images))
+    return images
+
+def getAudios(driver):
+    audios = driver.find_elements(By.CLASS_NAME, "tool-audio")
+    audios = list(map(getToolAttributes, audios))
+    return audios
+
+def getVideos(driver):
+    #videos = driver.find_elements(By.CSS_SELECTOR, "[id^=video]")
+    videos = driver.find_elements(By.CLASS_NAME, "tool-video")
+    videos = list(map(getToolAttributes, videos))
+    return videos
+
+def getShapes(driver):
+    shapes = getTools(driver, "tool-shape")
+    return shapes
+
+def getPDFs(driver):
+    pdf = driver.find_elements(By.CLASS_NAME, "tool-pdf")
+    pdfs_attributes = list(map(getToolAttributes, pdfs))
+    return pdfs_attributes
     
-def getTexts(driver):
-    texts = driver.find_elements(By.CLASS_NAME, "tool-text")
-    texts = list(map(getStyledText, texts))
-    texts = list(map(removeStyle, texts))
-    return texts
-
-def getSimpleTexts(driver):
-    texts = driver.find_elements(By.CLASS_NAME, "tool-simpletext")
-    texts = list(map(getStyledText, texts))
-    texts = list(map(removeStyle, texts))
-    return texts
-
 def getAudioSrc(audio):
     #audio = driver.find_elements(By.CSS_SELECTOR, "[id^=audio]")
     audio = audio.find_element(By.TAG_NAME, "video")
     return audio.get_attribute("src")
+    
+def notMissingSrc(src):
+    if src == 404:
+        return False
+    else:
+        return True
 
-def getAudios(driver):
-    audios = driver.find_elements(By.CLASS_NAME, "tool-audio")
-    audios = list(map(getAudioSrc, audios))
-    return audios
+def getImageSrc(image):
+    try:
+        image = image.find_element(By.CSS_SELECTOR, "img")
+        src = image.get_attribute("src")
+    except:
+        src = 404
+    return src
 
-#https://selenium-python.readthedocs.io/locating-elements.html
+def getVideoSrc(video):
+    try:
+        #print(video.get_attribute("innerHTML"))
+        src = video.get_attribute("data-file")
+        if src == None:
+            try:
+                video = video.find_element(By.TAG_NAME, "video")
+                src = video.get_attribute("src")
+            except:
+                src = 404
+    except:
+        src = 404
+    return src
+'''
