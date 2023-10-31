@@ -10,12 +10,6 @@ type alias Dimensions =
     { x : Int, y : Int, w : Int, h : Int }
 
 
-type alias PageData =
-    { id : PageID
-    , tools : List Tool
-    }
-
-
 type TextData
     = TextData String
 
@@ -31,7 +25,18 @@ type Page
 
 
 type PageData
-    = PageData PageId (List Tool)
+    = PageData
+        { pageId : PageId
+        , tools : List Tool
+        }
+
+
+pageId (PageData pd) =
+    pd.pageId
+
+
+tools (PageData pd) =
+    pd.tools
 
 
 type alias ExpositionContents =
