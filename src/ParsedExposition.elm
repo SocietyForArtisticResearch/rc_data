@@ -24,6 +24,10 @@ type Page
     | TextPage TextData
 
 
+type alias PageId =
+    Int
+
+
 type PageData
     = PageData
         { pageId : PageId
@@ -74,7 +78,7 @@ type ToolId
 
 
 type Tool
-    = SimpleText ToolId String
+    = SimpleText SimpleTextData
     | HtmlText String
 
 
@@ -86,20 +90,28 @@ type Exposition
     = Exposition (List Page)
 
 
-textTools : D.Decoder (Dict PageID (List Tool))
-textTools =
+simpletext : ToolId -> String -> Tool
+simpletext id textContent =
+    SimpleText id textContent
+
+
+tool_text : D.Decoder (Dict PageID (List Tool))
+tool_text =
     let
-        page =
-            D.field "id" D.string |> D.map (\i -> SimpleText (ToolId i) "")
+        textTool =
+            D.map2
+                simpletext
+                (D.field "id" D.string |> D.map ToolId)
+                (D.field "content" D.string)
 
         pages =
-            D.list page
+            D.list textTool
     in
     D.keyValuePairs pages
-        |> D.andThen
+        |> D.map
             (\lst ->
                 lst
-                    |> List.map (Tuple.mapFirst (String.toInt |> Maybe.withDefault 0))
+                    |> List.map (Tuple.mapFirst (String.toInt >> Maybe.withDefault 0))
                     |> Dict.fromList
             )
 
