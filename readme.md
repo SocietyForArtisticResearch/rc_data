@@ -38,6 +38,7 @@ elm-cli run src/Main.elm
 - [ ] include external hyperlinks in json
 - [ ] detect scrollbars
 - [ ] make exectuable with exposition ID
+- [ ] transform: rotate(0deg) it's the user defined rotation
 
 # RC metadata
 - [ ] number of tools
