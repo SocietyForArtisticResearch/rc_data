@@ -37,6 +37,7 @@ elm-cli run src/Main.elm
 - [ ] extend to weave-text, weave-html
 - [ ] include external hyperlinks in json
 - [ ] detect scrollbars
+- [ ] make exectuable with exposition ID
 
 # RC metadata
 - [ ] number of tools
