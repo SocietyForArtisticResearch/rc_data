@@ -39,6 +39,7 @@ elm-cli run src/Main.elm
 - [ ] detect scrollbars
 - [ ] make exectuable with exposition ID
 - [ ] transform: rotate(0deg) it's the user defined rotation
+- [ ] tool-text and simpletext add field "scrollbar" https://www.researchcatalogue.net/view/1755544/1755583
 
 # RC metadata
 - [ ] number of tools
