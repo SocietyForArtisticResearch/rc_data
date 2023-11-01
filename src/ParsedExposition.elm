@@ -69,7 +69,15 @@ type alias ToolProperties =
 
 type alias SimpleTextData =
     { toolproperties : ToolProperties
-    , text : String
+    , content : String
+    , id : ToolId
+    }
+
+
+dummyToolProperties : ToolProperties
+dummyToolProperties =
+    { dimensions = { x = 0, y = 0, w = 0, h = 0 }
+    , style = ToolStyle
     }
 
 
@@ -92,7 +100,11 @@ type Exposition
 
 simpletext : ToolId -> String -> Tool
 simpletext id textContent =
-    SimpleText id textContent
+    SimpleText
+        { id = id
+        , content = textContent
+        , toolproperties = dummyToolProperties
+        }
 
 
 tool_text : D.Decoder (Dict PageID (List Tool))
