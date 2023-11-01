@@ -1,11 +1,12 @@
-#this currently only works for graphical and block editor
-#it creates 3 nested dictionaries: one per page, one per exposition, one per whole rc
-#then dumps to json
+# this currently only works for graphical and block editor
+# it creates 3 nested dictionaries: one per page, one per exposition, one per whole rc
+# then dumps to json
 from selenium import webdriver
 from rc_selenium import *
 import pandas as pd
 import json
 import os
+
 
 def rcDict(num):
     d = {
@@ -21,27 +22,30 @@ def rcDict(num):
         "tool-pdf": {},
         "tool-slideshow": {},
         "tool-embed": {},
-        "tool-iframe": {}
-        }
+        "tool-iframe": {},
+    }
     return d
 
-if not os.path.exists('rcdata.json'):
+
+if not os.path.exists("rcdata.json"):
     rc_dict = {}
 else:
-    with open('rcdata.json') as rc:
+    with open("rcdata.json") as rc:
         rc_dict = json.load(rc)
 
-#res = ["https://www.researchcatalogue.net/view/1912684/1912683"] #text-based
-#res = ["https://www.researchcatalogue.net/view/1731661/1731662"] #block
-#res = ["https://www.researchcatalogue.net/view/381565/694354"] #graphical
-#res = ["https://www.researchcatalogue.net/view/381571/381572"]
-#res = ["https://www.researchcatalogue.net/view/1813623/1838695"] #video
-#res = ["https://www.researchcatalogue.net/view/1912894/1912895"] #audio
-research = pd.read_json('internal_research.json')
-print(research.to_string())
-res = research['default-page']
+# res = ["https://www.researchcatalogue.net/view/1912684/1912683"] #text-based
+# res = ["https://www.researchcatalogue.net/view/1731661/1731662"] #block
+# res = ["https://www.researchcatalogue.net/view/381565/694354"] #graphical
+# res = ["https://www.researchcatalogue.net/view/381571/381572"]
+res = ["https://www.researchcatalogue.net/view/1755544/1755545"]  # block & graphical
+# res = ["https://www.researchcatalogue.net/view/1813623/1838695"] #video
+# res = ["https://www.researchcatalogue.net/view/1912894/1912895"] #audio
+# research = pd.read_json('internal_research.json')
+# print(research.to_string())
+# res = research['default-page']
+
 print(res)
-        
+
 for exposition in res:
     num = getExpositionId(exposition)
     path = "data/" + num
@@ -64,7 +68,7 @@ for exposition in res:
                 pages = [exposition]
             exp_dict["pages"] = pages
             print("pages: " + str(pages))
-   
+
             for page in pages:
                 driver.get(page)
                 page_dict = rcDict(num)
@@ -76,17 +80,17 @@ for exposition in res:
                 print(page)
                 pagePath = path + "/" + str(pageNumber)
                 os.makedirs(pagePath)
-                
+
                 for tool in TEXTTOOLS:
                     elements = getTexts(driver, tool)
                     page_dict[tool] = elements
                     exp_dict[tool][pageNumber] = elements
-                
+
                 for tool in TOOLS:
                     elements = getTools(driver, tool)
                     page_dict[tool] = elements
                     exp_dict[tool][pageNumber] = elements
-                    
+
                 page_json = json.dumps(page_dict)
                 with open(pagePath + "/" + "data.json", "w") as outfile:
                     outfile.write(page_json)

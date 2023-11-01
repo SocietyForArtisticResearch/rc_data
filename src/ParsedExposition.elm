@@ -1,17 +1,14 @@
 module ParsedExposition exposing (..)
 
 import Dict exposing (Dict)
-import Json.Decode as D
+import Json.Decode as D exposing (Decoder)
+import Json.Decode.Extra exposing (andMap)
 import Json.Encode as E
 import Research exposing (ExpositionID)
 
 
 type alias Dimensions =
     { x : Int, y : Int, w : Int, h : Int }
-
-
-type TextData
-    = TextData String
 
 
 
@@ -21,7 +18,53 @@ type TextData
 type Page
     = GraphicalPage PageData
     | BlockPage PageData
-    | TextPage TextData
+
+
+type EditorType
+    = Graph
+    | Block
+    | Text
+
+
+editorType : D.Decoder EditorType
+editorType =
+    D.string
+        |> D.map
+            (\str ->
+                case str of
+                    "weave-block" ->
+                        Block
+
+                    "weave-graphical" ->
+                        Graph
+
+                    _ ->
+                        Graph
+            )
+
+
+type alias PythonOutput =
+    { id : Int
+    , editorType : EditorType
+    , pages : List String
+    , toolText : Dict PageId (List Tool)
+    , toolHtml : Dict PageId (List Tool)
+    }
+
+
+expositionId : Decoder ExpositionID
+expositionId =
+    D.int
+
+
+parsePython : Decoder PythonOutput
+parsePython =
+    D.succeed PythonOutput
+        |> andMap (D.field "id" expositionId)
+        |> andMap (D.field "type" editorType)
+        |> andMap (D.field "pages" (D.list D.string))
+        |> andMap (D.field "tool-text" (toolText HtmlText))
+        |> andMap (D.field "tool-simpletext" (toolText SimpleText))
 
 
 type alias PageId =
@@ -67,7 +110,7 @@ type alias ToolProperties =
     }
 
 
-type alias SimpleTextData =
+type alias TextData =
     { toolproperties : ToolProperties
     , content : String
     , id : ToolId
@@ -86,8 +129,8 @@ type ToolId
 
 
 type Tool
-    = SimpleText SimpleTextData
-    | HtmlText String
+    = SimpleTextTool TextData
+    | HtmlTextTool TextData
 
 
 
@@ -100,19 +143,41 @@ type Exposition
 
 simpletext : ToolId -> String -> Tool
 simpletext id textContent =
-    SimpleText
+    SimpleTextTool
         { id = id
         , content = textContent
         , toolproperties = dummyToolProperties
         }
 
 
-tool_text : D.Decoder (Dict PageID (List Tool))
-tool_text =
+htmlText : ToolId -> String -> Tool
+htmlText id textContent =
+    HtmlTextTool
+        { id = id
+        , content = textContent
+        , toolproperties = dummyToolProperties
+        }
+
+
+type TextToolType
+    = SimpleText
+    | HtmlText
+
+
+toolText : TextToolType -> D.Decoder (Dict PageID (List Tool))
+toolText t =
     let
+        construct =
+            case t of
+                SimpleText ->
+                    simpletext
+
+                HtmlText ->
+                    htmlText
+
         textTool =
             D.map2
-                simpletext
+                construct
                 (D.field "id" D.string |> D.map ToolId)
                 (D.field "content" D.string)
 
@@ -126,8 +191,3 @@ tool_text =
                     |> List.map (Tuple.mapFirst (String.toInt >> Maybe.withDefault 0))
                     |> Dict.fromList
             )
-
-
-page : D.Decoder Page
-page =
-    D.field "tool-text"
