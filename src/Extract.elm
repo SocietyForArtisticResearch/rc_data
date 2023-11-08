@@ -17,18 +17,16 @@ parseJson json =
             in
             case result of
                 Ok expo ->
-                    expo |> ParsedExposition.transformStructure |> ParsedExposition.getText |> File.writeContentsTo "text.txt"
+                    expo
+                        |> ParsedExposition.transformStructure
+                        |> ParsedExposition.getText
+                        |> File.writeContentsTo "text.txt"
 
                 Err e ->
                     Proc.print <| Json.Decode.errorToString e
 
         Err e ->
             Proc.print <| "there was an error loading the file" ++ e
-
-
-writeTextFile : String -> IO ()
-writeTextFile contents =
-    File.writeContentsTo "all_text.txt" contents
 
 
 program : Process -> IO ()

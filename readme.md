@@ -1,6 +1,6 @@
 # IMPORTANT:
 
-This only works if you have RC_API repo in a parallel folder!
+The elm part only works if you have RC_API repo in a parallel folder!
 
 # Purpose
 
@@ -14,6 +14,16 @@ Once it will work you can run it using
 ```bash
 elm-cli run src/Main.elm
 ``` 
+
+# Extract.elm
+
+Extract.elm is a tool that you can run as follows:
+
+elm-cli src/Extract.elm
+
+You will first need to download metadata using rc_data.py (and update the file url in Extract.elm). It currently works on the basis of a single exposition, which is concatted together into a single textfile (text.txt).
+
+
 
 
 # screenshots and TOC
@@ -42,6 +52,10 @@ elm-cli run src/Main.elm
 - [ ] tool-text and simpletext add field "scrollbar" https://www.researchcatalogue.net/view/1755544/1755583
 
 # RC metadata
+
+- [ ] parse tool properties (style etc..)
+- [ ] parse all tools
+
 - [ ] number of tools
 - [ ] overlap (%)
 - [ ] number of links to external content
@@ -55,6 +69,9 @@ elm-cli run src/Main.elm
 - [ ] number of rotated tools
 - [ ] number of shapes 
 - [ ] customized style settings (background, padding etc..)
+
+# Parced exposition
+
 
 
 ## TODO's

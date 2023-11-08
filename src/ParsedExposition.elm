@@ -5,6 +5,7 @@ import Json.Decode as D exposing (Decoder)
 import Json.Decode.Extra exposing (andMap)
 import Json.Encode as E
 import Research exposing (ExpositionID)
+import Time exposing (Posix)
 
 
 type alias Dimensions =
@@ -122,6 +123,9 @@ toolToText tool =
         HtmlTextTool data ->
             getTextFromData data
 
+        ImageTool _ ->
+            ""
+
 
 
 -- TODO: maybe we can do something clever for other tools
@@ -171,7 +175,7 @@ type alias PageID =
 
 
 type ToolStyle
-    = ToolStyle
+    = ToolStyle String
 
 
 
@@ -191,10 +195,48 @@ type alias TextData =
     }
 
 
+toolProperties : Decoder ToolProperties
+toolProperties =
+    let
+        construct ( x, y ) ( w, h ) style =
+            { dimensions = { x = x, y = y, w = w, h = h }
+            , style = ToolStyle style
+            }
+    in
+    D.map3 construct
+        (D.field "position" decodePixelTuple)
+        (D.field "size" decodePixelTuple)
+        (D.field "style" D.string)
+
+
+decodePixelTuple : Decoder ( Int, Int )
+decodePixelTuple =
+    D.list D.string
+        |> D.andThen
+            (\lst ->
+                case lst of
+                    [ x, y ] ->
+                        [ x, y ]
+                            |> List.map (String.replace "px" "" >> String.toInt)
+                            |> List.filterMap identity
+                            |> (\lst2 ->
+                                    case lst2 of
+                                        [ i1, i2 ] ->
+                                            D.succeed ( i1, i2 )
+
+                                        _ ->
+                                            D.fail "expected two integers with "
+                               )
+
+                    _ ->
+                        D.fail "expected two px values"
+            )
+
+
 dummyToolProperties : ToolProperties
 dummyToolProperties =
     { dimensions = { x = 0, y = 0, w = 0, h = 0 }
-    , style = ToolStyle
+    , style = ToolStyle ""
     }
 
 
@@ -205,6 +247,18 @@ type ToolId
 type Tool
     = SimpleTextTool TextData
     | HtmlTextTool TextData
+    | ImageTool ImageData
+
+
+type TimedUrl
+    = TimedUrl Posix String
+
+
+type alias ImageData =
+    { toolId : ToolId
+    , content : TimedUrl
+    , toolProperties : ToolProperties
+    }
 
 
 
