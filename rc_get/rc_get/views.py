@@ -46,10 +46,14 @@ def get_exposition(expositionNumber):
         #os.makedirs(path)
         exp_dict = rcDict(num)
         expositionType = getExpositionType(driver)
+        if expositionType == "null":
+            return {"error": "editor is undefined. This exposition might only be accessible to registered users."}
         exp_dict["type"] = expositionType
         try:
             pages = getAllPages(exposition, driver)
-        except:
+        except Exception as e:
+            print("Pages not because: ")
+            print(e)
             pages = [exposition]
         exp_dict["pages"] = pages
 
@@ -94,6 +98,7 @@ def get_exposition(expositionNumber):
 
 XPATHNAV = "/html/body/div[5]/ul/li[1]/ul"
 XPATHNAVFONTS = "/html/body/div[6]/ul/li[1]/ul" # this is the xpath when fonts not loaded
+XPATHNAVBLOC = "/html/body/div[4]/div/ul/li[1]/ul/li[1]/a" # this is the xpath for block editor
 OPTIONS = Options()
 OPTIONS.add_argument("--headless=new")
 OPTIONS.add_argument("--hide-scrollbars");
@@ -132,8 +137,16 @@ def getExpositionTitle(driver):
     return driver.title;
     
 def getExpositionType(driver):
-    html = driver.find_element(By.TAG_NAME, "html");
-    return html.get_attribute("class")
+    try:
+        html = driver.find_element(By.TAG_NAME, "html");
+        expType = html.get_attribute("class")
+    except:
+        print("Editor type not found. This exposition might only be accessible to registered users.")
+        expType = "null"
+    if expType == "":
+        print("Editor type not found. This exposition might only be accessible to registered users.")
+        expType = "null"
+    return expType
 
 def findHrefsInPage(driver):
     return driver.find_elements(By.TAG_NAME, "a")
