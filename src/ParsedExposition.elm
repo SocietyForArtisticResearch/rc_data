@@ -1,4 +1,4 @@
-module ParsedExposition exposing (..)
+module ParsedExposition exposing (Dimensions, EditorType, Page, getText, parsePythonExposition, transformStructure)
 
 import Dict exposing (Dict)
 import Json.Decode as D exposing (Decoder)
@@ -57,14 +57,88 @@ expositionId =
     D.int
 
 
-parsePython : Decoder PythonOutput
-parsePython =
+parsePythonExposition : Decoder PythonOutput
+parsePythonExposition =
     D.succeed PythonOutput
         |> andMap (D.field "id" expositionId)
         |> andMap (D.field "type" editorType)
         |> andMap (D.field "pages" (D.list D.string))
         |> andMap (D.field "tool-text" (toolText HtmlText))
         |> andMap (D.field "tool-simpletext" (toolText SimpleText))
+
+
+combineValues : Dict comparable (List a) -> Dict comparable (List a) -> Dict comparable (List a)
+combineValues dictA dictB =
+    let
+        complete =
+            (dictA |> Dict.toList)
+                ++ (dictB |> Dict.toList)
+
+        f : ( comparable, List a ) -> Dict comparable (List a) -> Dict comparable (List a)
+        f ( key, values ) acc =
+            let
+                old =
+                    Dict.get key acc
+            in
+            case old of
+                Nothing ->
+                    Dict.insert key values acc
+
+                Just oldVal ->
+                    Dict.insert key (oldVal ++ values) acc
+    in
+    List.foldl f Dict.empty complete
+
+
+transformStructure : PythonOutput -> Exposition
+transformStructure python =
+    let
+        tls =
+            combineValues python.toolHtml python.toolText
+
+        -- idea: maybe exposition should use the dict of pages, instead of transforming into a list?
+        pages =
+            tls |> Dict.toList |> List.map (\( id, ts ) -> GraphicalPage (PageData { pageId = id, tools = ts }))
+    in
+    Exposition pages
+
+
+getTools : Page -> List Tool
+getTools page =
+    case page of
+        GraphicalPage (PageData pd) ->
+            pd.tools
+
+        BlockPage (PageData pd) ->
+            pd.tools
+
+
+toolToText : Tool -> String
+toolToText tool =
+    case tool of
+        SimpleTextTool data ->
+            getTextFromData data
+
+        HtmlTextTool data ->
+            getTextFromData data
+
+
+
+-- TODO: maybe we can do something clever for other tools
+
+
+getTextFromData : TextData -> String
+getTextFromData data =
+    data.content
+
+
+getText : Exposition -> String
+getText (Exposition pages) =
+    let
+        foldPage page acc =
+            getTools page |> List.map toolToText |> String.concat |> (\catted -> acc ++ catted)
+    in
+    pages |> List.foldl foldPage ""
 
 
 type alias PageId =
