@@ -1,5 +1,6 @@
 module ParsedExposition exposing (Dimensions, EditorType, Page, getText, parsePythonExposition, transformStructure)
 
+import AppUrl
 import Dict exposing (Dict)
 import Json.Decode as D exposing (Decoder)
 import Json.Decode.Extra exposing (andMap)
@@ -50,6 +51,9 @@ type alias PythonOutput =
     , pages : List String
     , toolText : Dict PageId (List Tool)
     , toolHtml : Dict PageId (List Tool)
+    , toolImage : Dict PageId (List Tool)
+
+    --, toolVideo : Dict PageId (List Tool)
     }
 
 
@@ -66,6 +70,7 @@ parsePythonExposition =
         |> andMap (D.field "pages" (D.list D.string))
         |> andMap (D.field "tool-text" (toolText HtmlText))
         |> andMap (D.field "tool-simpletext" (toolText SimpleText))
+        |> andMap (D.field "tool-picture" toolImage)
 
 
 combineValues : Dict comparable (List a) -> Dict comparable (List a) -> Dict comparable (List a)
@@ -124,6 +129,9 @@ toolToText tool =
             getTextFromData data
 
         ImageTool _ ->
+            ""
+
+        VideoTool _ ->
             ""
 
 
@@ -247,16 +255,17 @@ type ToolId
 type Tool
     = SimpleTextTool TextData
     | HtmlTextTool TextData
-    | ImageTool ImageData
+    | ImageTool { id : ToolId, toolProperties : ToolProperties, mediaUrl : String }
+    | VideoTool VideoData
 
 
-type TimedUrl
-    = TimedUrl Posix String
+type alias Url =
+    String
 
 
-type alias ImageData =
+type alias VideoData =
     { toolId : ToolId
-    , content : TimedUrl
+    , content : Url
     , toolProperties : ToolProperties
     }
 
@@ -311,6 +320,41 @@ toolText t =
 
         pages =
             D.list textTool
+    in
+    D.keyValuePairs pages
+        |> D.map
+            (\lst ->
+                lst
+                    |> List.map (Tuple.mapFirst (String.toInt >> Maybe.withDefault 0))
+                    |> Dict.fromList
+            )
+
+
+type alias ImageData =
+    { toolId : ToolId
+    , media : Url
+    , toolProperties : ToolProperties
+    }
+
+
+toolImage : D.Decoder (Dict PageID (List Tool))
+toolImage =
+    let
+        imageTool =
+            D.map3
+                (\id props mediaUrl ->
+                    ImageTool
+                        { id = id
+                        , toolProperties = props
+                        , mediaUrl = mediaUrl
+                        }
+                )
+                (D.field "id" D.string |> D.map ToolId)
+                toolProperties
+                (D.succeed "todo.png")
+
+        pages =
+            D.list imageTool
     in
     D.keyValuePairs pages
         |> D.map
