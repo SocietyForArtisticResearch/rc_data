@@ -1,36 +1,51 @@
+# this currently only works for graphical and block editor
+# it creates 3 nested dictionaries: one per page, one per exposition, one per whole rc
+# then dumps to json
 from selenium import webdriver
 from rc_selenium import *
 import pandas as pd
 import json
 import os
 
+
 def rcDict(num):
     d = {
         "id": int(num),
         "type": "",
         "pages": [],
-        "simpletexts": [],
-        "texts": [],
-        "images": [],
-        "videos": [],
-        "audios": []
-        }
+        "tool-text": {},
+        "tool-simpletext": {},
+        "tool-picture": {},
+        "tool-audio": {},
+        "tool-video": {},
+        "tool-shape": {},
+        "tool-pdf": {},
+        "tool-slideshow": {},
+        "tool-embed": {},
+        "tool-iframe": {},
+    }
     return d
 
-if not os.path.exists('toc.json'):
-    tocs_dict = {}
+
+if not os.path.exists("rcdata.json"):
+    rc_dict = {}
 else:
-    with open('toc.json') as toc:
-        tocs_dict = json.load(toc)
-        
-#res = ["https://www.researchcatalogue.net/view/381571/381572"]
-#res = ["https://www.researchcatalogue.net/view/1813623/1838695"] #video
-#res = ["https://www.researchcatalogue.net/view/1912894/1912895"] #audio
-research = pd.read_json('internal_research.json')
-print(research.to_string())
-res = research['default-page']
+    with open("rcdata.json") as rc:
+        rc_dict = json.load(rc)
+
+# res = ["https://www.researchcatalogue.net/view/1912684/1912683"] #text-based
+# res = ["https://www.researchcatalogue.net/view/1731661/1731662"] #block
+# res = ["https://www.researchcatalogue.net/view/381565/694354"] #graphical
+# res = ["https://www.researchcatalogue.net/view/381571/381572"]
+res = ["https://www.researchcatalogue.net/view/1723425/1723422"]  # block & graphical
+# res = ["https://www.researchcatalogue.net/view/1813623/1838695"] #video
+# res = ["https://www.researchcatalogue.net/view/1912894/1912895"] #audio
+# research = pd.read_json('internal_research.json')
+# print(research.to_string())
+# res = research['default-page']
+
 print(res)
-        
+
 for exposition in res:
     num = getExpositionId(exposition)
     path = "data/" + num
@@ -53,11 +68,7 @@ for exposition in res:
                 pages = [exposition]
             exp_dict["pages"] = pages
             print("pages: " + str(pages))
-            dict_simpletexts = {}
-            dict_texts = {}
-            dict_images = {}
-            dict_videos = {}
-            dict_audios = {}
+
             for page in pages:
                 driver.get(page)
                 page_dict = rcDict(num)
@@ -65,58 +76,35 @@ for exposition in res:
                 page_dict["type"] = pageType
                 pageNumber = getPageNumber(page)
                 page_dict["pages"] = pageNumber
+                print("-----------------------------------")
                 print(page)
                 pagePath = path + "/" + str(pageNumber)
                 os.makedirs(pagePath)
-                try:
-                    images = getImages(driver)
-                    print(pageNumber, "images: ", images)
-                    page_dict["images"] = images
-                    dict_images[pageNumber] = images
-                except:
-                    print("no images found")
-                try:
-                    videos = getVideos(driver)
-                    page_dict["videos"] = videos
-                    dict_videos[pageNumber] = videos
-                    print(pageNumber, "videos: ", videos)
-                except:
-                    print("no videos found")
-                try:
-                    texts = getTexts(driver)
-                    print(pageNumber, "texts: ", texts)
-                    page_dict["texts"] = texts
-                    dict_texts[pageNumber] = texts
-                except:
-                    print("no texts found")
-                try:
-                    audios = getAudios(driver)
-                    print(pageNumber, "audios: ", audios)
-                    page_dict["audios"] = audios
-                    dict_audios[pageNumber] = audios
-                except:
-                    print("no audios found")
-                try:
-                    simpletexts = getSimpleTexts(driver)
-                    print(getPageNumber(page), "simpletexts: ", simpletexts)
-                    page_dict["simpletexts"] = simpletexts
-                    dict_simpletexts[pageNumber] = simpletexts
-                except:
-                    print("no simpletetxts found")
+
+                for tool in TEXTTOOLS:
+                    elements = getTexts(driver, tool)
+                    page_dict[tool] = elements
+                    exp_dict[tool][pageNumber] = elements
+
+                for tool in TOOLS:
+                    elements = getTools(driver, tool)
+                    page_dict[tool] = elements
+                    exp_dict[tool][pageNumber] = elements
+
                 page_json = json.dumps(page_dict)
                 with open(pagePath + "/" + "data.json", "w") as outfile:
                     outfile.write(page_json)
-            print(dict_images)
-            exp_dict["simpletexts"] = dict_simpletexts
-            exp_dict["texts"] = dict_texts
-            exp_dict["images"] = dict_images
-            exp_dict["videos"] = dict_videos
-            exp_dict["audios"] = dict_audios
+
             print(exp_dict)
             exp_json = json.dumps(exp_dict)
             print(exp_json)
             with open(path + "/" + "data.json", "w") as outfile:
                 outfile.write(exp_json)
+            rc_dict[str(num)] = exp_dict
+            print(rc_dict)
+            rc_json = json.dumps(rc_dict)
+            with open("rcdata.json", "w") as outfile:
+                outfile.write(rc_json)
         except:
             print("Failed to get exposition: " + exposition)
         driver.quit()
