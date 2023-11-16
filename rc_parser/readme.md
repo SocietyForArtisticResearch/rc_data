@@ -14,3 +14,6 @@ then request exposition:
 ```
 http://127.0.0.1:8080/rcget/835089/835129
 ```
+TODO
+- match dimensions (int, int, int, int)
+- return page type (pageID, pagetype)
