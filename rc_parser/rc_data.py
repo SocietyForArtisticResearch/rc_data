@@ -11,8 +11,9 @@ app = Flask(__name__)
 def rcDict(num):
     d = {
         "id": int(num),
-        "type": "",
+        "default-page-type": "",
         "pages": [],
+        "page-type": {},
         "tool-text": {},
         "tool-simpletext": {},
         "tool-picture": {},
@@ -39,7 +40,7 @@ def parseExposition(expnum, defaultpage):
     if DEBUG: print(URL)
     if DEBUG: print("id: " + num)
     expositionType = getPageType(parsed)
-    exp_dict["type"] = expositionType[0]
+    exp_dict["default-page-type"] = expositionType[0]
     if DEBUG: print("type: " + expositionType[0])
 
     pages = getAllPages(URL, parsed)
@@ -50,22 +51,24 @@ def parseExposition(expnum, defaultpage):
         subpage = requests.get(page)
         parsed = BeautifulSoup(subpage.content, 'html.parser')
         
-        page_dict = rcDict(num)
+        #page_dict = rcDict(num)
         pageType = getPageType(parsed)
-        page_dict["type"] = pageType
+        #page_dict["type"] = pageType
         pageNumber = getPageNumber(page)
-        page_dict["pages"] = pageNumber
+        pageType = getPageType(parsed)
+        exp_dict["page-type"][pageNumber] = pageType[0]
+        #page_dict["pages"] = pageNumber
         if DEBUG: print("-----------------------------------")
         if DEBUG: print(page)
         
         for tool in TEXTTOOLS:
             elements = getTexts(parsed, tool, DEBUG)
-            page_dict[tool] = elements
+            #page_dict[tool] = elements
             exp_dict[tool][pageNumber] = elements
                         
         for tool in TOOLS:
             elements = getTools(parsed, tool, DEBUG)
-            page_dict[tool] = elements
+            #page_dict[tool] = elements
             exp_dict[tool][pageNumber] = elements
             
     #print(exp_dict)

@@ -36,9 +36,17 @@ def getId(tool):
     tool_id = anchor["id"]
     return tool_id
 
+def getStyleAttributes(style):
+    attributes = []
+    attrs = style.split("px;")
+    for x in range(4):
+        attr = attrs[x].split(":")
+        attributes.append(int(attr[1]))
+    return attributes
+
 def getStyle(tool):
     style = tool['style']
-    return style
+    return style 
 
 def getContent(tool):
     content = tool.find("div", {"class": "tool-content"})
@@ -55,11 +63,13 @@ def getVideoSrc(tool_content):
 def getImageAttributes(tool):
     tool_id = getId(tool)
     tool_style = getStyle(tool)
+    tool_dimensions = getStyleAttributes(tool_style)
     tool_content = getContent(tool)
     tool_src = getImageSrc(tool_content)
     tool_dict = {
         "id": tool_id,
         "style": tool_style,
+        "dimensions": tool_dimensions,
         "content": str(tool_content),
         "src": tool_src,
         "tool": str(tool)
@@ -69,11 +79,13 @@ def getImageAttributes(tool):
 def getVideoAttributes(tool):
     tool_id = getId(tool)
     tool_style = getStyle(tool)
+    tool_dimensions = getStyleAttributes(tool_style)
     tool_content = getContent(tool)
     tool_src = getVideoSrc(tool_content)
     tool_dict = {
         "id": tool_id,
         "style": tool_style,
+        "dimensions": tool_dimensions,
         "content": str(tool_content),
         "src": tool_src,
         "tool": str(tool)
@@ -83,10 +95,12 @@ def getVideoAttributes(tool):
 def getToolAttributes(tool):
     tool_id = getId(tool)
     tool_style = getStyle(tool)
+    tool_dimensions = getStyleAttributes(tool_style)
     tool_content = getContent(tool)
     tool_dict = {
         "id": tool_id,
         "style": tool_style,
+        "dimensions": tool_dimensions,
         "content": str(tool_content),
         "tool": str(tool)
         }
@@ -113,11 +127,13 @@ def removeStyle(text):
 def getTextAttributes(tool):
     tool_id = getId(tool)
     tool_style = getStyle(tool)
+    tool_dimensions = getStyleAttributes(tool_style)
     tool_content = getContent(tool)
     tool_source = removeStyle(str(tool_content))
     tool_dict = {
         "id": tool_id,
         "style": tool_style,
+        "dimensions": tool_dimensions,
         "content": str(tool_content),
         "src": tool_source,
         "tool": str(tool)
