@@ -8,7 +8,7 @@
 pip install flask
 pip install waitress
 export FLASK_APP=rc_data
-run flask
+flask run
 ```
 then request exposition:
 ```
