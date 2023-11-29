@@ -228,7 +228,7 @@ def screenShotPages(fullUrl):
     expositionType = getExpositionType(driver)
     if expositionType == 'weave-text': # pdf?
         print("Found type: " + expositionType + ". Waiting for PDF to load . . . ")
-        driver.implicitly_wait(120) # seconds
+        driver.implicitly_wait(65) # seconds
     else:
         print("Found type: " + expositionType)
         driver.implicitly_wait(0)
@@ -306,7 +306,6 @@ def screenShotPages(fullUrl):
 def downloadExposition(exposition):
     driver.get(exposition)
     driver.add_cookie({'name' : 'navigationtooltip', 'value': '1'})
-    #driver.implicitly_wait(180) # seconds
     toc_dict = screenShotPages(exposition)
     tocs_dict.update({toc_dict["id"]: toc_dict["toc"]})
     tocs_json = json.dumps(tocs_dict)
