@@ -281,7 +281,9 @@ def screenShotPages(fullUrl):
             else: # if no TOC and no subpages found take second screenshot
                 print("no TOC or inferred subpages found")
                 j = takeScreenshot(fullUrl, path, 0, "default page", False)
-                toc.append(j) # we just take a single screenshot
+                toc.append(j)
+                j = takeScreenshot(fullUrl, path, 1, "default page", True)
+                toc.append(j)
                 global counterSinglePage
                 counterSinglePage = counterSinglePage + 1
     except:
