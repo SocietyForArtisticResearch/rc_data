@@ -60,6 +60,10 @@ def getVideoSrc(tool_content):
     divs = tool_content.find_all("div")
     return divs[0]["data-file"]
 
+def getVideoPoster(tool_content):
+    divs = tool_content.find_all("div")
+    return divs[0]["data-image"]
+
 def getImageAttributes(tool):
     tool_id = getId(tool)
     tool_style = getStyle(tool)
@@ -76,7 +80,7 @@ def getImageAttributes(tool):
         }
     return tool_dict
 
-def getVideoAttributes(tool):
+def getAudioAttributes(tool):
     tool_id = getId(tool)
     tool_style = getStyle(tool)
     tool_dimensions = getStyleAttributes(tool_style)
@@ -88,6 +92,24 @@ def getVideoAttributes(tool):
         "dimensions": tool_dimensions,
         "content": str(tool_content),
         "src": tool_src,
+        "tool": str(tool)
+        }
+    return tool_dict
+
+def getVideoAttributes(tool):
+    tool_id = getId(tool)
+    tool_style = getStyle(tool)
+    tool_dimensions = getStyleAttributes(tool_style)
+    tool_content = getContent(tool)
+    tool_src = getVideoSrc(tool_content)
+    tool_poster = getVideoPoster(tool_content)
+    tool_dict = {
+        "id": tool_id,
+        "style": tool_style,
+        "dimensions": tool_dimensions,
+        "content": str(tool_content),
+        "src": tool_src,
+        "poster": tool_poster,
         "tool": str(tool)
         }
     return tool_dict
@@ -155,7 +177,9 @@ def getTools(page, which, debug):
         tools = page.find_all(class_= which)
         if which in ["tool-picture", "tool-pdf", "tool-slideshow"]:
             attributes = list(map(getImageAttributes, tools))
-        elif which in ["tool-audio", "tool-video"]:
+        elif which in ["tool-audio"]:
+            attributes = list(map(getAudioAttributes, tools))
+        elif which in ["tool-video"]:
             attributes = list(map(getVideoAttributes, tools))
         else:
             attributes = list(map(getToolAttributes, tools))
