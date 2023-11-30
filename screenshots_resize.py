@@ -17,7 +17,7 @@ def cycle_screenshots(starting_directory):
             print(os.path.join(root, directory))
         print("Files:")
         for file in files:
-            if (file.endswith('.png') or file.endswith(".jpg") or file.endswith(".jpeg")):
+            if file.endswith('.png'):
                 file_name = path.basename(file)
                 img = Image.open(os.path.join(root, file))
                 img = img.convert('RGB')
