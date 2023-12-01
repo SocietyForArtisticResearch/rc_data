@@ -160,7 +160,7 @@ toolToText tool =
 
 getTextFromData : TextData -> String
 getTextFromData data =
-    data.content
+    data.text
 
 
 getText : Exposition -> String
@@ -305,7 +305,8 @@ type Tool
 
 type alias TextData =
     { toolProperties : ToolProperties
-    , content : String
+    , html : String
+    , text : String
     , id : ToolId
     }
 
@@ -346,20 +347,22 @@ type Exposition
     = Exposition (List Page)
 
 
-simpletext : ToolId -> String -> Tool
-simpletext id textContent =
+simpletext : ToolId -> String -> String -> Tool
+simpletext id html text =
     SimpleTextTool
         { id = id
-        , content = textContent
+        , html = html
+        , text = text
         , toolProperties = dummyToolProperties
         }
 
 
-htmlText : ToolId -> String -> Tool
-htmlText id textContent =
+htmlText : ToolId -> String -> String -> Tool
+htmlText id html text =
     HtmlTextTool
         { id = id
-        , content = textContent
+        , html = html
+        , text = text
         , toolProperties = dummyToolProperties
         }
 
@@ -381,10 +384,11 @@ toolText t =
                     htmlText
 
         textTool =
-            D.map2
+            D.map3
                 construct
                 (D.field "id" D.string |> D.map ToolId)
                 (D.field "content" D.string)
+                (D.field "src" D.string)
 
         pgs =
             D.list textTool
