@@ -37,12 +37,14 @@ else:
 # res = ["https://www.researchcatalogue.net/view/1731661/1731662"] #block
 # res = ["https://www.researchcatalogue.net/view/381565/694354"] #graphical
 # res = ["https://www.researchcatalogue.net/view/381571/381572"]
-res = ["https://www.researchcatalogue.net/view/1723425/1723422"]  # block & graphical
+#res = ["https://www.researchcatalogue.net/view/1723425/1723422"]  # block & graphical
 # res = ["https://www.researchcatalogue.net/view/1813623/1838695"] #video
 # res = ["https://www.researchcatalogue.net/view/1912894/1912895"] #audio
-# research = pd.read_json('internal_research.json')
-# print(research.to_string())
-# res = research['default-page']
+
+# loading the data from file
+research = pd.read_json('internal_research.json')
+print(research.to_string())
+res = research['default-page']
 
 print(res)
 

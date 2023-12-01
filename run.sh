@@ -1,4 +1,5 @@
 #!/bin/sh
+cd /home/casper/devel/rc_data
 
 echo "fetch a fresh internal_research.json"
 rm internal_research.json

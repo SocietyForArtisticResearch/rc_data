@@ -80,6 +80,6 @@ def parseExposition(expnum, defaultpage):
 
 if __name__ == "rc_data":
     from waitress import serve
-    serve(app, host="0.0.0.0", port=8080)
+    serve(app, host="0.0.0.0", port=5001)
 
 #https://www.digitalocean.com/community/tutorials/how-to-create-your-first-web-application-using-flask-and-python-3#step-4-routes-and-view-functions
