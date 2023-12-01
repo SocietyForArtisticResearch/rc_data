@@ -28,6 +28,25 @@ type EditorType
     | Text
 
 
+type PageURL
+    = PageURL String
+
+
+pageUrlToString : PageURL -> String
+pageUrlToString (PageURL u) =
+    u
+
+
+pageUrls : D.Decoder (List PageURL)
+pageUrls =
+    D.list D.string |> D.map (List.map PageURL)
+
+
+fetchPageID : PageURL -> Maybe PageID
+fetchPageID (PageURL p) =
+    p |> String.split "/" |> List.reverse |> List.head |> Maybe.andThen String.toInt
+
+
 editorType : D.Decoder EditorType
 editorType =
     D.string
@@ -52,8 +71,7 @@ type alias PythonOutput =
     , toolText : Dict PageId (List Tool)
     , toolHtml : Dict PageId (List Tool)
     , toolImage : Dict PageId (List Tool)
-
-    --, toolVideo : Dict PageId (List Tool)
+    , toolVideo : Dict PageId (List Tool)
     }
 
 
@@ -71,6 +89,7 @@ parsePythonExposition =
         |> andMap (D.field "tool-text" (toolText HtmlText))
         |> andMap (D.field "tool-simpletext" (toolText SimpleText))
         |> andMap (D.field "tool-picture" toolImage)
+        |> andMap (D.field "tool-video" toolVideo)
 
 
 combineValues : Dict comparable (List a) -> Dict comparable (List a) -> Dict comparable (List a)
@@ -103,10 +122,10 @@ transformStructure python =
             combineValues python.toolHtml python.toolText
 
         -- idea: maybe exposition should use the dict of pages, instead of transforming into a list?
-        pages =
+        pgs =
             tls |> Dict.toList |> List.map (\( id, ts ) -> GraphicalPage (PageData { pageId = id, tools = ts }))
     in
-    Exposition pages
+    Exposition pgs
 
 
 getTools : Page -> List Tool
@@ -145,12 +164,12 @@ getTextFromData data =
 
 
 getText : Exposition -> String
-getText (Exposition pages) =
+getText (Exposition ps) =
     let
         foldPage page acc =
             getTools page |> List.map toolToText |> String.concat |> (\catted -> acc ++ catted)
     in
-    pages |> List.foldl foldPage ""
+    ps |> List.foldl foldPage ""
 
 
 type alias PageId =
@@ -162,6 +181,25 @@ type PageData
         { pageId : PageId
         , tools : List Tool
         }
+
+
+extractToolList : Exposition -> List Tool
+extractToolList (Exposition pagesLst) =
+    let
+        toolsLstLst =
+            pagesLst
+                |> List.map
+                    (\page ->
+                        case page of
+                            GraphicalPage (PageData pd) ->
+                                pd.tools
+
+                            BlockPage (PageData pd) ->
+                                pd.tools
+                    )
+    in
+    toolsLstLst
+        |> List.concat
 
 
 pageId (PageData pd) =
@@ -196,25 +234,31 @@ type alias ToolProperties =
     }
 
 
-type alias TextData =
-    { toolproperties : ToolProperties
-    , content : String
-    , id : ToolId
-    }
-
-
 toolProperties : Decoder ToolProperties
 toolProperties =
     let
-        construct ( x, y ) ( w, h ) style =
-            { dimensions = { x = x, y = y, w = w, h = h }
+        construct dim style =
+            { dimensions = dim
             , style = ToolStyle style
             }
     in
-    D.map3 construct
-        (D.field "position" decodePixelTuple)
-        (D.field "size" decodePixelTuple)
+    D.map2 construct
+        (D.field "dimensions" decodeDimensions)
         (D.field "style" D.string)
+
+
+decodeDimensions : Decoder Dimensions
+decodeDimensions =
+    D.list D.int
+        |> D.andThen
+            (\lst ->
+                case lst of
+                    [ x, y, w, h ] ->
+                        D.succeed { x = x, y = y, w = w, h = h }
+
+                    _ ->
+                        D.fail "I expected a list with 4 integers, x y w h"
+            )
 
 
 decodePixelTuple : Decoder ( Int, Int )
@@ -259,6 +303,29 @@ type Tool
     | VideoTool VideoData
 
 
+type alias TextData =
+    { toolProperties : ToolProperties
+    , content : String
+    , id : ToolId
+    }
+
+
+getSize : Tool -> Dimensions
+getSize tool =
+    case tool of
+        SimpleTextTool d ->
+            d.toolProperties.dimensions
+
+        HtmlTextTool d ->
+            d.toolProperties.dimensions
+
+        ImageTool d ->
+            d.toolProperties.dimensions
+
+        VideoTool d ->
+            d.toolProperties.dimensions
+
+
 type alias Url =
     String
 
@@ -266,6 +333,7 @@ type alias Url =
 type alias VideoData =
     { toolId : ToolId
     , content : Url
+    , previewThumb : Url
     , toolProperties : ToolProperties
     }
 
@@ -283,7 +351,7 @@ simpletext id textContent =
     SimpleTextTool
         { id = id
         , content = textContent
-        , toolproperties = dummyToolProperties
+        , toolProperties = dummyToolProperties
         }
 
 
@@ -292,7 +360,7 @@ htmlText id textContent =
     HtmlTextTool
         { id = id
         , content = textContent
-        , toolproperties = dummyToolProperties
+        , toolProperties = dummyToolProperties
         }
 
 
@@ -318,10 +386,10 @@ toolText t =
                 (D.field "id" D.string |> D.map ToolId)
                 (D.field "content" D.string)
 
-        pages =
+        pgs =
             D.list textTool
     in
-    D.keyValuePairs pages
+    D.keyValuePairs pgs
         |> D.map
             (\lst ->
                 lst
@@ -355,6 +423,34 @@ toolImage =
 
         pages =
             D.list imageTool
+    in
+    D.keyValuePairs pages
+        |> D.map
+            (\lst ->
+                lst
+                    |> List.map (Tuple.mapFirst (String.toInt >> Maybe.withDefault 0))
+                    |> Dict.fromList
+            )
+
+
+toolVideo : D.Decoder (Dict PageID (List Tool))
+toolVideo =
+    let
+        videoTool =
+            D.map3
+                (\id props mediaUrl ->
+                    ImageTool
+                        { id = id
+                        , toolProperties = props
+                        , mediaUrl = mediaUrl
+                        }
+                )
+                (D.field "id" D.string |> D.map ToolId)
+                toolProperties
+                (D.succeed "todo.png")
+
+        pages =
+            D.list videoTool
     in
     D.keyValuePairs pages
         |> D.map
