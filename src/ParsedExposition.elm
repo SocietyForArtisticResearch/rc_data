@@ -1,7 +1,20 @@
-module ParsedExposition exposing (Dimensions, EditorType, Page, getText, parsePythonExposition, transformStructure)
+module ParsedExposition exposing
+    ( Dimensions
+    , EditorType
+    , Exposition(..)
+    , Page(..)
+    , decodeList
+    , getText
+    , parsePythonExposition
+    , pretty
+    , transformStructure
+    )
 
 import AppUrl
+import Color exposing (Color)
 import Dict exposing (Dict)
+import Html exposing (Html, text)
+import Html.Attributes
 import Json.Decode as D exposing (Decoder)
 import Json.Decode.Extra exposing (andMap)
 import Json.Encode as E
@@ -22,6 +35,16 @@ type Page
     | BlockPage PageData
 
 
+pageData : Page -> PageData
+pageData p =
+    case p of
+        GraphicalPage pd ->
+            pd
+
+        BlockPage pd ->
+            pd
+
+
 type EditorType
     = Graph
     | Block
@@ -30,6 +53,45 @@ type EditorType
 
 type PageURL
     = PageURL String
+
+
+pretty : List Exposition -> Html msg
+pretty exps =
+    Html.ul [] (List.map prettyExp exps)
+
+
+prettyExp : Exposition -> Html msg
+prettyExp (Exposition pages) =
+    Html.li [] [ Html.ul [] (pages |> List.map prettyPage) ]
+
+
+prettyPage : Page -> Html msg
+prettyPage page =
+    Html.li []
+        [ page |> pageData |> pageId |> printId
+        , Html.ul [] (page |> getTools |> List.map prettyTool)
+        ]
+
+
+toolWithColor : String -> Color -> Html msg
+toolWithColor name color =
+    Html.span [ Html.Attributes.style "color" (Color.toCssString color) ] [ text name ]
+
+
+prettyTool : Tool -> Html msg
+prettyTool tl =
+    case tl of
+        SimpleTextTool _ ->
+            toolWithColor " simple text " Color.red
+
+        HtmlTextTool _ ->
+            toolWithColor " html text " Color.blue
+
+        ImageTool _ ->
+            toolWithColor " image tool " Color.brown
+
+        VideoTool _ ->
+            toolWithColor " video tool " Color.darkYellow
 
 
 pageUrlToString : PageURL -> String
@@ -115,6 +177,12 @@ combineValues dictA dictB =
     List.foldl f Dict.empty complete
 
 
+decodeList : Decoder (List Exposition)
+decodeList =
+    D.list parsePythonExposition
+        |> D.map (List.map transformStructure)
+
+
 transformStructure : PythonOutput -> Exposition
 transformStructure python =
     let
@@ -183,6 +251,21 @@ type PageData
         }
 
 
+pageId : PageData -> PageId
+pageId (PageData pd) =
+    pd.pageId
+
+
+tools : PageData -> List Tool
+tools (PageData pd) =
+    pd.tools
+
+
+printId : PageId -> Html msg
+printId i =
+    Html.text ("page id: " ++ String.fromInt i)
+
+
 extractToolList : Exposition -> List Tool
 extractToolList (Exposition pagesLst) =
     let
@@ -200,14 +283,6 @@ extractToolList (Exposition pagesLst) =
     in
     toolsLstLst
         |> List.concat
-
-
-pageId (PageData pd) =
-    pd.pageId
-
-
-tools (PageData pd) =
-    pd.tools
 
 
 type alias ExpositionContents =
