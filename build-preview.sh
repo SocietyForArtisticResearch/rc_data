@@ -1,0 +1,1 @@
+elm make src/TestView.elm --output=build/main.js

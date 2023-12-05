@@ -1,0 +1,10 @@
+{
+    "targets": {
+        "My target name": {
+            "inputs": [
+                "src/TestView.elm"
+            ],
+            "output": "build/main.js"
+        }
+    }
+}

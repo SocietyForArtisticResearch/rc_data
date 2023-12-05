@@ -15,7 +15,9 @@ then request exposition:
 http://127.0.0.1:8080/rcget/835089/835129
 ```
 TODO
-- check parsedAbstract
+[ ] check parsedAbstract
+[ ] Currently pageurl and type are kept in seperated lists, which means I have to look up the type using the ID. I suggest we combine the url and type like so:
+  pages : { 
 
 DONE
 - match dimensions (int, int, int, int)

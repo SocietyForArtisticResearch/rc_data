@@ -1,7 +1,20 @@
-module ParsedExposition exposing (Dimensions, EditorType, Page, getText, parsePythonExposition, transformStructure)
+module ParsedExposition exposing
+    ( Dimensions
+    , EditorType
+    , Exposition(..)
+    , Page(..)
+    , decodeList
+    , getText
+    , parsePythonExposition
+    , pretty
+    , transformStructure
+    )
 
 import AppUrl
+import Color exposing (Color)
 import Dict exposing (Dict)
+import Html exposing (Html, text)
+import Html.Attributes
 import Json.Decode as D exposing (Decoder)
 import Json.Decode.Extra exposing (andMap)
 import Json.Encode as E
@@ -22,10 +35,78 @@ type Page
     | BlockPage PageData
 
 
+pageData : Page -> PageData
+pageData p =
+    case p of
+        GraphicalPage pd ->
+            pd
+
+        BlockPage pd ->
+            pd
+
+
 type EditorType
     = Graph
     | Block
     | Text
+
+
+type PageURL
+    = PageURL String
+
+
+pretty : List Exposition -> Html msg
+pretty exps =
+    Html.ul [] (List.map prettyExp exps)
+
+
+prettyExp : Exposition -> Html msg
+prettyExp (Exposition data) =
+    Html.li [] [ Html.h1 [] [ data.id |> String.fromInt |> text ], Html.ul [] (data.pages |> List.map prettyPage) ]
+
+
+prettyPage : Page -> Html msg
+prettyPage page =
+    Html.li []
+        [ page |> pageData |> pageId |> printId
+        , Html.ul [] (page |> getTools |> List.map prettyTool)
+        ]
+
+
+toolWithColor : String -> Color -> Html msg
+toolWithColor name color =
+    Html.span [ Html.Attributes.style "color" (Color.toCssString color) ] [ text name ]
+
+
+prettyTool : Tool -> Html msg
+prettyTool tl =
+    case tl of
+        SimpleTextTool _ ->
+            toolWithColor " txt " Color.red
+
+        HtmlTextTool _ ->
+            toolWithColor " html " Color.blue
+
+        ImageTool _ ->
+            toolWithColor " image tool " Color.brown
+
+        VideoTool _ ->
+            toolWithColor " video tool " Color.darkYellow
+
+
+pageUrlToString : PageURL -> String
+pageUrlToString (PageURL u) =
+    u
+
+
+pageUrls : D.Decoder (List PageURL)
+pageUrls =
+    D.list D.string |> D.map (List.map PageURL)
+
+
+fetchPageID : PageURL -> Maybe PageID
+fetchPageID (PageURL p) =
+    p |> String.split "/" |> List.reverse |> List.head |> Maybe.andThen String.toInt
 
 
 editorType : D.Decoder EditorType
@@ -52,8 +133,7 @@ type alias PythonOutput =
     , toolText : Dict PageId (List Tool)
     , toolHtml : Dict PageId (List Tool)
     , toolImage : Dict PageId (List Tool)
-
-    --, toolVideo : Dict PageId (List Tool)
+    , toolVideo : Dict PageId (List Tool)
     }
 
 
@@ -71,6 +151,7 @@ parsePythonExposition =
         |> andMap (D.field "tool-text" (toolText HtmlText))
         |> andMap (D.field "tool-simpletext" (toolText SimpleText))
         |> andMap (D.field "tool-picture" toolImage)
+        |> andMap (D.field "tool-video" toolVideo)
 
 
 combineValues : Dict comparable (List a) -> Dict comparable (List a) -> Dict comparable (List a)
@@ -96,6 +177,12 @@ combineValues dictA dictB =
     List.foldl f Dict.empty complete
 
 
+decodeList : Decoder (List Exposition)
+decodeList =
+    D.list parsePythonExposition
+        |> D.map (List.map transformStructure)
+
+
 transformStructure : PythonOutput -> Exposition
 transformStructure python =
     let
@@ -103,10 +190,10 @@ transformStructure python =
             combineValues python.toolHtml python.toolText
 
         -- idea: maybe exposition should use the dict of pages, instead of transforming into a list?
-        pages =
+        pgs =
             tls |> Dict.toList |> List.map (\( id, ts ) -> GraphicalPage (PageData { pageId = id, tools = ts }))
     in
-    Exposition pages
+    Exposition { pages = pgs, id = python.id }
 
 
 getTools : Page -> List Tool
@@ -141,16 +228,16 @@ toolToText tool =
 
 getTextFromData : TextData -> String
 getTextFromData data =
-    data.content
+    data.text
 
 
 getText : Exposition -> String
-getText (Exposition pages) =
+getText (Exposition data) =
     let
         foldPage page acc =
             getTools page |> List.map toolToText |> String.concat |> (\catted -> acc ++ catted)
     in
-    pages |> List.foldl foldPage ""
+    data.pages |> List.foldl foldPage ""
 
 
 type alias PageId =
@@ -164,12 +251,38 @@ type PageData
         }
 
 
+pageId : PageData -> PageId
 pageId (PageData pd) =
     pd.pageId
 
 
+tools : PageData -> List Tool
 tools (PageData pd) =
     pd.tools
+
+
+printId : PageId -> Html msg
+printId i =
+    Html.text ("page id: " ++ String.fromInt i)
+
+
+extractToolList : Exposition -> List Tool
+extractToolList (Exposition data) =
+    let
+        toolsLstLst =
+            data.pages
+                |> List.map
+                    (\page ->
+                        case page of
+                            GraphicalPage (PageData pd) ->
+                                pd.tools
+
+                            BlockPage (PageData pd) ->
+                                pd.tools
+                    )
+    in
+    toolsLstLst
+        |> List.concat
 
 
 type alias ExpositionContents =
@@ -196,25 +309,31 @@ type alias ToolProperties =
     }
 
 
-type alias TextData =
-    { toolproperties : ToolProperties
-    , content : String
-    , id : ToolId
-    }
-
-
 toolProperties : Decoder ToolProperties
 toolProperties =
     let
-        construct ( x, y ) ( w, h ) style =
-            { dimensions = { x = x, y = y, w = w, h = h }
+        construct dim style =
+            { dimensions = dim
             , style = ToolStyle style
             }
     in
-    D.map3 construct
-        (D.field "position" decodePixelTuple)
-        (D.field "size" decodePixelTuple)
+    D.map2 construct
+        (D.field "dimensions" decodeDimensions)
         (D.field "style" D.string)
+
+
+decodeDimensions : Decoder Dimensions
+decodeDimensions =
+    D.list D.int
+        |> D.andThen
+            (\lst ->
+                case lst of
+                    [ x, y, w, h ] ->
+                        D.succeed { x = x, y = y, w = w, h = h }
+
+                    _ ->
+                        D.fail "I expected a list with 4 integers, x y w h"
+            )
 
 
 decodePixelTuple : Decoder ( Int, Int )
@@ -259,6 +378,30 @@ type Tool
     | VideoTool VideoData
 
 
+type alias TextData =
+    { toolProperties : ToolProperties
+    , html : String
+    , text : String
+    , id : ToolId
+    }
+
+
+getSize : Tool -> Dimensions
+getSize tool =
+    case tool of
+        SimpleTextTool d ->
+            d.toolProperties.dimensions
+
+        HtmlTextTool d ->
+            d.toolProperties.dimensions
+
+        ImageTool d ->
+            d.toolProperties.dimensions
+
+        VideoTool d ->
+            d.toolProperties.dimensions
+
+
 type alias Url =
     String
 
@@ -266,6 +409,7 @@ type alias Url =
 type alias VideoData =
     { toolId : ToolId
     , content : Url
+    , previewThumb : Url
     , toolProperties : ToolProperties
     }
 
@@ -275,24 +419,26 @@ type alias VideoData =
 
 
 type Exposition
-    = Exposition (List Page)
+    = Exposition { pages : List Page, id : ExpositionID }
 
 
-simpletext : ToolId -> String -> Tool
-simpletext id textContent =
+simpletext : ToolId -> String -> String -> Tool
+simpletext id html text =
     SimpleTextTool
         { id = id
-        , content = textContent
-        , toolproperties = dummyToolProperties
+        , html = html
+        , text = text
+        , toolProperties = dummyToolProperties
         }
 
 
-htmlText : ToolId -> String -> Tool
-htmlText id textContent =
+htmlText : ToolId -> String -> String -> Tool
+htmlText id html text =
     HtmlTextTool
         { id = id
-        , content = textContent
-        , toolproperties = dummyToolProperties
+        , html = html
+        , text = text
+        , toolProperties = dummyToolProperties
         }
 
 
@@ -313,15 +459,16 @@ toolText t =
                     htmlText
 
         textTool =
-            D.map2
+            D.map3
                 construct
                 (D.field "id" D.string |> D.map ToolId)
                 (D.field "content" D.string)
+                (D.field "src" D.string)
 
-        pages =
+        pgs =
             D.list textTool
     in
-    D.keyValuePairs pages
+    D.keyValuePairs pgs
         |> D.map
             (\lst ->
                 lst
@@ -355,6 +502,34 @@ toolImage =
 
         pages =
             D.list imageTool
+    in
+    D.keyValuePairs pages
+        |> D.map
+            (\lst ->
+                lst
+                    |> List.map (Tuple.mapFirst (String.toInt >> Maybe.withDefault 0))
+                    |> Dict.fromList
+            )
+
+
+toolVideo : D.Decoder (Dict PageID (List Tool))
+toolVideo =
+    let
+        videoTool =
+            D.map3
+                (\id props mediaUrl ->
+                    ImageTool
+                        { id = id
+                        , toolProperties = props
+                        , mediaUrl = mediaUrl
+                        }
+                )
+                (D.field "id" D.string |> D.map ToolId)
+                toolProperties
+                (D.succeed "todo.png")
+
+        pages =
+            D.list videoTool
     in
     D.keyValuePairs pages
         |> D.map

@@ -31,5 +31,5 @@ parseJson json =
 
 program : Process -> IO ()
 program process =
-    File.contentsOf "data/1723425/data.json"
+    File.contentsOf "rc_parser/data.json"
         |> IO.andThen parseJson
