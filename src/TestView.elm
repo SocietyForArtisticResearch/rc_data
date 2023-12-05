@@ -12,6 +12,7 @@ import ParsedExposition
 -- MAIN
 
 
+main : Program () Model Msg
 main =
     Browser.element
         { init = init

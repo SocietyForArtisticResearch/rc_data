@@ -61,8 +61,8 @@ pretty exps =
 
 
 prettyExp : Exposition -> Html msg
-prettyExp (Exposition pages) =
-    Html.li [] [ Html.ul [] (pages |> List.map prettyPage) ]
+prettyExp (Exposition data) =
+    Html.li [] [ Html.h1 [] [ data.id |> String.fromInt |> text ], Html.ul [] (data.pages |> List.map prettyPage) ]
 
 
 prettyPage : Page -> Html msg
@@ -82,10 +82,10 @@ prettyTool : Tool -> Html msg
 prettyTool tl =
     case tl of
         SimpleTextTool _ ->
-            toolWithColor " simple text " Color.red
+            toolWithColor " txt " Color.red
 
         HtmlTextTool _ ->
-            toolWithColor " html text " Color.blue
+            toolWithColor " html " Color.blue
 
         ImageTool _ ->
             toolWithColor " image tool " Color.brown
@@ -193,7 +193,7 @@ transformStructure python =
         pgs =
             tls |> Dict.toList |> List.map (\( id, ts ) -> GraphicalPage (PageData { pageId = id, tools = ts }))
     in
-    Exposition pgs
+    Exposition { pages = pgs, id = python.id }
 
 
 getTools : Page -> List Tool
@@ -232,12 +232,12 @@ getTextFromData data =
 
 
 getText : Exposition -> String
-getText (Exposition ps) =
+getText (Exposition data) =
     let
         foldPage page acc =
             getTools page |> List.map toolToText |> String.concat |> (\catted -> acc ++ catted)
     in
-    ps |> List.foldl foldPage ""
+    data.pages |> List.foldl foldPage ""
 
 
 type alias PageId =
@@ -267,10 +267,10 @@ printId i =
 
 
 extractToolList : Exposition -> List Tool
-extractToolList (Exposition pagesLst) =
+extractToolList (Exposition data) =
     let
         toolsLstLst =
-            pagesLst
+            data.pages
                 |> List.map
                     (\page ->
                         case page of
@@ -419,7 +419,7 @@ type alias VideoData =
 
 
 type Exposition
-    = Exposition (List Page)
+    = Exposition { pages : List Page, id : ExpositionID }
 
 
 simpletext : ToolId -> String -> String -> Tool
