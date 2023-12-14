@@ -1,7 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from bs4 import BeautifulSoup
 import pandas as pd
+import requests
 import json
 import os
 
@@ -16,6 +18,7 @@ force = False
 #res = ["https://www.researchcatalogue.net/view/2346286/2346287"]
 #res = ["https://www.researchcatalogue.net/view/2269674/2269673"] #pdf
 #res = ["https://www.researchcatalogue.net/view/81827/81828"] # here hrefs in page are http and not https
+#res = ["https://www.researchcatalogue.net/view/1735361/1735362"]
 
 options = Options()
 options.add_argument("--headless=new")
@@ -37,6 +40,19 @@ if not os.path.exists('toc.json'):
 else:
     with open('toc.json') as toc:
         tocs_dict = json.load(toc)
+        
+if not os.path.exists('screenshots/wt.json'):
+    wt_done = []
+else:
+    with open('screenshots/wt.json') as wt:
+        wt_done = json.load(wt)
+
+def getPageType(page):
+    html = page.find("html");
+    return html['class'][0]
+
+def getExpositionId(fullUrl):
+    return fullUrl.split("/")[4]
 
 def getTitle(atag):
     return atag.get_attribute('innerHTML')
@@ -299,32 +315,43 @@ def screenShotPages(fullUrl):
     return toc_dict
 
 def downloadExposition(exposition):
-    driver.get(exposition)
-    expositionType = getExpositionType(driver)
+    expo = requests.get(exposition)
+    parsed = BeautifulSoup(expo.content, 'html.parser')
+    expositionType = getPageType(parsed)
     if expositionType == 'weave-text':
-        print("Exposition type: " + expositionType + ". Force download")
-        driver.add_cookie({'name' : 'navigationtooltip', 'value': '1'})
-        toc_dict = screenShotPages(exposition)
-        tocs_dict.update({toc_dict["id"]: toc_dict["toc"]})
-        tocs_json = json.dumps(tocs_dict)
-        with open("toc.json", "w") as outfile:
-            outfile.write(tocs_json)
-        global total
-        total = total + 1
-        print("")
-        print(tocs_dict)
-        print(str(total) + "/" + str(RESSIZE))
-        print("TOC: " + str(counterTOC))
-        print("Inferred: " + str(counterInferred))
-        print("Single Page: " + str(counterSinglePage))
-        print("Failed: " + str(failed))
-        print(failedUrls)
-        print("Found Weaves: " + str(weaveFound))
-        print("No Weaves: " + str(weaveNotFound))
-        print("")
+        print("Exposition type: " + expositionType)
+        num = getExpositionId(exposition)
+        if num in wt_done:
+            print("File exists. Skip download")
+        else:
+            wt_done.append(num)
+            wt_json = json.dumps(wt_done)
+            driver.get(exposition)
+            print("Force download")
+            driver.add_cookie({'name' : 'navigationtooltip', 'value': '1'})
+            toc_dict = screenShotPages(exposition)
+            tocs_dict.update({toc_dict["id"]: toc_dict["toc"]})
+            tocs_json = json.dumps(tocs_dict)
+            with open("toc.json", "w") as outfile:
+                outfile.write(tocs_json)
+            global total
+            total = total + 1
+            print("")
+            print(tocs_dict)
+            print(str(total) + "/" + str(RESSIZE))
+            print("TOC: " + str(counterTOC))
+            print("Inferred: " + str(counterInferred))
+            print("Single Page: " + str(counterSinglePage))
+            print("Failed: " + str(failed))
+            print(failedUrls)
+            print("Found Weaves: " + str(weaveFound))
+            print("No Weaves: " + str(weaveNotFound))
+            print("")
+            with open("screenshots/" + "wt.json", "w") as outfile:
+                outfile.write(wt_json)
+            driver.quit()
     else:
         print("Exposition type: " + expositionType + ". Skip download")
-    driver.quit()
 
 for exposition in res:
     print("")
@@ -333,3 +360,4 @@ for exposition in res:
     path = "screenshots/" + num
     driver = webdriver.Chrome(options=options)
     downloadExposition(exposition)
+
