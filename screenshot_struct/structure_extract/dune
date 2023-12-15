@@ -1,0 +1,3 @@
+(library
+ (name structure_extract)
+ (libraries angstrom str))
