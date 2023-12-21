@@ -18,7 +18,7 @@ let generate_structure root =
       (list_directory root)
   in
 
-  (* For each expositionID, list its weaves *)
+  (* For each folder with ExpositionID, list its weave folders *)
   let weaves =
     List.map
       (fun expo ->
@@ -29,7 +29,7 @@ let generate_structure root =
             (list_directory path)
         in
 
-        (* For each weave, list its PNGs *)
+        (* For each weavefolder with weave id, list its files *)
         let screenshots =
           List.map
             (fun weave ->
@@ -43,49 +43,10 @@ let generate_structure root =
   in
   weaves
 
-(* let print_as_json structure =
-   let join_with f lst = String.concat ",\n" (List.map f lst) in
-
-   let print_weave (weave, pngs) =
-     sprintf "    \"%s\": [%s]" weave
-       (String.concat ", " (List.map (fun png -> sprintf "\"%s\"" png) pngs))
-   in
-
-   printf "{\n";
-   printf "%s"
-     (join_with
-        (fun (expo, weaves) ->
-          sprintf "  \"%s\": {\n%s\n  }" expo (join_with print_weave weaves))
-        structure);
-   printf "\n}\n" *)
-
-(*
-  structure is as follows
-0-450x346-compressed.jpg        0-600x462-compressed.jpg        0.png
-0-450x346.jpg                   0-600x462.jpg 
-*)
-
-(* type file =
-   | Compressed of { id : int; w : int; h : int }
-   | Resized of { id : int; w : int; h : int }
-   | Normal of { id : int } *)
-
-(* let debug label s =
-   print_endline label;
-   print_endline s *)
-
 type image_type =
   | Compressed of int * int * int
   | Original of int
   | Resized of int * int * int
-
-(* let encode_image url =
-   match url with
-   | Compressed (id, w, h) ->
-       `Assoc [ ("id", `Int id); ("w", `Int w); ("h", `Int h) ]
-   | Original id -> `Assoc [ ("id", `Int id) ]
-   | Resized (id, w, h) ->
-       `Assoc [ ("id", `Int id); ("w", `Int w); ("h", `Int h) ] *)
 
 let is_compressed_withid arg = function
   | Compressed (id, _, _) -> id = arg
@@ -99,7 +60,6 @@ let is_resized_withid arg = function
 
 let compressed id w h = Compressed (id, w, h)
 let resized id w h = Resized (id, w, h)
-(* let original id = Original id *)
 
 let rec collect_until f max n =
   if n > max then []
@@ -126,7 +86,6 @@ let encode_file (Filename url) = `String url
 let encode_file_of_imaget image_t = image_t |> construct_url |> encode_file
 
 let encode_all lst =
-  (* let open Yojson in *)
   let collect_id arg =
     let comp = List.find_opt (is_compressed_withid arg) lst in
     let norm = List.find_opt (is_original_withid arg) lst in
@@ -196,7 +155,6 @@ let fileUrlParser url =
        ] );
    ] *)
 
-(* (string * (string * string list) list) list *)
 let map_tree_to_json (tree : (string * (string * string list) list) list) :
     string =
   let fromFile (file : string) : image_type option =
