@@ -148,20 +148,20 @@ def takeFirstImage(url, path, i, title, noTOC):
     path = path + "/" + str(i) + ".png"
     print("| " + path)
     print(path)
-    print("WRITE")
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     img_tags = soup.find_all('img')
     urls = [img['src'] for img in img_tags]
     urll = urls[0]
-    print("WRITE")
     print(path)
     with open(path, 'wb') as f:
         response = requests.get(urll)
-        print(response)
+        print("| ⬇ downloading")
+        print("| " + urll)
+        #print("| " + response)
         f.write(response.content)
         
-    return {"page": page, "page_title": title, "url": url, "file": str(i) + ".png", "weave_size": scale[1]}
+    return {"page": page, "page_title": title, "url": url, "file": str(i) + ".png", "weave_size": 100}
 
 def takeScreenshot(url, path, i, title, noTOC):
     #path = path + "/" + str(i) + " " + title + ".png" #uncomment to name with title
@@ -178,7 +178,7 @@ def takeScreenshot(url, path, i, title, noTOC):
             print("| zoom: " + zoom)
             driver.execute_script("document.body.style.zoom='" + zoom + "'")
         else:
-            zoom = str(scale[0]) + "%"
+            zoom = "200" + "%"
             print("| zoom: " + zoom)
             driver.execute_script("document.body.style.zoom='" + zoom + "'")
         driver.save_screenshot(path)
@@ -292,9 +292,11 @@ def screenShotPages(fullUrl):
                 path = makeDirFromURL(url)
                 print("| " + url)
                 #countElements()
-                #j = takeScreenshot(url, path, i, titles[i], False)
-                print("TAKE IMAGE")
-                j = takeFirstImage(url, path, i, titles[i], False)
+                try:
+                    j = takeFirstImage(url, path, i, titles[i], False)
+                except:
+                    print("no image found. default to screenshot")
+                    j = takeScreenshot(url, path, i, titles[i], False)
                 print("TAKEN")
                 toc.append(j)
             global counterTOC
@@ -313,20 +315,22 @@ def screenShotPages(fullUrl):
                     path = makeDirFromURL(url)
                     print("| " + url)
                     #countElements()
-                    #j = takeScreenshot(url, path, i, "no title", False)
                     print("TAKE IMAGE")
-                    j = takeFirstImage(url, path, i, "no title", False)
+                    try:
+                        j = takeFirstImage(url, path, i, "no title", False)
+                    except:
+                        print("no image found. default to screenshot")
+                        j = takeScreenshot(url, path, i, "no title", False)
                     toc.append(j)
                 global counterInferred
                 counterInferred = counterInferred + 1
             else: # if no TOC and no subpages found take second screenshot
                 print("no TOC or inferred subpages found")
-                #j = takeScreenshot(fullUrl, path, 0, "default page", False)
-                print("TAKE IMAGE")
-                j = takeFirstImage(fullUrl, path, 0, "default page", False)
-                toc.append(j)
-                #j = takeScreenshot(fullUrl, path, 1, "default page", True)
-                j = takeFirstImage(fullUrl, path, 1, "default page", False)
+                try:
+                    j = takeFirstImage(fullUrl, path, 0, "default page", False)
+                except:
+                    print("no image found. default to screenshot")
+                    j = takeScreenshot(fullUrl, path, 0, "default page", False)
                 toc.append(j)
                 global counterSinglePage
                 counterSinglePage = counterSinglePage + 1
