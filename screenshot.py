@@ -141,8 +141,27 @@ def smartZoom(driver):
         size = "weave not found"
     return [scale, size]
 
+def takeFirstImage(url, path, i, title):
+    page = getPageNumber(url)
+    path = path + "/" + str(i) + ".png"
+    print("| " + path)
+    print(path)
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    img_tags = soup.find_all('img')
+    urls = [img['src'] for img in img_tags]
+    urll = urls[0]
+    print(path)
+    with open(path, 'wb') as f:
+        response = requests.get(urll)
+        print("| ⬇ downloading")
+        print("| " + urll)
+        #print("| " + response)
+        f.write(response.content)
+        
+    return {"page": page, "page_title": title, "url": url, "file": str(i) + ".png", "weave_size": 100}
 
-def takeScreenshot(url, path, i, title, noTOC):
+def takeScreenshot(url, path, i, title):
     # path = path + "/" + str(i) + " " + title + ".png" #uncomment to name with title
     page = getPageNumber(url)
     path = path + "/" + str(i) + ".png"
@@ -150,19 +169,46 @@ def takeScreenshot(url, path, i, title, noTOC):
     # if not os.path.exists(path):
     try:
         driver.get(url)
-        scale = smartZoom(driver)
-        if noTOC:
-            scal = scale[0] * 2
-            zoom = str(scal) + "%"
-            print("| zoom: " + zoom)
-            driver.execute_script("document.body.style.zoom='" + zoom + "'")
-        else:
-            zoom = str(scale[0]) + "%"
-            print("| zoom: " + zoom)
-            driver.execute_script("document.body.style.zoom='" + zoom + "'")
-        driver.save_screenshot(path)
-        print("| ⬇ downloading")
-        print("------------------")
+        expositionType = getExpositionType(driver)
+        match expositionType:
+            case "weave-graphical":
+                scale = smartZoom(driver)
+                scal = scale[0] * 2
+                zoom = str(scal) + "%"
+                print("| zoom: " + zoom)
+                driver.execute_script("document.body.style.zoom='" + zoom + "'")
+                driver.save_screenshot(path)
+                print("| ⬇ downloading")
+                print("------------------")
+            case "weave-block":
+                zoom = "200%"
+                print("| zoom: " + zoom)
+                driver.execute_script("document.body.style.zoom='" + zoom + "'")
+                driver.save_screenshot(path)
+                print("| ⬇ downloading")
+                print("------------------")
+            case "weave-text":
+                try:
+                    takeFirstImage(url, path, i, titles[i], False)
+                except:
+                    print("no image found. default to screenshot")
+                    zoom = "200%"
+                    print("Found type: " + expositionType + ". Waiting for PDF to load . . . ")
+                    driver.implicitly_wait(30)  # seconds
+                    print("| zoom: " + zoom)
+                    driver.execute_script("document.body.style.zoom='" + zoom + "'")
+                    driver.save_screenshot(path)
+                    print("| ⬇ downloading")
+                    print("------------------")
+                    driver.implicitly_wait(0)
+            case _:
+                scal = scale[0] * 2
+                zoom = str(scal) + "%"
+                print("| zoom: " + zoom)
+                driver.execute_script("document.body.style.zoom='" + zoom + "'")
+                driver.save_screenshot(path)
+                print("| ⬇ downloading")
+                print("------------------")
     except:
         i = 404
         title = "failed"
@@ -176,7 +222,7 @@ def takeScreenshot(url, path, i, title, noTOC):
         "page_title": title,
         "url": url,
         "file": str(i) + ".png",
-        "weave_size": scale[1],
+        "weave_size": zoom  #this is inconsistent, but for back compatibility
     }
 
 
@@ -254,14 +300,6 @@ def screenShotPages(fullUrl):
     num = getExpositionId(fullUrl)
     path = "screenshots/" + num
     expositionType = getExpositionType(driver)
-    if expositionType == "weave-text":  # pdf?
-        print("Found type: " + expositionType + ". Waiting for PDF to load . . . ")
-
-        driver.implicitly_wait(65)  # seconds
-    else:
-        print("Found type: " + expositionType)
-        driver.implicitly_wait(0)
-    print("path, before", path)
     try:
         toc = []
         print("makedir")
@@ -294,7 +332,7 @@ def screenShotPages(fullUrl):
                 path = makeDirFromURL(url)
                 print("| " + url)
                 # countElements()
-                j = takeScreenshot(url, path, i, titles[i], False)
+                j = takeScreenshot(url, path, i, titles[i])
                 toc.append(j)
             global counterTOC
             counterTOC = counterTOC + 1
@@ -318,15 +356,13 @@ def screenShotPages(fullUrl):
                     path = makeDirFromURL(url)
                     print("| " + url)
                     # countElements()
-                    j = takeScreenshot(url, path, i, "no title", False)
+                    j = takeScreenshot(url, path, i, "no title")
                     toc.append(j)
                 global counterInferred
                 counterInferred = counterInferred + 1
             else:  # if no TOC and no subpages found take second screenshot
                 print("no TOC or inferred subpages found")
-                j = takeScreenshot(fullUrl, path, 0, "default page", False)
-                toc.append(j)
-                j = takeScreenshot(fullUrl, path, 1, "default page", True)
+                j = takeScreenshot(fullUrl, path, 0, "default page")
                 toc.append(j)
                 global counterSinglePage
                 counterSinglePage = counterSinglePage + 1
