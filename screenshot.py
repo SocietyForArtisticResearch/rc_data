@@ -5,6 +5,8 @@ import pandas as pd
 import json
 import os
 
+root = "screenshots_new/"
+
 research = pd.read_json("internal_research.json")
 print(research.to_string())
 res = research["default-page"]
@@ -227,7 +229,7 @@ def takeScreenshot(url, path, i, title):
 
 
 def makeDir(num):
-    path = "screenshots/" + num
+    path = root + num
     if not os.path.exists(path):
         os.makedirs(path)
     return path
@@ -236,7 +238,7 @@ def makeDir(num):
 def makeDirFromURL(url):
     num = getExpositionId(url)
     page = getPageNumber(url)
-    path = "screenshots/" + num + "/" + page
+    path = root + num + "/" + page
     if not os.path.exists(path):
         os.makedirs(path)
     return path
@@ -298,7 +300,7 @@ def findHrefsInPage(driver):
 
 def screenShotPages(fullUrl):
     num = getExpositionId(fullUrl)
-    path = "screenshots/" + num
+    path = root + num
     expositionType = getExpositionType(driver)
     try:
         toc = []
@@ -374,7 +376,7 @@ def screenShotPages(fullUrl):
         failedUrls.append(fullUrl)
     toc_dict = {"id": num, "type": expositionType, "toc": toc}
     toc_json = json.dumps(toc_dict)
-    with open("screenshots/" + num + "/" + "toc.json", "w") as outfile:
+    with open(root + num + "/" + "toc.json", "w") as outfile:
         outfile.write(toc_json)
     return toc_dict
 
@@ -410,7 +412,7 @@ if force:
         print("")
         print(exposition)
         num = getExpositionId(exposition)
-        path = "screenshots/" + num
+        path = root + num
         driver = webdriver.Chrome(options=options)
         downloadExposition(exposition)
 else:
@@ -418,7 +420,7 @@ else:
         print("")
         print(exposition)
         num = getExpositionId(exposition)
-        path = "screenshots/" + num
+        path = root + num
         if not os.path.exists(path):
             driver = webdriver.Chrome(options=options)
             downloadExposition(exposition)
