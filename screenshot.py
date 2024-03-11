@@ -12,6 +12,8 @@ print(research.to_string())
 res = research["default-page"]
 print(res)
 
+#res = ["https://www.researchcatalogue.net/view/1735361/1735362"] #this sometime times out
+
 force = False
 
 # res = ["https://www.researchcatalogue.net/view/2346286/2346287"]
@@ -382,12 +384,18 @@ def screenShotPages(fullUrl):
 
 
 def downloadExposition(exposition):
-    driver.get(exposition)
-    driver.add_cookie({"name": "navigationtooltip", "value": "1"})
-    # driver.implicitly_wait(180) # seconds
+    print("GET")
+    try:
+        driver.get(exposition)
+        driver.add_cookie({"name": "navigationtooltip", "value": "1"})
+        # driver.implicitly_wait(180) # seconds
 
-    toc_dict = screenShotPages(exposition)
-    tocs_dict.update({toc_dict["id"]: toc_dict["toc"]})
+        toc_dict = screenShotPages(exposition)
+        tocs_dict.update({toc_dict["id"]: toc_dict["toc"]})
+    except:
+        tocs_dict.update({getExpositionId(exposition): []})
+        global failed
+        failed = failed + 1
     tocs_json = json.dumps(tocs_dict)
     with open("toc.json", "w") as outfile:
         outfile.write(tocs_json)
