@@ -5,6 +5,8 @@ import pandas as pd
 import json
 import os
 
+# 26/01/2024
+
 research = pd.read_json("internal_research.json")
 print(research.to_string())
 res = research["default-page"]
@@ -20,6 +22,7 @@ force = False
 options = Options()
 options.add_argument("--headless=new")
 options.add_argument("--hide-scrollbars")
+options.add_argument("--no-sandbox")
 options.add_argument(
     "window-size=1920,1609"
 )  # change size to 1920 1440 -- height val found empirically because of inconsistet viewport behavior with the --headless flag

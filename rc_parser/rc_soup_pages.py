@@ -10,8 +10,18 @@ def getPageType(page):
 def getExpositionId(fullUrl):
     return fullUrl.split("/")[4]
 
+def remove_query_part(url: str) -> str:
+    """
+    Remove everything after the '?' character in a given string.
+
+    :param url: The input string potentially containing a '?' character.
+    :return: The string with everything after the '?' character removed.
+    """
+    return url.split('?')[0]
+
 def getPageNumber(url):
-    page = url.split("/")[5].split("#")[0]
+    url_without_query = remove_query_part(url)
+    page = url_without_query.split("/")[5].split("#")[0]
     return int(page)
 
 def isRelative(href):

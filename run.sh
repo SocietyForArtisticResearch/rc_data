@@ -17,4 +17,5 @@ echo "make a new enriched json file"
 elm-cli run src/Main.elm
 
 echo "copy to live app"
+cp enriched.json /var/www/html/rc-prisma/enriched.json
 cp enriched.json /var/www/html/enriched.json
