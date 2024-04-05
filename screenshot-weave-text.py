@@ -1,7 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from bs4 import BeautifulSoup
 import pandas as pd
+import requests
 import json
 import os
 
@@ -16,6 +18,7 @@ force = False
 #res = ["https://www.researchcatalogue.net/view/2346286/2346287"]
 #res = ["https://www.researchcatalogue.net/view/2269674/2269673"] #pdf
 #res = ["https://www.researchcatalogue.net/view/81827/81828"] # here hrefs in page are http and not https
+#res = ["https://www.researchcatalogue.net/view/1735361/1735362"]
 
 options = Options()
 options.add_argument("--headless=new")
@@ -37,6 +40,19 @@ if not os.path.exists('toc.json'):
 else:
     with open('toc.json') as toc:
         tocs_dict = json.load(toc)
+        
+if not os.path.exists('screenshots/wt.json'):
+    wt_done = []
+else:
+    with open('screenshots/wt.json') as wt:
+        wt_done = json.load(wt)
+
+def getPageType(page):
+    html = page.find("html");
+    return html['class'][0]
+
+def getExpositionId(fullUrl):
+    return fullUrl.split("/")[4]
 
 def getTitle(atag):
     return atag.get_attribute('innerHTML')
@@ -127,6 +143,26 @@ def smartZoom(driver):
         size = "weave not found"
     return [scale, size]
 
+def takeFirstImage(url, path, i, title, noTOC):
+    page = getPageNumber(url)
+    path = path + "/" + str(i) + ".png"
+    print("| " + path)
+    print(path)
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    img_tags = soup.find_all('img')
+    urls = [img['src'] for img in img_tags]
+    urll = urls[0]
+    print(path)
+    with open(path, 'wb') as f:
+        response = requests.get(urll)
+        print("| ⬇ downloading")
+        print("| " + urll)
+        #print("| " + response)
+        f.write(response.content)
+        
+    return {"page": page, "page_title": title, "url": url, "file": str(i) + ".png", "weave_size": 100}
+
 def takeScreenshot(url, path, i, title, noTOC):
     #path = path + "/" + str(i) + " " + title + ".png" #uncomment to name with title
     page = getPageNumber(url)
@@ -142,7 +178,7 @@ def takeScreenshot(url, path, i, title, noTOC):
             print("| zoom: " + zoom)
             driver.execute_script("document.body.style.zoom='" + zoom + "'")
         else:
-            zoom = str(scale[0]) + "%"
+            zoom = "200" + "%"
             print("| zoom: " + zoom)
             driver.execute_script("document.body.style.zoom='" + zoom + "'")
         driver.save_screenshot(path)
@@ -226,7 +262,7 @@ def screenShotPages(fullUrl):
     num = getExpositionId(fullUrl)
     path = "screenshots/" + num
     expositionType = getExpositionType(driver)
-    driver.implicitly_wait(65) # seconds
+    #driver.implicitly_wait(65) # seconds
     print("path, before",path)
     try:
         toc = []
@@ -256,7 +292,12 @@ def screenShotPages(fullUrl):
                 path = makeDirFromURL(url)
                 print("| " + url)
                 #countElements()
-                j = takeScreenshot(url, path, i, titles[i], False)
+                try:
+                    j = takeFirstImage(url, path, i, titles[i], False)
+                except:
+                    print("no image found. default to screenshot")
+                    j = takeScreenshot(url, path, i, titles[i], False)
+                print("TAKEN")
                 toc.append(j)
             global counterTOC
             counterTOC = counterTOC + 1
@@ -274,15 +315,22 @@ def screenShotPages(fullUrl):
                     path = makeDirFromURL(url)
                     print("| " + url)
                     #countElements()
-                    j = takeScreenshot(url, path, i, "no title", False)
+                    print("TAKE IMAGE")
+                    try:
+                        j = takeFirstImage(url, path, i, "no title", False)
+                    except:
+                        print("no image found. default to screenshot")
+                        j = takeScreenshot(url, path, i, "no title", False)
                     toc.append(j)
                 global counterInferred
                 counterInferred = counterInferred + 1
             else: # if no TOC and no subpages found take second screenshot
                 print("no TOC or inferred subpages found")
-                j = takeScreenshot(fullUrl, path, 0, "default page", False)
-                toc.append(j)
-                j = takeScreenshot(fullUrl, path, 1, "default page", True)
+                try:
+                    j = takeFirstImage(fullUrl, path, 0, "default page", False)
+                except:
+                    print("no image found. default to screenshot")
+                    j = takeScreenshot(fullUrl, path, 0, "default page", False)
                 toc.append(j)
                 global counterSinglePage
                 counterSinglePage = counterSinglePage + 1
@@ -299,32 +347,46 @@ def screenShotPages(fullUrl):
     return toc_dict
 
 def downloadExposition(exposition):
-    driver.get(exposition)
-    expositionType = getExpositionType(driver)
-    if expositionType == 'weave-text':
-        print("Exposition type: " + expositionType + ". Force download")
-        driver.add_cookie({'name' : 'navigationtooltip', 'value': '1'})
-        toc_dict = screenShotPages(exposition)
-        tocs_dict.update({toc_dict["id"]: toc_dict["toc"]})
-        tocs_json = json.dumps(tocs_dict)
-        with open("toc.json", "w") as outfile:
-            outfile.write(tocs_json)
-        global total
-        total = total + 1
-        print("")
-        print(tocs_dict)
-        print(str(total) + "/" + str(RESSIZE))
-        print("TOC: " + str(counterTOC))
-        print("Inferred: " + str(counterInferred))
-        print("Single Page: " + str(counterSinglePage))
-        print("Failed: " + str(failed))
-        print(failedUrls)
-        print("Found Weaves: " + str(weaveFound))
-        print("No Weaves: " + str(weaveNotFound))
-        print("")
-    else:
-        print("Exposition type: " + expositionType + ". Skip download")
-    driver.quit()
+    expo = requests.get(exposition)
+    parsed = BeautifulSoup(expo.content, 'html.parser')
+    try:
+        expositionType = getPageType(parsed)
+        if expositionType == 'weave-text':
+            print("Exposition type: " + expositionType)
+            num = getExpositionId(exposition)
+            if num in wt_done:
+                print("File exists. Skip download")
+            else:
+                wt_done.append(num)
+                wt_json = json.dumps(wt_done)
+                driver.get(exposition)
+                print("Force download")
+                driver.add_cookie({'name' : 'navigationtooltip', 'value': '1'})
+                toc_dict = screenShotPages(exposition)
+                tocs_dict.update({toc_dict["id"]: toc_dict["toc"]})
+                tocs_json = json.dumps(tocs_dict)
+                with open("toc.json", "w") as outfile:
+                    outfile.write(tocs_json)
+                global total
+                total = total + 1
+                print("")
+                print(tocs_dict)
+                print(str(total) + "/" + str(RESSIZE))
+                print("TOC: " + str(counterTOC))
+                print("Inferred: " + str(counterInferred))
+                print("Single Page: " + str(counterSinglePage))
+                print("Failed: " + str(failed))
+                print(failedUrls)
+                print("Found Weaves: " + str(weaveFound))
+                print("No Weaves: " + str(weaveNotFound))
+                print("")
+                with open("screenshots/" + "wt.json", "w") as outfile:
+                    outfile.write(wt_json)
+                driver.quit()
+        else:
+            print("Exposition type: " + expositionType + ". Skip download")
+    except:
+        print("Exposition is private")
 
 for exposition in res:
     print("")
@@ -333,3 +395,4 @@ for exposition in res:
     path = "screenshots/" + num
     driver = webdriver.Chrome(options=options)
     downloadExposition(exposition)
+

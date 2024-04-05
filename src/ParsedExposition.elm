@@ -13,7 +13,7 @@ module ParsedExposition exposing
 import AppUrl
 import Color exposing (Color)
 import Dict exposing (Dict)
-import Html exposing (Html, text)
+import Html exposing (Html, a, text)
 import Html.Attributes
 import Json.Decode as D exposing (Decoder)
 import Json.Decode.Extra exposing (andMap)
@@ -187,7 +187,7 @@ transformStructure : PythonOutput -> Exposition
 transformStructure python =
     let
         tls =
-            combineValues python.toolHtml python.toolText
+            List.foldl combineValues Dict.empty [ python.toolHtml, python.toolText, python.toolVideo, python.toolImage ]
 
         -- idea: maybe exposition should use the dict of pages, instead of transforming into a list?
         pgs =
@@ -374,8 +374,27 @@ type ToolId
 type Tool
     = SimpleTextTool TextData
     | HtmlTextTool TextData
-    | ImageTool { id : ToolId, toolProperties : ToolProperties, mediaUrl : String }
+    | ImageTool ImageData
     | VideoTool VideoData
+
+
+type alias ImageData =
+    { id : ToolId
+    , toolProperties : ToolProperties
+    , src : String
+    }
+
+
+type alias VideoData =
+    { id : ToolId
+    , src : Url
+    , preview : Url
+    , toolProperties : ToolProperties
+    }
+
+
+type alias Url =
+    String
 
 
 type alias TextData =
@@ -400,18 +419,6 @@ getSize tool =
 
         VideoTool d ->
             d.toolProperties.dimensions
-
-
-type alias Url =
-    String
-
-
-type alias VideoData =
-    { toolId : ToolId
-    , content : Url
-    , previewThumb : Url
-    , toolProperties : ToolProperties
-    }
 
 
 
@@ -477,11 +484,13 @@ toolText t =
             )
 
 
-type alias ImageData =
-    { toolId : ToolId
-    , media : Url
-    , toolProperties : ToolProperties
-    }
+debugValue : String -> a -> a
+debugValue label x =
+    let
+        _ =
+            Debug.log label x
+    in
+    x
 
 
 toolImage : D.Decoder (Dict PageID (List Tool))
@@ -493,7 +502,7 @@ toolImage =
                     ImageTool
                         { id = id
                         , toolProperties = props
-                        , mediaUrl = mediaUrl
+                        , src = mediaUrl
                         }
                 )
                 (D.field "id" D.string |> D.map ToolId)
@@ -516,17 +525,19 @@ toolVideo : D.Decoder (Dict PageID (List Tool))
 toolVideo =
     let
         videoTool =
-            D.map3
-                (\id props mediaUrl ->
-                    ImageTool
+            D.map4
+                (\id props mediaUrl preview ->
+                    VideoTool
                         { id = id
                         , toolProperties = props
-                        , mediaUrl = mediaUrl
+                        , src = mediaUrl
+                        , preview = preview
                         }
                 )
                 (D.field "id" D.string |> D.map ToolId)
                 toolProperties
                 (D.succeed "todo.png")
+                (D.field "poster" D.string)
 
         pages =
             D.list videoTool

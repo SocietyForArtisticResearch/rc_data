@@ -1,0 +1,3 @@
+(executable
+ (name Extract)
+ (libraries angstrom str yojson))
