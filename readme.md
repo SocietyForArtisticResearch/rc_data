@@ -41,6 +41,7 @@ You will first need to download metadata using rc_data.py (and update the file u
 - [x] force download
 - [x] wait to load pdf if "weave-text" found
 - [ ] ? scroll (maybe not possible in --headless with chrome-driver)
+- [ ] convert png to jpeg
 
 # RC data
 - [x] tools: get tool ID, position, size, rotation
