@@ -37,6 +37,7 @@ You will first need to download metadata using rc_data.py (and update the file u
 - [x] Screenshot folder structure: exposition_id/page_id/index.png
 - [x] "smart" zoom
 - [ ] make it smarter
+- [ ] fetch pdf
 - [x] force download
 - [x] wait to load pdf if "weave-text" found
 - [ ] ? scroll (maybe not possible in --headless with chrome-driver)
