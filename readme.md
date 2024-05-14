@@ -5,8 +5,11 @@ The elm part only works if you have RC_API repo in a parallel folder!
 # Purpose
 
 This is a command line tool to merge some JSON metadata together, so we don't have to do that on the client side.
-Specifically we match any keywords that can be found in the abstract so we can render it later as hyperlinks.
-Later, we can also merge all the screenshot paths into this.
+
+Specifically we match any keywords that can be found in the abstract so we can
+render it later as hyperlinks. Also, the screenshots are merged into the
+records. The end result is an enriched.json that contains all info in one data
+structure.
 
 The script is built using [Elm Posix](https://github.com/albertdahlin/elm-posixhttps://github.com/albertdahlin/elm-posix), which is an NPM package to write CLI tools in elm.
 Once it will work you can run it using 

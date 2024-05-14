@@ -5,16 +5,22 @@ import pandas as pd
 import json
 import os
 
-root = "screenshots_new/"
+root = "screenshots/"
 
 research = pd.read_json("internal_research.json")
 print(research.to_string())
 res = research["default-page"]
 print(res)
 
-#res = ["https://www.researchcatalogue.net/view/1735361/1735362"] #this sometime times out
+virtual_screen_width = 5120
+virtual_screen_height = 2880
 
-force = False
+# res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"]
+# res = ["https://www.researchcatalogue.net/view/718740/718741"]
+# res = ["https://www.researchcatalogue.net/view/1735361/1735362"] #this sometime times out
+res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"]
+
+force = True
 
 # res = ["https://www.researchcatalogue.net/view/2346286/2346287"]
 # res = ["https://www.researchcatalogue.net/view/2346286/2346287"]
@@ -25,7 +31,7 @@ options = Options()
 options.add_argument("--headless=new")
 options.add_argument("--hide-scrollbars")
 options.add_argument(
-    "window-size=1920,1609"
+    f"window-size={virtual_screen_width},{virtual_screen_height}"
 )  # change size to 1920 1440 -- height val found empirically because of inconsistet viewport behavior with the --headless flag
 
 RESSIZE = len(res)
@@ -130,13 +136,15 @@ def smartZoom(driver):
         size = weave.size
         height = size["height"]
         width = size["width"]
-        print("| weave size: " + str(size))
-        if width < 1900:
+        if width < virtual_screen_width:
             scale = 100
-        elif height < 1440:
+        elif height < virtual_screen_height:
             scale = 100
         else:
-            scale = int(max(100 - ((width * height) / (1920 * 1440)), 50))
+            # scale = int(max(100 - ((width * height) / (1920 * 1440)), 25))
+            raw_scaling = min(float(virtual_screen_width) / width, float(virtual_screen_height) / height) * 100.0
+            scale = max(min(100, int(raw_scaling)), 25)
+            print("w, h, raw scaling, final scale", (width, height, raw_scaling, scale))
     except:
         global weaveNotFound
         weaveNotFound = weaveNotFound + 1
@@ -145,25 +153,33 @@ def smartZoom(driver):
         size = "weave not found"
     return [scale, size]
 
+
 def takeFirstImage(url, path, i, title):
     page = getPageNumber(url)
     path = path + "/" + str(i) + ".png"
     print("| " + path)
     print(path)
     response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    img_tags = soup.find_all('img')
-    urls = [img['src'] for img in img_tags]
+    soup = BeautifulSoup(response.text, "html.parser")
+    img_tags = soup.find_all("img")
+    urls = [img["src"] for img in img_tags]
     urll = urls[0]
     print(path)
-    with open(path, 'wb') as f:
+    with open(path, "wb") as f:
         response = requests.get(urll)
         print("| ⬇ downloading")
         print("| " + urll)
-        #print("| " + response)
+        # print("| " + response)
         f.write(response.content)
-        
-    return {"page": page, "page_title": title, "url": url, "file": str(i) + ".png", "weave_size": 100}
+
+    return {
+        "page": page,
+        "page_title": title,
+        "url": url,
+        "file": str(i) + ".png",
+        "weave_size": 100,
+    }
+
 
 def takeScreenshot(url, path, i, title):
     # path = path + "/" + str(i) + " " + title + ".png" #uncomment to name with title
@@ -177,7 +193,7 @@ def takeScreenshot(url, path, i, title):
         match expositionType:
             case "weave-graphical":
                 scale = smartZoom(driver)
-                scal = scale[0] * 2
+                scal = scale[0]
                 zoom = str(scal) + "%"
                 print("| zoom: " + zoom)
                 driver.execute_script("document.body.style.zoom='" + zoom + "'")
@@ -197,7 +213,11 @@ def takeScreenshot(url, path, i, title):
                 except:
                     print("no image found. default to screenshot")
                     zoom = "200%"
-                    print("Found type: " + expositionType + ". Waiting for PDF to load . . . ")
+                    print(
+                        "Found type: "
+                        + expositionType
+                        + ". Waiting for PDF to load . . . "
+                    )
                     driver.implicitly_wait(30)  # seconds
                     print("| zoom: " + zoom)
                     driver.execute_script("document.body.style.zoom='" + zoom + "'")
@@ -226,7 +246,7 @@ def takeScreenshot(url, path, i, title):
         "page_title": title,
         "url": url,
         "file": str(i) + ".png",
-        "weave_size": zoom  #this is inconsistent, but for back compatibility
+        "weave_size": zoom,  # this is inconsistent, but for back compatibility
     }
 
 
