@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 import pandas as pd
 import json
 import os
+from resize import *
 
 root = "screenshots/"
 
@@ -18,7 +19,7 @@ virtual_screen_height = 2880
 # res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"]
 # res = ["https://www.researchcatalogue.net/view/718740/718741"]
 # res = ["https://www.researchcatalogue.net/view/1735361/1735362"] #this sometime times out
-res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"]
+#res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"] #timeline
 
 force = True
 
@@ -443,6 +444,7 @@ if force:
         path = root + num
         driver = webdriver.Chrome(options=options)
         downloadExposition(exposition)
+        resizeScreenshot(path)
 else:
     for exposition in res:
         print("")
@@ -452,6 +454,7 @@ else:
         if not os.path.exists(path):
             driver = webdriver.Chrome(options=options)
             downloadExposition(exposition)
+            resizeScreenshot(path)
         else:
             print("folder " + str(num) + " already exists.")
             total = total + 1
