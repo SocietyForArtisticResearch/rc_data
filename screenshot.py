@@ -412,6 +412,7 @@ def screenShotPages(fullUrl):
             contents and numEntries != 1
         ):  # TOC exists. we cycle through TOC to get screenshots
             for i in range(numEntries):
+                print("CONTENTS = ", contents)
                 url = contents[i]
                 cleanUrl = remove_query_part(url)
                 path = makeDirFromURL(cleanUrl)
