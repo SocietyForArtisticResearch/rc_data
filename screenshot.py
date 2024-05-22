@@ -9,17 +9,27 @@ from resize import *
 root = "screenshots/"
 
 research = pd.read_json("internal_research.json")
-print(research.to_string())
+# print(research.to_string())
 res = research["default-page"]
-print(res)
+# print(res)
 
-virtual_screen_width = 5120
-virtual_screen_height = 2880
+# 5k mac size:
+ultraHD_width = 5120
+ultraHD_height = 2880
 
-# res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"]
+# Full HD
+fullHD_width = 1920
+fullHD_height = 1080
+
+# the screenwidth
+# virtual_screen_width = 5120
+# virtual_screen_height = 2880
+
+# res = ["https://www.researchcatalogue.net/view/2297977/2297978"]
+res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"]  # timeline
 # res = ["https://www.researchcatalogue.net/view/718740/718741"]
 # res = ["https://www.researchcatalogue.net/view/1735361/1735362"] #this sometime times out
-#res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"] #timeline
+# res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"] #timeline
 
 force = True
 
@@ -32,7 +42,7 @@ options = Options()
 options.add_argument("--headless=new")
 options.add_argument("--hide-scrollbars")
 options.add_argument(
-    f"window-size={virtual_screen_width},{virtual_screen_height}"
+    f"window-size={fullHD_width},{fullHD_height}"
 )  # change size to 1920 1440 -- height val found empirically because of inconsistet viewport behavior with the --headless flag
 
 RESSIZE = len(res)
@@ -129,6 +139,18 @@ def isDomainView(url):
         return False
 
 
+def smartScreenSize(weaveSize):
+    width = weaveSize["width"]
+    height = weaveSize["height"]
+    try:
+        if (width > 3840) | (height > 2160):
+            return {"width": ultraHD_width, "height": ultraHD_height}
+        else:
+            return {"width": fullHD_width, "height": fullHD_height}
+    except TypeError:
+        print("error parsing weave size")
+
+
 def smartZoom(driver):
     try:
         weave = driver.find_element(By.ID, "weave")
@@ -137,13 +159,22 @@ def smartZoom(driver):
         size = weave.size
         height = size["height"]
         width = size["width"]
-        if width < virtual_screen_width:
+        screen = smartScreenSize({"width": width, "height": height})
+        screen_width = screen["width"]
+        screen_height = screen["height"]
+        if width < screen_width:
             scale = 100
-        elif height < virtual_screen_height:
+        elif height < screen_height:
             scale = 100
         else:
             # scale = int(max(100 - ((width * height) / (1920 * 1440)), 25))
-            raw_scaling = min(float(virtual_screen_width) / width, float(virtual_screen_height) / height) * 100.0
+            raw_scaling = (
+                min(
+                    float(screen_width) / width,
+                    float(screen_height) / height,
+                )
+                * 100.0
+            )
             scale = max(min(100, int(raw_scaling)), 25)
             print("w, h, raw scaling, final scale", (width, height, raw_scaling, scale))
     except:
@@ -152,7 +183,7 @@ def smartZoom(driver):
         print("| no weave found")
         scale = 100
         size = "weave not found"
-    return [scale, size]
+    return {"scale": scale, "size": size, "screen": screen}
 
 
 def takeFirstImage(url, path, i, title):
@@ -182,21 +213,46 @@ def takeFirstImage(url, path, i, title):
     }
 
 
+def remove_query_part(url):
+    return url.split("?")[0]
+
+
+def ensure_directories_exist(file_path: str) -> None:
+    """
+    Ensures that all directories in the given file path exist. If they do not exist, they are created.
+
+    Args:
+    file_path (str): The full file path including directories and file name.
+    """
+    # Extract the directory path from the file path
+    directory = os.path.dirname(file_path)
+
+    # Create the directories if they do not exist
+    if directory:
+        os.makedirs(directory, exist_ok=True)
+
+
 def takeScreenshot(url, path, i, title):
     # path = path + "/" + str(i) + " " + title + ".png" #uncomment to name with title
     page = getPageNumber(url)
     path = path + "/" + str(i) + ".png"
     print("| " + path)
-    # if not os.path.exists(path):
+    ensure_directories_exist(path)
     try:
-        driver.get(url)
+        cleanUrl = remove_query_part(url)
+        driver.get(cleanUrl)
         expositionType = getExpositionType(driver)
         match expositionType:
             case "weave-graphical":
+                print("| detected graphical weave")
                 scale = smartZoom(driver)
-                scal = scale[0]
+                print("| scale is now: ", scale)
+                scal = scale["scale"]
+                screen = scale["screen"]
                 zoom = str(scal) + "%"
                 print("| zoom: " + zoom)
+                driver.set_window_size(screen["width"], screen["width"])
+                # print("| current screen dimensions: " + driver.get_window_size())
                 driver.execute_script("document.body.style.zoom='" + zoom + "'")
                 driver.save_screenshot(path)
                 print("| ⬇ downloading")
@@ -210,7 +266,7 @@ def takeScreenshot(url, path, i, title):
                 print("------------------")
             case "weave-text":
                 try:
-                    takeFirstImage(url, path, i, titles[i], False)
+                    takeFirstImage(cleanUrl, path, i, titles[i], False)
                 except:
                     print("no image found. default to screenshot")
                     zoom = "200%"
@@ -227,16 +283,18 @@ def takeScreenshot(url, path, i, title):
                     print("------------------")
                     driver.implicitly_wait(0)
             case _:
-                scal = scale[0] * 2
+                print("| could not decide weave type")
+                scal = scale["scale"] * 2
                 zoom = str(scal) + "%"
                 print("| zoom: " + zoom)
                 driver.execute_script("document.body.style.zoom='" + zoom + "'")
                 driver.save_screenshot(path)
                 print("| ⬇ downloading")
                 print("------------------")
-    except:
+    except Exception as e:
         i = 404
         title = "failed"
+        print("| the error is", e)
         print("| download failed")
         print("------------------")
     # else:
@@ -245,7 +303,7 @@ def takeScreenshot(url, path, i, title):
     return {
         "page": page,
         "page_title": title,
-        "url": url,
+        "url": cleanUrl,
         "file": str(i) + ".png",
         "weave_size": zoom,  # this is inconsistent, but for back compatibility
     }
@@ -322,7 +380,8 @@ def findHrefsInPage(driver):
 
 
 def screenShotPages(fullUrl):
-    num = getExpositionId(fullUrl)
+    cleanUrl = remove_query_part(fullUrl)
+    num = getExpositionId(cleanUrl)
     path = root + num
     expositionType = getExpositionType(driver)
     try:
@@ -341,7 +400,7 @@ def screenShotPages(fullUrl):
             try:
                 nav = driver.find_element(By.XPATH, xpathFonts)
             except:
-                print("| " + fullUrl)
+                print("| " + cleanUrl)
                 print("| No nav found at xpath")
 
         navList = nav.find_elements(By.TAG_NAME, "a")  # list of content elements
@@ -354,18 +413,19 @@ def screenShotPages(fullUrl):
         ):  # TOC exists. we cycle through TOC to get screenshots
             for i in range(numEntries):
                 url = contents[i]
-                path = makeDirFromURL(url)
-                print("| " + url)
+                cleanUrl = remove_query_part(url)
+                path = makeDirFromURL(cleanUrl)
+                print("| " + cleanUrl)
                 # countElements()
-                j = takeScreenshot(url, path, i, titles[i])
+                j = takeScreenshot(cleanUrl, path, i, titles[i])
                 toc.append(j)
             global counterTOC
             counterTOC = counterTOC + 1
         else:  # TOC not available or TOC available but single entry
-            expositionUrl = getExpositionUrl(fullUrl)
+            expositionUrl = getExpositionUrl(cleanUrl)
             hrefs = list(set(findHrefsInPage(driver)))  # find all links in page
             subpages = list(
-                filter(lambda href: isSubPage(fullUrl, href), hrefs)
+                filter(lambda href: isSubPage(cleanUrl, href), hrefs)
             )  # filter to get only exposition subpages
             subpages = list(
                 filter(notAnchorAtOrigin, subpages)
@@ -374,29 +434,30 @@ def screenShotPages(fullUrl):
                 filter(notContainsHash, subpages)
             )  # filter out urls with hash
             print(subpages)
-            path = makeDirFromURL(fullUrl)
+            path = makeDirFromURL(cleanUrl)
             if len(subpages) > 1:  # if subpages found takes screenshot
                 for i in range(len(subpages)):
                     url = subpages[i]
-                    path = makeDirFromURL(url)
+                    cleanUrl = remove_query_part(url)
+                    path = makeDirFromURL(cleanUrl)
                     print("| " + url)
                     # countElements()
-                    j = takeScreenshot(url, path, i, "no title")
+                    j = takeScreenshot(cleanUrl, path, i, "no title")
                     toc.append(j)
                 global counterInferred
                 counterInferred = counterInferred + 1
             else:  # if no TOC and no subpages found take second screenshot
                 print("no TOC or inferred subpages found")
-                j = takeScreenshot(fullUrl, path, 0, "default page")
+                j = takeScreenshot(cleanUrl, path, 0, "default page")
                 toc.append(j)
                 global counterSinglePage
                 counterSinglePage = counterSinglePage + 1
     except:
-        print("!!! screenshot failed for exposition: " + fullUrl)
+        print("!!! screenshot failed for exposition: " + cleanUrl)
         global failed
         failed = failed + 1
         global failedUrls
-        failedUrls.append(fullUrl)
+        failedUrls.append(cleanUrl)
     toc_dict = {"id": num, "type": expositionType, "toc": toc}
     toc_json = json.dumps(toc_dict)
     with open(root + num + "/" + "toc.json", "w") as outfile:
