@@ -1,6 +1,6 @@
 # get all images in folder, remove alpha channel, rescale to 1920x1080, convert to jpg
 from PIL import Image
-from os import path, chdir, mkdir, listdir, makedirs
+from os import path, chdir, mkdir, listdir, makedirs, getcwd
 from pathlib import Path
 
 
@@ -13,6 +13,7 @@ def create_directory_if_not_exists(directory_path):
     """
     if not path.exists(directory_path):
         print("directory does not exist", directory_path)
+        print("current working directory", getcwd())
         makedirs(directory_path)
         print(f"Directory '{directory_path}' created.")
     else:
@@ -33,6 +34,27 @@ def scaleByHeight(img):
     wsize = int((float(img.size[0]) * float(hpercent)))
     img = img.resize((wsize, baseheight), Image.LANCZOS)
     return img, wsize, baseheight
+
+
+def resizeScreenshotSimple(file):
+    # input is for example 0.png 1.png etc..
+    # generates 1 resized  resized-0.jpg
+    # generates 1 compressed compressed-0.jpg
+    file_name = path.basename(file)
+    folder_path = path.dirname(file)
+    img = Image.open(file)
+    img = img.convert("RGB")
+    if img.size[0] < img.size[1]:
+        img = scaleByHeight(img)
+    else:
+        img = scaleByWidth(img)
+    print("folder path", folder_path)
+    img[0].save(folder_path + "/resized_" + path.splitext(file_name)[0] + ".jpg")
+    img[0].save(
+        (folder_path + "/compressed_" + path.splitext(file_name)[0] + ".jpg"),
+        "JPEG",
+        quality=75,
+    )
 
 
 def resizeScreenshot(pathh):

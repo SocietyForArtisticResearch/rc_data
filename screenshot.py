@@ -25,6 +25,7 @@ fullHD_height = 1080
 # virtual_screen_width = 5120
 # virtual_screen_height = 2880
 
+res = ["https://www.researchcatalogue.net/view/2591782/2591783"]
 # res = ["https://www.researchcatalogue.net/view/2297977/2297978"]
 # res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"]  # timeline
 # res = ["https://www.researchcatalogue.net/view/718740/718741"]
@@ -230,6 +231,11 @@ def ensure_directories_exist(file_path: str) -> None:
         os.makedirs(directory, exist_ok=True)
 
 
+def saveScreenshotAndResize(driver, path):
+    driver.save_screenshot(path)  # replaced by a function that does both.
+    resizeScreenshotSimple(path)
+
+
 def takeScreenshot(url, path, i, title):
     # path = path + "/" + str(i) + " " + title + ".png" #uncomment to name with title
     page = getPageNumber(url)
@@ -252,14 +258,16 @@ def takeScreenshot(url, path, i, title):
                 driver.set_window_size(screen["width"], screen["width"])
                 # print("| current screen dimensions: " + driver.get_window_size())
                 driver.execute_script("document.body.style.zoom='" + zoom + "'")
-                driver.save_screenshot(path)
+                saveScreenshotAndResize(
+                    driver, path
+                )  # driver.save_screenshot(path)  # replaced by a function that does both.
                 print("| ⬇ downloading")
                 print("------------------")
             case "weave-block":
                 zoom = "200%"
                 print("| zoom: " + zoom)
                 driver.execute_script("document.body.style.zoom='" + zoom + "'")
-                driver.save_screenshot(path)
+                saveScreenshotAndResize(driver, path)
                 print("| ⬇ downloading")
                 print("------------------")
             case "weave-text":
@@ -276,7 +284,7 @@ def takeScreenshot(url, path, i, title):
                     driver.implicitly_wait(30)  # seconds
                     print("| zoom: " + zoom)
                     driver.execute_script("document.body.style.zoom='" + zoom + "'")
-                    driver.save_screenshot(path)
+                    saveScreenshotAndResize(driver, path)
                     print("| ⬇ downloading")
                     print("------------------")
                     driver.implicitly_wait(0)
@@ -286,7 +294,7 @@ def takeScreenshot(url, path, i, title):
                 zoom = str(scal) + "%"
                 print("| zoom: " + zoom)
                 driver.execute_script("document.body.style.zoom='" + zoom + "'")
-                driver.save_screenshot(path)
+                saveScreenshotAndResize(driver, path)
                 print("| ⬇ downloading")
                 print("------------------")
     except Exception as e:
@@ -504,7 +512,7 @@ if force:
         path = root + num
         driver = webdriver.Chrome(options=options)
         downloadExposition(exposition)
-        resizeScreenshot(path)
+        # resizeScreenshot(path)
 else:
     for exposition in res:
         print("")
@@ -514,7 +522,7 @@ else:
         if not os.path.exists(path):
             driver = webdriver.Chrome(options=options)
             downloadExposition(exposition)
-            resizeScreenshot(path)
+            # resizeScreenshot(path)
         else:
             print("folder " + str(num) + " already exists.")
             total = total + 1
