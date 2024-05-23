@@ -26,7 +26,7 @@ fullHD_height = 1080
 # virtual_screen_height = 2880
 
 # res = ["https://www.researchcatalogue.net/view/2297977/2297978"]
-res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"]  # timeline
+# res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"]  # timeline
 # res = ["https://www.researchcatalogue.net/view/718740/718741"]
 # res = ["https://www.researchcatalogue.net/view/1735361/1735362"] #this sometime times out
 # res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"] #timeline
@@ -41,9 +41,7 @@ force = True
 options = Options()
 options.add_argument("--headless=new")
 options.add_argument("--hide-scrollbars")
-options.add_argument(
-    f"window-size={fullHD_width},{fullHD_height}"
-)  # change size to 1920 1440 -- height val found empirically because of inconsistet viewport behavior with the --headless flag
+options.add_argument(f"window-size={fullHD_width},{fullHD_height}")
 
 RESSIZE = len(res)
 total = 0

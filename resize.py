@@ -12,6 +12,7 @@ def create_directory_if_not_exists(directory_path):
     directory_path (str): The path of the directory to be created.
     """
     if not path.exists(directory_path):
+        print("directory does not exist", directory_path)
         makedirs(directory_path)
         print(f"Directory '{directory_path}' created.")
     else:
@@ -70,8 +71,8 @@ def resizeScreenshot(pathh):
                 + path.splitext(file_name)[0]
                 + "_"
                 + str(img[1])
-                + "x"
-                + str(img[2])
+                # + "x"
+                # + str(img[2])
                 + ".jpg"
             )
             img[0].save(
