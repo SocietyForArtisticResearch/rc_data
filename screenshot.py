@@ -169,8 +169,8 @@ def smartZoom(driver):
             # scale = int(max(100 - ((width * height) / (1920 * 1440)), 25))
             raw_scaling = (
                 min(
-                    float(screen_width) / width,
-                    float(screen_height) / height,
+                    width / float(screen_width),
+                    height / float(screen_height),
                 )
                 * 100.0
             )
@@ -264,7 +264,7 @@ def takeScreenshot(url, path, i, title):
                 print("| ⬇ downloading")
                 print("------------------")
             case "weave-block":
-                zoom = "200%"
+                zoom = "150%"
                 print("| zoom: " + zoom)
                 driver.execute_script("document.body.style.zoom='" + zoom + "'")
                 saveScreenshotAndResize(driver, path)
