@@ -25,9 +25,9 @@ fullHD_height = 1080
 # virtual_screen_width = 5120
 # virtual_screen_height = 2880
 
-res = ["hhttps://www.researchcatalogue.net/view/106821/243746"]
+# res = ["hhttps://www.researchcatalogue.net/view/106821/243746"]
 # res = ["https://www.researchcatalogue.net/view/2297977/2297978"]
-# res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"]  # timeline
+res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"]  # timeline
 # res = ["https://www.researchcatalogue.net/view/718740/718741"]
 # res = ["https://www.researchcatalogue.net/view/1735361/1735362"] #this sometime times out
 # res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"] #timeline
@@ -142,7 +142,7 @@ def smartScreenSize(weaveSize):
     width = weaveSize["width"]
     height = weaveSize["height"]
     try:
-        if (width > 3840) | (height > 2160):
+        if width > 3840:
             return {"width": ultraHD_width, "height": ultraHD_height}
         else:
             return {"width": fullHD_width, "height": fullHD_height}
@@ -169,8 +169,8 @@ def smartZoom(driver):
             # scale = int(max(100 - ((width * height) / (1920 * 1440)), 25))
             raw_scaling = (
                 min(
-                    width / float(screen_width),
-                    height / float(screen_height),
+                    float(screen_width) / width,
+                    float(screen_height) / height,
                 )
                 * 100.0
             )
@@ -255,8 +255,11 @@ def takeScreenshot(url, path, i, title):
                 screen = scale["screen"]
                 zoom = str(scal) + "%"
                 print("| zoom: " + zoom)
-                driver.set_window_size(screen["width"], screen["width"])
-                # print("| current screen dimensions: " + driver.get_window_size())
+                driver.set_window_size(screen["width"], screen["height"])
+                setWindowSize = driver.get_window_size()
+                setW = setWindowSize["width"]
+                setH = setWindowSize["height"]
+                print(f"| current screen dimensions: {setW},{setH}")
                 driver.execute_script("document.body.style.zoom='" + zoom + "'")
                 saveScreenshotAndResize(
                     driver, path
