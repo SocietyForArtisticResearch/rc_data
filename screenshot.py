@@ -32,7 +32,7 @@ fullHD_height = 1080
 
 # res = ["hhttps://www.researchcatalogue.net/view/106821/243746"]
 # res = ["https://www.researchcatalogue.net/view/2297977/2297978"]
-res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"]  # timeline
+# res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"]  # timeline
 # res = ["https://www.researchcatalogue.net/view/718740/718741"]
 # res = ["https://www.researchcatalogue.net/view/1735361/1735362"] #this sometime times out
 # res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"] #timeline
