@@ -12,6 +12,15 @@ import Screenshots
 import Toc
 
 
+rc_json : String
+rc_json =
+    "internal_research.json"
+
+
+
+-- rc_json = "test_connect.json"
+
+
 onlyId : Research r -> String
 onlyId research =
     research.id |> String.fromInt
@@ -97,7 +106,7 @@ printResult r =
 -}
 program : Process -> IO ()
 program process =
-    File.contentsOf "internal_research.json"
+    File.contentsOf rc_json
         |> IO.andThen
             (\int_res_json ->
                 File.contentsOf "toc.json"
