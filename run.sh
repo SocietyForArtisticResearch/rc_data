@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
@@ -18,12 +20,12 @@ python3 screenshot.py
 
 echo "make the index json of the screenshots"
 cd screenshots
-ocaml structure_extract.ml ./ > screenshots.json
+/home/casper/.opam/default/bin/ocaml structure_extract.ml ./ > screenshots.json
 cd ..
 
 echo "make a new enriched json file"
 elm-cli run src/Main.elm
 
 echo "copy to live app"
-cp enriched.json /var/www/html/rc-prisma/enriched.json
+#cp enriched.json /var/www/html/rc-prisma/enriched.json
 cp enriched.json /var/www/html/enriched.json

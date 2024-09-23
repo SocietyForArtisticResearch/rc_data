@@ -37,7 +37,7 @@ fullHD_height = 1080
 # res = ["https://www.researchcatalogue.net/view/1735361/1735362"] #this sometime times out
 # res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"] #timeline
 
-force = True
+force = False
 
 # res = ["https://www.researchcatalogue.net/view/2346286/2346287"]
 # res = ["https://www.researchcatalogue.net/view/2346286/2346287"]
