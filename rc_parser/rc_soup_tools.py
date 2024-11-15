@@ -54,7 +54,14 @@ def getContent(tool):
 
 def getImageSrc(tool_content):
     anchor = tool_content.find("img")
-    return anchor["src"]
+    if anchor and "src" in anchor.attrs:
+        return anchor["src"]
+    
+    anchor = tool_content.find(attrs={"src": True})
+    if anchor:
+        return anchor["src"]
+
+    return None
 
 def getVideoSrc(tool_content):
     divs = tool_content.find_all("div")
