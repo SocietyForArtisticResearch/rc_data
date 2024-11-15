@@ -63,9 +63,14 @@ def getImageSrc(tool_content):
 
     return None
 
+#this is also for audiosrc
 def getVideoSrc(tool_content):
     divs = tool_content.find_all("div")
-    return divs[0]["data-file"]
+    
+    if divs and "data-file" in divs[0].attrs:
+        return divs[0]["data-file"]
+
+    return None
 
 def getVideoPoster(tool_content):
     divs = tool_content.find_all("div")
