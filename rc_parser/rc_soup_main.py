@@ -5,9 +5,10 @@ from rc_soup_tools import *
 import json
 import sys
 
-def rcDict(num):
+def rcDict(num, url):
     return {
         "id": int(num),
+        "url": url,
         "pages": {}
     }
 
@@ -27,29 +28,26 @@ def pageDict(num):
         "tool-iframe": {},
     }
 
-def main():
-    URL = str(sys.argv[1])
-    DEBUG = int(sys.argv[2])
-
-    expo = requests.get(URL)
+def main(url, debug):
+    expo = requests.get(url)
     parsed = BeautifulSoup(expo.content, 'html.parser')
 
-    num = getExpositionId(URL)
-    exp_dict = rcDict(num)
-    if DEBUG: print("")
-    if DEBUG: print(URL)
-    if DEBUG: print("id: " + num)
+    num = getExpositionId(url)
+    exp_dict = rcDict(num, url)
+    if debug: print("")
+    if debug: print(url)
+    if debug: print("id: " + num)
 
-    pages = getAllPages(URL, parsed)
+    pages = getAllPages(url, parsed)
     exp_dict["pages"] = {getPageNumber(page): pageDict(getPageNumber(page)) for page in pages}
-    if DEBUG: print(pages)
+    if debug: print(pages)
 
     for page in pages:
         subpage = requests.get(page)
         parsed = BeautifulSoup(subpage.content, 'html.parser')
         
-        if DEBUG: print("-----------------------------------")
-        if DEBUG: print(page)
+        if debug: print("-----------------------------------")
+        if debug: print(page)
         
         page_dict = pageDict(getPageNumber(page))
         pageType = getPageType(parsed)
@@ -58,14 +56,12 @@ def main():
         page_dict["id"] = pageNumber
         
         for tool in TEXTTOOLS:
-            elements = getTexts(parsed, tool, DEBUG)
+            elements = getTexts(parsed, tool, debug)
             page_dict[tool] = elements
-            #exp_dict["tool-text"][pageNumber] = elements
                         
         for tool in TOOLS:
-            elements = getTools(parsed, tool, DEBUG)
+            elements = getTools(parsed, tool, debug)
             page_dict[tool] = elements
-            #exp_dict[tool][pageNumber] = elements
             
         exp_dict["pages"][pageNumber] = page_dict
             
@@ -75,4 +71,6 @@ def main():
         outfile.write(exp_json)
 
 if __name__ == "__main__":
-    main()
+    url = str(sys.argv[1])
+    debug = int(sys.argv[2])
+    main(url, debug)
