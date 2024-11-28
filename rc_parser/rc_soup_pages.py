@@ -10,6 +10,9 @@ def getPageType(page):
 def getExpositionId(fullUrl):
     return fullUrl.split("/")[4]
 
+def getPageId(fullUrl):
+    return fullUrl.split("/")[5]
+
 def getPageNumber(url):
     page = url.split("/")[5].split("#")[0]
     return int(page)
