@@ -18,7 +18,6 @@ parseJson json =
             case result of
                 Ok expo ->
                     expo
-                        |> ParsedExposition.transformStructure
                         |> ParsedExposition.getText
                         |> File.writeContentsTo "text.txt"
 
@@ -31,5 +30,5 @@ parseJson json =
 
 program : Process -> IO ()
 program process =
-    File.contentsOf "rc_parser/data.json"
+    File.contentsOf "tests/test1.json"
         |> IO.andThen parseJson

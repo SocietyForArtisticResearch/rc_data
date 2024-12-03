@@ -115,6 +115,7 @@ type alias Page =
     , htmlTools : List Tool
     , imageTools : List Tool
     , videoTools : List Tool
+    , pdfTools : List Tool
     }
 
 
@@ -137,12 +138,13 @@ decodePage =
         |> andMap (D.field "tool-simpletext" (D.list (decodeTool TextContent)))
         |> andMap (D.field "tool-picture" (D.list (decodeTool ImageContent)))
         |> andMap (D.field "tool-video" (D.list (decodeTool VideoContent)))
+        |> andMap (D.field "tool-pdf" (D.list (decodeTool PdfContent)))
 
 
 parsePythonExposition : Decoder Exposition
 parsePythonExposition =
     D.map2 (\ps id -> Exposition { pages = ps, id = id })
-        (D.field "pages" (D.list decodePage))
+        (D.field "pages" (D.keyValuePairs decodePage) |> D.map (List.map Tuple.second))
         (D.field "id" expositionId)
 
 
