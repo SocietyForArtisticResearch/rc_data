@@ -1,9 +1,4 @@
-module TestData exposing (..)
-
-
-testJson : String
-testJson =
-    """{
+{
   "id": 835089,
   "url": "https://www.researchcatalogue.net/view/835089/835129",
   "pages": {
@@ -10123,4 +10118,3 @@ testJson =
     }
   }
 }
-"""

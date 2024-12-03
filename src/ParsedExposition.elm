@@ -1,18 +1,9 @@
-module ParsedExposition exposing
-    ( Dimensions
-    , EditorType
-    , Exposition(..)
-    , Page(..)
-    , decodeList
-    , getText
-    , parsePythonExposition
-    , pretty
-    , transformStructure
-    )
+module ParsedExposition exposing (..)
 
 import AppUrl
 import Color exposing (Color)
 import Dict exposing (Dict)
+import Expo exposing (ImageType, PageID, ToolContent)
 import Html exposing (Html, a, text)
 import Html.Attributes
 import Json.Decode as D exposing (Decoder)
@@ -26,29 +17,10 @@ type alias Dimensions =
     { x : Int, y : Int, w : Int, h : Int }
 
 
-
--- needs to have tools and other stuff
-
-
-type Page
-    = GraphicalPage PageData
-    | BlockPage PageData
-
-
-pageData : Page -> PageData
-pageData p =
-    case p of
-        GraphicalPage pd ->
-            pd
-
-        BlockPage pd ->
-            pd
-
-
 type EditorType
     = Graph
     | Block
-    | Text
+    | TextBased
 
 
 type PageURL
@@ -68,7 +40,7 @@ prettyExp (Exposition data) =
 prettyPage : Page -> Html msg
 prettyPage page =
     Html.li []
-        [ page |> pageData |> pageId |> printId
+        [ page |> .id |> printId
         , Html.ul [] (page |> getTools |> List.map prettyTool)
         ]
 
@@ -79,19 +51,22 @@ toolWithColor name color =
 
 
 prettyTool : Tool -> Html msg
-prettyTool tl =
-    case tl of
-        SimpleTextTool _ ->
+prettyTool (Tool tl) =
+    case tl.content of
+        SimpleText _ ->
             toolWithColor " txt " Color.red
 
-        HtmlTextTool _ ->
+        HtmlText _ ->
             toolWithColor " html " Color.blue
 
-        ImageTool _ ->
+        Image _ ->
             toolWithColor " image tool " Color.brown
 
-        VideoTool _ ->
+        Video _ ->
             toolWithColor " video tool " Color.darkYellow
+
+        Pdf _ ->
+            toolWithColor " pdf tool " Color.darkGray
 
 
 pageUrlToString : PageURL -> String
@@ -126,14 +101,20 @@ editorType =
             )
 
 
-type alias PythonOutput =
+type alias ExpositionContent =
     { id : Int
-    , editorType : EditorType
-    , pages : List String
-    , toolText : Dict PageId (List Tool)
-    , toolHtml : Dict PageId (List Tool)
-    , toolImage : Dict PageId (List Tool)
-    , toolVideo : Dict PageId (List Tool)
+    , url : String
+    , pages : List Page
+    }
+
+
+type alias Page =
+    { id : PageID
+    , type_ : EditorType
+    , textTools : List Tool
+    , htmlTools : List Tool
+    , imageTools : List Tool
+    , videoTools : List Tool
     }
 
 
@@ -142,16 +123,34 @@ expositionId =
     D.int
 
 
-parsePythonExposition : Decoder PythonOutput
-parsePythonExposition =
-    D.succeed PythonOutput
-        |> andMap (D.field "id" expositionId)
+pageId : Decoder PageId
+pageId =
+    D.int
+
+
+decodePage : Decoder Page
+decodePage =
+    D.succeed Page
+        |> andMap (D.field "id" pageId)
         |> andMap (D.field "type" editorType)
-        |> andMap (D.field "pages" (D.list D.string))
-        |> andMap (D.field "tool-text" (toolText HtmlText))
-        |> andMap (D.field "tool-simpletext" (toolText SimpleText))
-        |> andMap (D.field "tool-picture" toolImage)
-        |> andMap (D.field "tool-video" toolVideo)
+        |> andMap (D.field "tool-text" (D.list (decodeTool HtmlContent)))
+        |> andMap (D.field "tool-simpletext" (D.list (decodeTool TextContent)))
+        |> andMap (D.field "tool-picture" (D.list (decodeTool ImageContent)))
+        |> andMap (D.field "tool-video" (D.list (decodeTool VideoContent)))
+
+
+parsePythonExposition : Decoder Exposition
+parsePythonExposition =
+    D.map2 (\ps id -> Exposition { pages = ps, id = id })
+        (D.field "pages" (D.list decodePage))
+        (D.field "id" expositionId)
+
+
+
+-- |> andMap (D.field "tool-text" (toolText HtmlText))
+-- |> andMap (D.field "tool-simpletext" (toolText SimpleText))
+-- |> andMap (D.field "tool-picture" toolImage)
+-- |> andMap (D.field "tool-video" toolVideo)
 
 
 combineValues : Dict comparable (List a) -> Dict comparable (List a) -> Dict comparable (List a)
@@ -177,58 +176,32 @@ combineValues dictA dictB =
     List.foldl f Dict.empty complete
 
 
-decodeList : Decoder (List Exposition)
-decodeList =
-    D.list parsePythonExposition
-        |> D.map (List.map transformStructure)
-
-
-transformStructure : PythonOutput -> Exposition
-transformStructure python =
-    let
-        tls =
-            List.foldl combineValues Dict.empty [ python.toolHtml, python.toolText, python.toolVideo, python.toolImage ]
-
-        -- idea: maybe exposition should use the dict of pages, instead of transforming into a list?
-        pgs =
-            tls |> Dict.toList |> List.map (\( id, ts ) -> GraphicalPage (PageData { pageId = id, tools = ts }))
-    in
-    Exposition { pages = pgs, id = python.id }
-
-
 getTools : Page -> List Tool
 getTools page =
-    case page of
-        GraphicalPage (PageData pd) ->
-            pd.tools
-
-        BlockPage (PageData pd) ->
-            pd.tools
+    page.textTools ++ page.imageTools ++ page.videoTools
 
 
 toolToText : Tool -> String
-toolToText tool =
-    case tool of
-        SimpleTextTool data ->
-            getTextFromData data
+toolToText (Tool tool) =
+    case tool.content of
+        SimpleText text ->
+            text
 
-        HtmlTextTool data ->
-            getTextFromData data
+        HtmlText text ->
+            text
 
-        ImageTool _ ->
+        Image _ ->
             ""
 
-        VideoTool _ ->
+        Video _ ->
+            ""
+
+        Pdf _ ->
             ""
 
 
 
 -- TODO: maybe we can do something clever for other tools
-
-
-getTextFromData : TextData -> String
-getTextFromData data =
-    data.text
 
 
 getText : Exposition -> String
@@ -244,45 +217,9 @@ type alias PageId =
     Int
 
 
-type PageData
-    = PageData
-        { pageId : PageId
-        , tools : List Tool
-        }
-
-
-pageId : PageData -> PageId
-pageId (PageData pd) =
-    pd.pageId
-
-
-tools : PageData -> List Tool
-tools (PageData pd) =
-    pd.tools
-
-
 printId : PageId -> Html msg
 printId i =
     Html.text ("page id: " ++ String.fromInt i)
-
-
-extractToolList : Exposition -> List Tool
-extractToolList (Exposition data) =
-    let
-        toolsLstLst =
-            data.pages
-                |> List.map
-                    (\page ->
-                        case page of
-                            GraphicalPage (PageData pd) ->
-                                pd.tools
-
-                            BlockPage (PageData pd) ->
-                                pd.tools
-                    )
-    in
-    toolsLstLst
-        |> List.concat
 
 
 type alias ExpositionContents =
@@ -309,17 +246,54 @@ type alias ToolProperties =
     }
 
 
-toolProperties : Decoder ToolProperties
-toolProperties =
+type ToolContentType
+    = ImageContent
+    | VideoContent
+    | TextContent
+    | HtmlContent
+    | PdfContent
+
+
+decodeToolContent : ToolContentType -> Decoder ToolContent
+decodeToolContent contentType =
+    case contentType of
+        ImageContent ->
+            D.field "src" D.string |> D.map (\url -> Image { src = url })
+
+        VideoContent ->
+            D.map2 (\url preview -> Video { src = url, preview = preview })
+                (D.field "src" D.string)
+                (D.field "poster" D.string)
+
+        TextContent ->
+            D.field "src" D.string |> D.map HtmlText
+
+        HtmlContent ->
+            D.field "src" D.string |> D.map SimpleText
+
+        PdfContent ->
+            D.field "src" D.string |> D.map (\url -> Pdf { src = url })
+
+
+decodeTool : ToolContentType -> Decoder Tool
+decodeTool contentType =
     let
-        construct dim style =
-            { dimensions = dim
-            , style = ToolStyle style
-            }
+        content =
+            decodeToolContent contentType
     in
-    D.map2 construct
-        (D.field "dimensions" decodeDimensions)
-        (D.field "style" D.string)
+    content
+        |> D.andThen
+            (\c ->
+                D.succeed (constructToolWithContent c)
+                    |> andMap
+                        (D.field "id" D.int |> D.map mkToolId)
+                    |> andMap
+                        (D.field "tool" D.string)
+                    |> andMap
+                        (D.field "style" D.string)
+                    |> andMap
+                        (D.field "dimensions" decodeDimensions)
+            )
 
 
 decodeDimensions : Decoder Dimensions
@@ -336,89 +310,66 @@ decodeDimensions =
             )
 
 
-decodePixelTuple : Decoder ( Int, Int )
-decodePixelTuple =
-    D.list D.string
-        |> D.andThen
-            (\lst ->
-                case lst of
-                    [ x, y ] ->
-                        [ x, y ]
-                            |> List.map (String.replace "px" "" >> String.toInt)
-                            |> List.filterMap identity
-                            |> (\lst2 ->
-                                    case lst2 of
-                                        [ i1, i2 ] ->
-                                            D.succeed ( i1, i2 )
 
-                                        _ ->
-                                            D.fail "expected two integers with "
-                               )
-
-                    _ ->
-                        D.fail "expected two px values"
-            )
-
-
-dummyToolProperties : ToolProperties
-dummyToolProperties =
-    { dimensions = { x = 0, y = 0, w = 0, h = 0 }
-    , style = ToolStyle ""
-    }
+-- decodePixelTuple : Decoder ( Int, Int )
+-- decodePixelTuple =
+--     D.list D.string
+--         |> D.andThen
+--             (\lst ->
+--                 case lst of
+--                     [ x, y ] ->
+--                         [ x, y ]
+--                             |> List.map (String.replace "px" "" >> String.toInt)
+--                             |> List.filterMap identity
+--                             |> (\lst2 ->
+--                                     case lst2 of
+--                                         [ i1, i2 ] ->
+--                                             D.succeed ( i1, i2 )
+--                                         _ ->
+--                                             D.fail "expected two integers with "
+--                                )
+--                     _ ->
+--                         D.fail "expected two px values"
+--             )
 
 
 type ToolId
-    = ToolId String
+    = ToolId Int
 
+mkToolId : Int -> ToolId
+mkToolId = 
+    ToolId
 
 type Tool
-    = SimpleTextTool TextData
-    | HtmlTextTool TextData
-    | ImageTool ImageData
-    | VideoTool VideoData
+    = Tool
+        { content : ToolContent
+        , id : ToolId
+        , dimensions : Dimensions
+        , style : ToolStyle
+        , rawHtmlContent : String
+        }
 
 
-type alias ImageData =
-    { id : ToolId
-    , toolProperties : ToolProperties
-    , src : String
-    }
-
-
-type alias VideoData =
-    { id : ToolId
-    , src : Url
-    , preview : Url
-    , toolProperties : ToolProperties
-    }
+type ToolContent
+    = SimpleText String
+    | HtmlText String
+    | Image
+        { src : String
+        }
+    | Video
+        { src : Url
+        , preview : Url
+        }
+    | Pdf { src : String }
 
 
 type alias Url =
     String
 
 
-type alias TextData =
-    { toolProperties : ToolProperties
-    , html : String
-    , text : String
-    , id : ToolId
-    }
-
-
 getSize : Tool -> Dimensions
-getSize tool =
-    case tool of
-        SimpleTextTool d ->
-            d.toolProperties.dimensions
-
-        HtmlTextTool d ->
-            d.toolProperties.dimensions
-
-        ImageTool d ->
-            d.toolProperties.dimensions
-
-        VideoTool d ->
-            d.toolProperties.dimensions
+getSize (Tool tool) =
+    tool.dimensions
 
 
 
@@ -429,59 +380,20 @@ type Exposition
     = Exposition { pages : List Page, id : ExpositionID }
 
 
-simpletext : ToolId -> String -> String -> Tool
-simpletext id html text =
-    SimpleTextTool
-        { id = id
-        , html = html
-        , text = text
-        , toolProperties = dummyToolProperties
-        }
-
-
-htmlText : ToolId -> String -> String -> Tool
-htmlText id html text =
-    HtmlTextTool
-        { id = id
-        , html = html
-        , text = text
-        , toolProperties = dummyToolProperties
+constructToolWithContent : ToolContent -> ToolId -> String -> String -> Dimensions -> Tool
+constructToolWithContent content toolId rawHtml style dim =
+    Tool
+        { content = content
+        , id = toolId
+        , rawHtmlContent = rawHtml
+        , style = ToolStyle style
+        , dimensions = dim
         }
 
 
 type TextToolType
-    = SimpleText
-    | HtmlText
-
-
-toolText : TextToolType -> D.Decoder (Dict PageID (List Tool))
-toolText t =
-    let
-        construct =
-            case t of
-                SimpleText ->
-                    simpletext
-
-                HtmlText ->
-                    htmlText
-
-        textTool =
-            D.map3
-                construct
-                (D.field "id" D.string |> D.map ToolId)
-                (D.field "content" D.string)
-                (D.field "src" D.string)
-
-        pgs =
-            D.list textTool
-    in
-    D.keyValuePairs pgs
-        |> D.map
-            (\lst ->
-                lst
-                    |> List.map (Tuple.mapFirst (String.toInt >> Maybe.withDefault 0))
-                    |> Dict.fromList
-            )
+    = SimpleTxt
+    | HtmlTxt
 
 
 debugValue : String -> a -> a
@@ -491,61 +403,3 @@ debugValue label x =
             Debug.log label x
     in
     x
-
-
-toolImage : D.Decoder (Dict PageID (List Tool))
-toolImage =
-    let
-        imageTool =
-            D.map3
-                (\id props mediaUrl ->
-                    ImageTool
-                        { id = id
-                        , toolProperties = props
-                        , src = mediaUrl
-                        }
-                )
-                (D.field "id" D.string |> D.map ToolId)
-                toolProperties
-                (D.succeed "todo.png")
-
-        pages =
-            D.list imageTool
-    in
-    D.keyValuePairs pages
-        |> D.map
-            (\lst ->
-                lst
-                    |> List.map (Tuple.mapFirst (String.toInt >> Maybe.withDefault 0))
-                    |> Dict.fromList
-            )
-
-
-toolVideo : D.Decoder (Dict PageID (List Tool))
-toolVideo =
-    let
-        videoTool =
-            D.map4
-                (\id props mediaUrl preview ->
-                    VideoTool
-                        { id = id
-                        , toolProperties = props
-                        , src = mediaUrl
-                        , preview = preview
-                        }
-                )
-                (D.field "id" D.string |> D.map ToolId)
-                toolProperties
-                (D.succeed "todo.png")
-                (D.field "poster" D.string)
-
-        pages =
-            D.list videoTool
-    in
-    D.keyValuePairs pages
-        |> D.map
-            (\lst ->
-                lst
-                    |> List.map (Tuple.mapFirst (String.toInt >> Maybe.withDefault 0))
-                    |> Dict.fromList
-            )
