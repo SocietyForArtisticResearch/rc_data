@@ -1,23 +1,37 @@
 import json
 import sys
 from PIL import Image, ImageDraw
+from rc_soup_pages import getPageId
 
 def load_json(file_path):
-    with open(file_path, "r") as f:
-        return json.load(f)
+    try:
+        with open(file_path, "r") as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"Error loading JSON file: {e}")
+        sys.exit(1)
+
+def convert_list_to_dict(data):
+    return {item["id"]: item for item in data}
 
 TOOL_COLORS = {
-    "tool-text": (255, 0, 0),       # Red
-    "tool-simpletext": (0, 255, 0), # Green
-    "tool-picture": (0, 0, 255),    # Blue
-    "tool-audio": (255, 255, 0),    # Yellow
-    "tool-video": (255, 0, 255),    # Magenta
-    "tool-shape": (0, 255, 255),    # Cyan
-    "tool-pdf": (255, 165, 0),      # Orange
-    "tool-slideshow": (128, 0, 128),# Purple
-    "tool-embed": (0, 128, 128),    # Teal
-    "tool-iframe": (128, 128, 0)    # Olive
+    "tool-text": (255, 0, 0),
+    "tool-simpletext": (0, 255, 0),
+    "tool-picture": (0, 0, 255),
+    "tool-audio": (255, 255, 0),
+    "tool-video": (255, 0, 255),
+    "tool-shape": (0, 255, 255),
+    "tool-pdf": (255, 165, 0),
+    "tool-slideshow": (128, 0, 128),
+    "tool-embed": (0, 128, 128),
+    "tool-iframe": (128, 128, 0)
 }
+
+def get_default_page(data_dict, expo_id):
+    exposition = data_dict.get(expo_id)
+    if exposition:
+        return exposition.get("default-page")
+    return None
 
 def get_scaling_factor(tools, target_width, target_height):
     max_x = max_y = 0
@@ -30,11 +44,25 @@ def get_scaling_factor(tools, target_width, target_height):
     scale_y = target_height / max_y if max_y > 0 else 1
     return min(scale_x, scale_y)
 
-def generate_image(exposition, output_image_file, target_width=800, target_height=600):
-    first_page_id = list(exposition["pages"].keys())[0]
-    first_page = exposition["pages"][first_page_id]
+def generate_image(expo_id, exposition, output_image_file, target_width=800, target_height=600):
+    internal_research = load_json("../internal_research.json")
+    internal_research_dict = convert_list_to_dict(internal_research)
+    
+    default_page_id = getPageId(get_default_page(internal_research_dict, expo_id))
+    if default_page_id is None:
+        print(f"No default page found for exposition ID {expo_id}")
+        return
 
-    # Collect all tools from the first page
+    if "pages" not in exposition:
+        print(f"No 'pages' key found in exposition data for ID {expo_id}")
+        return
+
+    if default_page_id not in exposition["pages"]:
+        print(f"No page data found for default page ID {default_page_id} in exposition ID {expo_id}")
+        return
+    
+    first_page = exposition["pages"][default_page_id]
+
     all_tools = []
     for key, value in first_page.items():
         if isinstance(value, list):
@@ -64,12 +92,21 @@ def generate_image(exposition, output_image_file, target_width=800, target_heigh
     print(f"Image saved to {output_image_file}")
 
 def main():
-    id = str(sys.argv[1])
-    input_json_file = "research/" + id + ".json" 
-    output_image_file = "research/" + id + ".png"
+    if len(sys.argv) < 2:
+        print("Usage: python json2image.py <exposition_id>")
+        sys.exit(1)
+    
+    try:
+        expo_id = int(sys.argv[1])
+    except ValueError:
+        print("Exposition ID must be an integer.")
+        sys.exit(1)
+    
+    input_json_file = f"research/{expo_id}.json"
+    output_image_file = f"research/{expo_id}.png"
     
     exposition = load_json(input_json_file)
-    generate_image(exposition, output_image_file)
+    generate_image(expo_id, exposition, output_image_file)
 
 if __name__ == "__main__":
     main()

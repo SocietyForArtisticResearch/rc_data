@@ -39,12 +39,27 @@ def merge_json_files(directory):
     
     print(f"Merged JSON saved to {merged_output_file}")
 
+def call_json2image(expo_id):
+    try:
+        result = subprocess.run(
+            [sys.executable, 'json2image.py', str(expo_id)],
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        print(f"Script output:\n{result.stdout}")
+    except subprocess.CalledProcessError as e:
+        print(f"Error calling script: {e}")
+        print(f"Script error output:\n{e.stderr}")
+        
 def call_main_for_urls(urls, debug):
     directory = "research"
     make_dir(directory)
     
     for url in urls:
-        filename = getExpositionId(url) + ".json"
+        expo_id = getExpositionId(url)
+        filename = expo_id + ".json"
+        call_json2image(expo_id)
         output_file = os.path.join(directory, filename)
 
         if os.path.exists(output_file):

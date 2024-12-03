@@ -27,7 +27,11 @@ elm-cli src/Extract.elm
 You will first need to download metadata using rc_data.py (and update the file url in Extract.elm). It currently works on the basis of a single exposition, which is concatted together into a single textfile (text.txt).
 
 
-
+# TODO
+- [ ] update by date
+- [ ] json structure: weave -> tools 
+- [ ] https://map.rcdata.org/enriched.json
+- [ ] point to https://map.rcdata.org/internal_research.json
 
 # screenshots and TOC
 - [x] increased image size to 1920 x 1440
