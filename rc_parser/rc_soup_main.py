@@ -4,6 +4,7 @@ from rc_soup_pages import *
 from rc_soup_tools import *
 import json
 import sys
+from urllib.parse import urlparse, urlunparse, unquote
 
 def rcDict(num, url):
     return {
@@ -28,8 +29,16 @@ def pageDict(num):
         "tool-iframe": {},
     }
 
+def clean_url(url):
+    parsed_url = urlparse(url)
+
+    clean_path = unquote(parsed_url.path)
+    cleaned_url = urlunparse(parsed_url._replace(path=clean_path.strip()))
+
+    return cleaned_url
+
 def main(url, debug):
-    expo = requests.get(url)
+    expo = requests.get(clean_url(url))
     parsed = BeautifulSoup(expo.content, 'html.parser')
 
     num = getExpositionId(url)
@@ -43,7 +52,7 @@ def main(url, debug):
     if debug: print(pages)
 
     for page in pages:
-        subpage = requests.get(page)
+        subpage = requests.get(clean_url(page))
         parsed = BeautifulSoup(subpage.content, 'html.parser')
         
         if debug: print("-----------------------------------")
