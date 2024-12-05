@@ -4,8 +4,12 @@ import sys
 import pandas as pd
 import json
 from rc_soup_pages import *
+import requests
 
-RES = pd.read_json("internal_research.json")
+URL = "https://map.rcdata.org/internal_research.json"
+jso = requests.get(URL)
+
+RES = pd.read_json(json.dumps(jso.json()))
 URLS = RES["default-page"]
 
 def make_dir(directory):
@@ -59,7 +63,6 @@ def call_main_for_urls(urls, debug):
     for url in urls:
         expo_id = getExpositionId(url)
         filename = expo_id + ".json"
-        call_json2image(expo_id)
         output_file = os.path.join(directory, filename)
 
         if os.path.exists(output_file):
@@ -76,6 +79,8 @@ def call_main_for_urls(urls, debug):
     
             else:
                 print(f"Error processing {url}: {result.stderr}")
+                
+            #call_json2image(expo_id)
             
 if __name__ == "__main__":
     debug = 0
