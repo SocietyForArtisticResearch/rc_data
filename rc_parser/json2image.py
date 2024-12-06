@@ -48,7 +48,12 @@ def generate_image(expo_id, exposition, output_image_file, target_width=800, tar
     internal_research = load_json("../internal_research.json")
     internal_research_dict = convert_list_to_dict(internal_research)
     
-    default_page_id = getPageId(get_default_page(internal_research_dict, expo_id))
+    try:
+        default_page_id = getPageId(get_default_page(internal_research_dict, expo_id))
+    except Exception as e:
+        print(f"Error getting default page ID: {e}")
+        default_page_id = None
+        
     if default_page_id is None:
         print(f"No default page found for exposition ID {expo_id}")
         return
@@ -103,7 +108,7 @@ def main():
         sys.exit(1)
     
     input_json_file = f"research/{expo_id}.json"
-    output_image_file = f"research/{expo_id}.png"
+    output_image_file = f"maps/{expo_id}.png"
     
     exposition = load_json(input_json_file)
     generate_image(expo_id, exposition, output_image_file)
