@@ -45,7 +45,7 @@ def get_scaling_factor(tools, target_width, target_height):
     return min(scale_x, scale_y)
 
 def generate_image(expo_id, exposition, output_image_file, target_width=800, target_height=600):
-    internal_research = load_json("../internal_research.json")
+    internal_research = load_json("research/internal_research.json")
     internal_research_dict = convert_list_to_dict(internal_research)
     
     try:

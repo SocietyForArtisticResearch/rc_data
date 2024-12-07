@@ -6,10 +6,8 @@ import json
 from rc_soup_pages import *
 import requests
 
-URL = "https://map.rcdata.org/internal_research.json"
-jso = requests.get(URL)
-
-RES = pd.read_json(json.dumps(jso.json()))
+getInternalResearch()
+RES = pd.read_json("research/internal_research.json")
 URLS = RES["default-page"]
 
 def make_dir(directory):
@@ -44,7 +42,6 @@ def call_main_for_urls(urls, debug):
             print(f"Processing {url} and saving to {output_file}")
             
             call_json2image(expo_id)
-        
                 
             
 if __name__ == "__main__":
