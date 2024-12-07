@@ -62,7 +62,7 @@ def generate_tool_url(base_url, base_id, page_id, tool):
     # Construct the full URL for the tool
     return f"{base_url}/view/{base_id}/{page_id}/#{tool_id}"
 
-def generate_html_chart(tool_counts, tool_urls, output_html_file):
+def generate_html_chart(id, tool_counts, tool_urls, output_html_file):
     """Generate an HTML file with a Chart.js pie chart."""
     labels = [key for key, value in tool_counts.items() if value > 0]
     sizes = [value for value in tool_counts.values() if value > 0]
@@ -78,9 +78,9 @@ def generate_html_chart(tool_counts, tool_urls, output_html_file):
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <body>
-        <canvas id="toolChart" width="400" height="400"></canvas>
+        <canvas id="toolChart-{id}" width="400" height="400"></canvas>
         <script>
-            const ctx = document.getElementById('toolChart').getContext('2d');
+            const ctx = document.getElementById('toolChart-{id}').getContext('2d');
             const toolChart = new Chart(ctx, {{
                 type: 'pie',
                 data: {{
@@ -172,8 +172,8 @@ def main():
     tool_counts, tool_urls = count_tool_types_and_generate_urls(data['pages'], base_url)
 
     # Generate the HTML file with the pie chart
-    output_html_file = f'research/tool_distribution_{id}.html'
-    generate_html_chart(tool_counts, tool_urls, output_html_file)
+    output_html_file = f'research/chart_{id}.html'
+    generate_html_chart(id, tool_counts, tool_urls, output_html_file)
 
 if __name__ == "__main__":
     main()
