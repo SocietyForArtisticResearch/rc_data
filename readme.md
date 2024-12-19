@@ -114,3 +114,11 @@ content = {
 * Maybe all we need is a very stripped-down way of exposing the database to the elm-client.
 * So we will try python+mongdb first
 
+# TODO's 
+
+[ ] D make a database for the statistics that we can query
+[ ] D maybe split data into several tables for slightly more optimized quering and allow seperate updating.
+[ ] C generate all parsed exposition json by running on rcdata
+[ ] C generate a table for all tools in RC  
+[ ] C make a little app that returns an exposition as a piece of plain text
+
