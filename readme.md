@@ -105,3 +105,12 @@ content = {
     }
 ]
 
+
+# Thoughts about RC database requirements:
+
+* Be able to update modified exposition information
+* Metrics should be "calculation free", in that you get a vector that can be projected onto a space (or just used to sort a listview).
+* Easy to set up database, migrate, and mutate
+* Maybe all we need is a very stripped-down way of exposing the database to the elm-client.
+* So we will try python+mongdb first
+
