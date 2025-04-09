@@ -255,7 +255,7 @@ def ensure_directories_exist(file_path: str) -> None:
 
 def saveScreenshotAndResize(driver, path):
     driver.save_screenshot(path)  # replaced by a function that does both.
-    resizeScreenshotSimple(path)
+    #resizeScreenshotSimple(path)
 
 
 def takeScreenshot(url, path, i, title):
@@ -543,7 +543,10 @@ def downloadExposition(exposition):
 outdated_expositions = []
 
 for index, exposition in enumerate(research_json):
+    print('exposition =',exposition)
+    print('\n\n\n')
     url = exposition["default-page"]
+    print('url = ',url)
     id = getExpositionId(url)
 
     folder_path = Path("screenshots/" + id)
@@ -565,22 +568,22 @@ print(f"{len(outdated_expositions)} new or outfdated expositions found.")
 
 if force:
     for exposition in outdated_expositions:
-        print("")
+        print("outdated exposition")
         print(exposition)
-        num = getExpositionId(exposition)
+        num = getExpositionId(exposition["default-page"])
         path = root + num
         driver = webdriver.Chrome(options=options)
-        downloadExposition(exposition)
+        downloadExposition(exposition["default-page"])
         # resizeScreenshot(path)
 else:
     for exposition in outdated_expositions:
         print("")
         print(exposition)
-        num = getExpositionId(exposition)
+        num = getExpositionId(exposition["default-page"])
         path = root + num
         if not os.path.exists(path):
             driver = webdriver.Chrome(options=options)
-            downloadExposition(exposition)
+            downloadExposition(exposition["default-page"])
             # resizeScreenshot(path)
         else:
             print("folder " + str(num) + " already exists.")
