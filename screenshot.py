@@ -8,7 +8,7 @@ from resize import *
 
 
 
-# casper: 04/04/2024
+# casper: 19/12/2024
 
 
 root = "screenshots/"
@@ -30,7 +30,7 @@ fullHD_height = 1080
 # virtual_screen_width = 5120
 # virtual_screen_height = 2880
 
-# res = ["hhttps://www.researchcatalogue.net/view/106821/243746"]
+#res = ["https://www.researchcatalogue.net/view/3296693/3296692"]
 # res = ["https://www.researchcatalogue.net/view/2297977/2297978"]
 # res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"]  # timeline
 # res = ["https://www.researchcatalogue.net/view/718740/718741"]
@@ -341,6 +341,7 @@ def takeScreenshot(url, path, i, title):
 def makeDir(num):
     path = root + num
     if not os.path.exists(path):
+        print("creating directory " + path)
         os.makedirs(path)
     return path
 
@@ -350,6 +351,7 @@ def makeDirFromURL(url):
     page = getPageNumber(url)
     path = root + num + "/" + page
     if not os.path.exists(path):
+        print("making the directory")
         os.makedirs(path)
     return path
 
@@ -452,6 +454,7 @@ def screenShotPages(fullUrl):
             global counterTOC
             counterTOC = counterTOC + 1
         else:  # TOC not available or TOC available but single entry
+            print("no toc available, just taking default page")
             expositionUrl = getExpositionUrl(cleanUrl)
             hrefs = list(set(findHrefsInPage(driver)))  # find all links in page
             subpages = list(
@@ -464,6 +467,7 @@ def screenShotPages(fullUrl):
                 filter(notContainsHash, subpages)
             )  # filter out urls with hash
             print(subpages)
+            
             path = makeDirFromURL(cleanUrl)
             if len(subpages) > 1:  # if subpages found takes screenshot
                 for i in range(len(subpages)):
@@ -482,7 +486,9 @@ def screenShotPages(fullUrl):
                 toc.append(j)
                 global counterSinglePage
                 counterSinglePage = counterSinglePage + 1
-    except:
+    except Exception as e:
+        # Print the error message
+        print(f"An error occurred: {e}")
         print("!!! screenshot failed for exposition: " + cleanUrl)
         global failed
         failed = failed + 1
@@ -490,8 +496,14 @@ def screenShotPages(fullUrl):
         failedUrls.append(cleanUrl)
     toc_dict = {"id": num, "type": expositionType, "toc": toc}
     toc_json = json.dumps(toc_dict)
-    with open(root + num + "/" + "toc.json", "w") as outfile:
-        outfile.write(toc_json)
+    local_toc_json_path = root + num + "/" + "toc.json"
+    print("local toc json path: " + local_toc_json_path)
+    ensure_directories_exist(local_toc_json_path)
+    try:
+        with open(local_toc_json_path, "w") as outfile:
+            outfile.write(toc_json)
+    except:
+        print("sorry could not open directory")
     return toc_dict
 
 
@@ -514,7 +526,7 @@ def downloadExposition(exposition):
     global total
     total = total + 1
     print("")
-    print(tocs_dict)
+    #print(tocs_dict)
     print(str(total) + "/" + str(RESSIZE))
     print("TOC: " + str(counterTOC))
     print("Inferred: " + str(counterInferred))
@@ -536,18 +548,18 @@ if force:
         driver = webdriver.Chrome(options=options)
         downloadExposition(exposition)
         # resizeScreenshot(path)
-else:
-    for exposition in res:
-        print("")
-        print(exposition)
-        num = getExpositionId(exposition)
-        path = root + num
-        if not os.path.exists(path):
-            driver = webdriver.Chrome(options=options)
-            downloadExposition(exposition)
-            # resizeScreenshot(path)
-        else:
-            print("folder " + str(num) + " already exists.")
-            total = total + 1
-            print(str(total) + "/" + str(RESSIZE))
+    else:
+        for exposition in res:
             print("")
+            print(exposition)
+            num = getExpositionId(exposition)
+            path = root + num
+            if not os.path.exists(path):
+                driver = webdriver.Chrome(options=options)
+                downloadExposition(exposition)
+                # resizeScreenshot(path)
+            else:
+                print("folder " + str(num) + " already exists.")
+                total = total + 1
+                print(str(total) + "/" + str(RESSIZE))
+                print("")
