@@ -14,6 +14,7 @@ from resize import *
 root = "screenshots/"
 
 research = pd.read_json("internal_research.json")
+research_json = json.load("internal_research.json")
 # print(research.to_string())
 res = research["default-page"]
 # print(res)
@@ -540,7 +541,7 @@ def downloadExposition(exposition):
 
 outdated_expositions = []
 
-for index, exposition in enumerate(research):
+for index, exposition in enumerate(research_json):
     url = exposition["default-page"]
     id = getExpositionId(url)
 
