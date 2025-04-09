@@ -538,9 +538,31 @@ def downloadExposition(exposition):
     print("")
     driver.quit()
 
+outdated_expositions = []
+
+for index, exposition in enumerate(research):
+    url = exposition["default-page"]
+    id = getExpositionId(url)
+
+    folder_path = Path("screenshots/" + id)
+
+    if folder_path.exists() and folder_path.is_dir():
+        mod_time = folder_path.stat().st_mtime
+        last_modified = exposition["last-modified"]
+        
+        if mod_time < last_modified:
+            print(f"Folder '{id}' is outdated.")
+            outdated_expositions.append(exposition)
+        else:
+            print(f"Folder '{id}' is up to date.")
+    else:
+        print(f"Folder '{id}' does not exist — treating as outdated.")
+        outdated_expositions.append(exposition)
+
+print(f"{len(outdated_expositions)} new or outfdated expositions found.")
 
 if force:
-    for exposition in res:
+    for exposition in outdated_expositions:
         print("")
         print(exposition)
         num = getExpositionId(exposition)
@@ -548,18 +570,18 @@ if force:
         driver = webdriver.Chrome(options=options)
         downloadExposition(exposition)
         # resizeScreenshot(path)
-    else:
-        for exposition in res:
+else:
+    for exposition in outdated_expositions:
+        print("")
+        print(exposition)
+        num = getExpositionId(exposition)
+        path = root + num
+        if not os.path.exists(path):
+            driver = webdriver.Chrome(options=options)
+            downloadExposition(exposition)
+            # resizeScreenshot(path)
+        else:
+            print("folder " + str(num) + " already exists.")
+            total = total + 1
+            print(str(total) + "/" + str(RESSIZE))
             print("")
-            print(exposition)
-            num = getExpositionId(exposition)
-            path = root + num
-            if not os.path.exists(path):
-                driver = webdriver.Chrome(options=options)
-                downloadExposition(exposition)
-                # resizeScreenshot(path)
-            else:
-                print("folder " + str(num) + " already exists.")
-                total = total + 1
-                print(str(total) + "/" + str(RESSIZE))
-                print("")
