@@ -14,7 +14,8 @@ from resize import *
 root = "screenshots/"
 
 research = pd.read_json("internal_research.json")
-research_json = json.load("internal_research.json")
+with open("internal_research.json", "r") as file:
+    research_json = json.load(file)
 # print(research.to_string())
 res = research["default-page"]
 # print(res)
