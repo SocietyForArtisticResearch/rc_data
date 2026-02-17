@@ -5,11 +5,11 @@ import pandas as pd
 import json
 import os
 from resize import *
+import datetime
 
 
 
-# casper: 19/12/2024
-
+# casper: 9/4/2025
 
 root = "screenshots/"
 
@@ -540,6 +540,27 @@ def downloadExposition(exposition):
     print("")
     driver.quit()
 
+def latest_modification_time(directory):
+    """
+    Returns the latest modification time of any file within the directory or its subdirectories.
+
+    :param directory: Relative path to the directory (str or Path)
+    :return: datetime of the most recent file modification, or None if no files are found
+    """
+    directory = Path(directory)
+    if not directory.exists() or not directory.is_dir():
+        raise ValueError(f"'{directory}' is not a valid directory")
+
+    latest_time = None
+
+    for file in directory.rglob("*.png"):
+        if file.is_file():
+            mtime = file.stat().st_mtime
+            if latest_time is None or mtime > latest_time:
+                latest_time = mtime
+
+    return datetime.datetime.fromtimestamp(latest_time) if latest_time else None
+
 outdated_expositions = []
 
 for index, exposition in enumerate(research_json):
@@ -552,14 +573,20 @@ for index, exposition in enumerate(research_json):
     folder_path = Path("screenshots/" + id)
 
     if folder_path.exists() and folder_path.is_dir():
-        mod_time = folder_path.stat().st_mtime
+        mod_time = latest_modification_time(folder_path)
+        #mod_time = folder_path.stat().st_mtime
         last_modified = exposition["last-modified"]
-        
-        if mod_time < last_modified:
+
+        if mod_time is None:
             print(f"Folder '{id}' is outdated.")
-            outdated_expositions.append(exposition)
+            #outdated_expositions.append(exposition)
         else:
-            print(f"Folder '{id}' is up to date.")
+            tstamp = mod_time.timestamp()
+            if float(tstamp) < float(last_modified):
+                print(f"Folder '{id}' is outdated. timestamp = '{tstamp}', last_modified = '{last_modified}'")
+                outdated_expositions.append(exposition)
+            else:
+                print(f"Folder '{id}' is up to date.")
     else:
         print(f"Folder '{id}' does not exist — treating as outdated.")
         outdated_expositions.append(exposition)
