@@ -34,7 +34,12 @@ def download_thumbs(base_path: str) -> None:
 
         try:
             response = requests.get(thumb_url, timeout=15)
-            response.raise_for_status()
+            if not response.ok:
+                print(f"[{i+1}/{total}] FAIL  {expo_id}: HTTP {response.status_code}")
+                print(f"  url: {thumb_url}")
+                print(f"  headers: {dict(response.headers)}")
+                failed += 1
+                continue
             with open(dest_path, "wb") as f:
                 f.write(response.content)
             kb = len(response.content) / 1024
@@ -42,6 +47,7 @@ def download_thumbs(base_path: str) -> None:
             success += 1
         except Exception as e:
             print(f"[{i+1}/{total}] FAIL  {expo_id}: {e}")
+            print(f"  url: {thumb_url}")
             failed += 1
 
         time.sleep(WAIT_SECONDS)
