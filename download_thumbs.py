@@ -33,7 +33,7 @@ def download_thumbs(base_path: str) -> None:
         os.makedirs(dest_dir, exist_ok=True)
 
         try:
-            response = requests.get(thumb_url, timeout=15)
+            response = requests.get(thumb_url, timeout=15, headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0"})
             if not response.ok:
                 print(f"[{i+1}/{total}] FAIL  {expo_id}: HTTP {response.status_code}")
                 print(f"  url: {thumb_url}")
