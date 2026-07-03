@@ -37,7 +37,8 @@ def download_thumbs(base_path: str) -> None:
             response.raise_for_status()
             with open(dest_path, "wb") as f:
                 f.write(response.content)
-            print(f"[{i+1}/{total}] ok    {expo_id}")
+            kb = len(response.content) / 1024
+            print(f"[{i+1}/{total}] ok    {expo_id}  ({kb:.1f} KB)")
             success += 1
         except Exception as e:
             print(f"[{i+1}/{total}] FAIL  {expo_id}: {e}")
