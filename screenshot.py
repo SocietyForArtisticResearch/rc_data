@@ -32,6 +32,7 @@ fullHD_height = 1080
 # virtual_screen_width = 5120
 # virtual_screen_height = 2880
 
+res = ["https://www.researchcatalogue.net/view/4407730/4407729"]
 #res = ["https://www.researchcatalogue.net/view/3296693/3296692"]
 # res = ["https://www.researchcatalogue.net/view/2297977/2297978"]
 # res = ["https://www.researchcatalogue.net/view/106821/243746/2748/688"]  # timeline
